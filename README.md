@@ -34,8 +34,8 @@ For exceptional situations, e.g., team building issues, you can also contact you
 
 Your **team supervisor** can be identified based on your team’s id. 
 - For teams `010X` the supervisor is Pierre-Jean Quéval (git handle @quevalp84). 
-- For teams `020X` the supervisor is Amirali Amiri (git handle @amiralia57). 
-- For teams `030X` the supervisor is Nicole Lueger (git handle @luegern93).
+- For teams `020X` the supervisor is Nicole Lueger (git handle @luegern93). 
+- For teams `030X` the supervisor is Amirali Amiri (git handle @amiralia57).
 - For teams `040X` the supervisor is Amine El Malki (git handle @elmalkia29).
 - For teams `050X` the supervisor is Stephen Warnett (git handle @stephenw64).
 - For teams `060X` the supervisor is Maximilian Wöhrer (git handle @woehrea2).
