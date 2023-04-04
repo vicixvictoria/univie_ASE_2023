@@ -1,8 +1,8 @@
-package CalenderExport.Factory;
+package com.example.ase_project.calenderExport.calenderFactory;
 
-import CalenderExport.ACalenderExportType;
-import CalenderExport.CalenderExportTypes.CalenderXMLExport;
-import CalenderExport.UserCalender;
+import com.example.ase_project.calenderExport.ACalenderExportType;
+import com.example.ase_project.calenderExport.calenderExportTypes.CalenderXMLExport;
+import com.example.ase_project.calenderExport.UserCalender;
 
 public class ConcreteCalenderExportFactoryXML extends ACalenderExportFactory {
     @Override

@@ -1,7 +1,5 @@
-package CalenderExport;
+package com.example.ase_project.calenderExport;
 
-
-import org.apache.catalina.User;
 
 public abstract class ACalenderExportType {
     public UserCalender calender;

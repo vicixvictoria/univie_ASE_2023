@@ -1,9 +1,9 @@
-package CalenderExport;
+package com.example.ase_project.calenderExport;
 
-import CalenderExport.Factory.ACalenderExportFactory;
-import CalenderExport.Factory.ConcreteCalenderExportFactoryICal;
-import CalenderExport.Factory.ConcreteCalenderExportFactoryJSON;
-import CalenderExport.Factory.ConcreteCalenderExportFactoryXML;
+import com.example.ase_project.calenderExport.calenderFactory.ACalenderExportFactory;
+import com.example.ase_project.calenderExport.calenderFactory.ConcreteCalenderExportFactoryICal;
+import com.example.ase_project.calenderExport.calenderFactory.ConcreteCalenderExportFactoryJSON;
+import com.example.ase_project.calenderExport.calenderFactory.ConcreteCalenderExportFactoryXML;
 
 public class ExportCalender {
 

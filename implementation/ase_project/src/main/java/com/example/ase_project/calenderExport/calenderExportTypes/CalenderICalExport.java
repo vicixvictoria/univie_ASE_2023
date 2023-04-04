@@ -1,7 +1,7 @@
-package CalenderExport.CalenderExportTypes;
+package com.example.ase_project.calenderExport.calenderExportTypes;
 
-import CalenderExport.ACalenderExportType;
-import CalenderExport.UserCalender;
+import com.example.ase_project.calenderExport.ACalenderExportType;
+import com.example.ase_project.calenderExport.UserCalender;
 
 import java.util.Date;
 

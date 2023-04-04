@@ -1,9 +1,9 @@
-package com.example.ase_project;
+package com.example.ase_project.calenderExport;
 
-import CalenderExport.ACalenderExportType;
-import CalenderExport.EExportType;
-import CalenderExport.ExportCalender;
-import CalenderExport.UserCalender;
+import com.example.ase_project.calenderExport.ACalenderExportType;
+import com.example.ase_project.calenderExport.EExportType;
+import com.example.ase_project.calenderExport.ExportCalender;
+import com.example.ase_project.calenderExport.UserCalender;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

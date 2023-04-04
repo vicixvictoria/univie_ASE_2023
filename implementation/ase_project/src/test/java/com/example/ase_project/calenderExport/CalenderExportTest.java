@@ -1,7 +1,5 @@
-import CalenderExport.ACalenderExportType;
-import CalenderExport.EExportType;
-import CalenderExport.ExportCalender;
-import CalenderExport.UserCalender;
+package com.example.ase_project.calenderExport;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
