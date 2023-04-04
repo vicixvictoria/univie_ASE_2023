@@ -22,6 +22,10 @@ public class NotificationUser{
         this.email = email;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public String getId() {
         return id;
     }

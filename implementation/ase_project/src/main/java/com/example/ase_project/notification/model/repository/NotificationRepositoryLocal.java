@@ -29,6 +29,7 @@ public class NotificationRepositoryLocal implements INotificationRepository {
 
         if (!userStore.containsKey(userId)) {
             NotificationUser newUser = new NotificationUser(); // TODO: how do I get the proper object
+            newUser.setId(userId);
 
             userStore.put(userId, newUser);
             userEventStore.put(newUser, new HashSet<>());
