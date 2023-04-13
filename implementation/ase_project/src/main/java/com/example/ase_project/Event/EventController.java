@@ -30,7 +30,7 @@ public class EventController {
     }
 
     @GetMapping(value = "/{organizerID}")
-    public List<Event> getEventsByOrganizerID(@PathVariable Long organizerID) {
+    public Collection<Event> getEventsByOrganizerID(@PathVariable Long organizerID) {
         LOGGER.info("GET api/v1/events/{}", organizerID);
         return eventService.getAllEventsByorganizerID(organizerID);
     }
