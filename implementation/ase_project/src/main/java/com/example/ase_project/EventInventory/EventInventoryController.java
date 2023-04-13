@@ -1,5 +1,6 @@
 package com.example.ase_project.EventInventory;
 
+import com.example.ase_project.Event.Event;
 import com.example.ase_project.Event.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,14 @@ public class EventInventoryController {
         LOGGER.info("PUT api/v1/eventInventory: {} ", eventInventory);
         eventInventoryService.updateEventInventory(eventInventory);
         return eventInventory;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(value = "/updateEventInventoryEvents")
+    public Event updateEventInventoryEvents(@RequestBody Event event) {
+        LOGGER.info("PUT api/v1/eventInventory: {} ", event);
+        eventInventoryService.updateEventInventoryEvents(event);
+        return event;
     }
 
 }

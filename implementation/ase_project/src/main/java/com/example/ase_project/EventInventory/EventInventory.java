@@ -3,6 +3,7 @@ package com.example.ase_project.EventInventory;
 import com.example.ase_project.Event.Event;
 import jakarta.persistence.*;
 
+import java.awt.*;
 import java.util.List;
 
 @Entity
@@ -14,22 +15,23 @@ public class EventInventory {
     )
     private Long eventInventoryID;
 
-    @OneToMany
-    private List<Event> eventList;
+    @ElementCollection
+    private List<Long> eventListID;
 
     private Long organizerID;
 
     public EventInventory() {
     }
 
-    public EventInventory(List<Event> eventList, Long eventInventoryID, Long organizerID) {
-        this.eventList = eventList;
+    public EventInventory(List<Event> eventList, Long eventInventoryID, List eventListID, Long organizerID) {
+        this.eventListID = eventListID;
+        //this.eventList = eventList;
         this.eventInventoryID = eventInventoryID;
         this.organizerID = organizerID;
     }
 
     public EventInventory(EventInventory eventInventory) {
-        this.eventList = eventInventory.getEventList();
+        this.eventListID = eventInventory.getEventListID();
         this.eventInventoryID = eventInventory.getEventInventoryID();
         this.organizerID = eventInventory.getOrganizerID();
     }
@@ -42,12 +44,12 @@ public class EventInventory {
         this.eventInventoryID = eventInventoryID;
     }
 
-    public List<Event> getEventList() {
-        return eventList;
+    public List<Long> getEventListID() {
+        return eventListID;
     }
 
-    public void setEventList(List<Event> eventList) {
-        this.eventList = eventList;
+    public void setEventListID(List<Long> eventListID) {
+        this.eventListID = eventListID;
     }
 
     public Long getOrganizerID() {

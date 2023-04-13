@@ -17,23 +17,21 @@ public class Event {
     private Date date;
     private String description;
 
-    private int organizerID;
+    private Long organizerID;
 
-    @OneToMany
-    private List<Event> feedback; //TODO: change Event to Feedback, Feedback is stored, when Event is created Feedback is empty/null
+   //FYI: Feedback is not stored in each event, we fetch the Feedback from the Feedback Service with the EventID
 
 
     public Event() {
     }
 
-    public Event(Long eventID, EEventTypes type, int capacity, Date date, String description, int organizerID, List<Event> feedback) {
+    public Event(Long eventID, EEventTypes type, int capacity, Date date, String description, Long organizerID) {
         this.eventID = eventID;
         this.type = type;
         this.capacity = capacity;
         this.date = date;
         this.description = description;
         this.organizerID = organizerID;
-        this.feedback = feedback;
     }
 
     public Event(Event event) {
@@ -46,7 +44,6 @@ public class Event {
         this.date = event.getDate();
         this.description = event.getDescription();
         this.organizerID = event.getOrganizerID();
-        this.feedback = event.getFeedback();
     }
 
     public Long getEventID() {
@@ -90,20 +87,13 @@ public class Event {
     }
 
 
-    public int getOrganizerID() {
+    public Long getOrganizerID() {
         return organizerID;
     }
 
-    public void setOrganizerID(int organizerID) {
+    public void setOrganizerID(Long organizerID) {
         this.organizerID = organizerID;
     }
 
-    public List<Event> getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(List<Event> feedback) {
-        this.feedback = feedback;
-    }
 
 }

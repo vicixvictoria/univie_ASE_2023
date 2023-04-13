@@ -1,5 +1,6 @@
 package com.example.ase_project.EventInventory;
 
+import com.example.ase_project.Event.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +53,22 @@ public class EventInventoryService {
     }
 
     /**
+     * this method is called to update and existing event inventory by the given event
+     *
+     * @param event should deliver organizerID and eventID so that the right eventListID can be updated
+     */
+    public void updateEventInventoryEvents(Event event) {
+        LOGGER.debug("update existing Event Inventory Event List{}", event);
+        Long organizerID = event.getOrganizerID();
+        getEventInventoryByOrganizerID(organizerID).getEventListID().add(event.getEventID());
+    }
+
+    /**
      * this method is called to update and existing event inventory with the given parameters in the object eventInventory
      *
      * @param eventInventory to be inserted
      * @return updated eventInventory
      */
-    //TODO: update the List of Events in an Event Inventory --> update function needs to add Event to list not override it
     public EventInventory updateEventInventory(EventInventory eventInventory) {
         LOGGER.debug("update existing Event Inventory {}", eventInventory);
         return iEventInventoryRepository.save(eventInventory);
