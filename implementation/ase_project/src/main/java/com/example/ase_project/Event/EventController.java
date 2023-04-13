@@ -23,7 +23,7 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @GetMapping(value = "/getEvents")
+    @GetMapping()
     public Collection<Event> getAllEvents() {
         LOGGER.info("GET api/v1/events");
         return eventService.getAll();
@@ -43,7 +43,7 @@ public class EventController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/createEvent")
+    @PostMapping()
     public Event createEvent(@RequestBody Event event) {
         LOGGER.info("POST api/v1/events: {} ", event);
         eventService.createEvent(event);
@@ -51,7 +51,7 @@ public class EventController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(value = "/updateEvent")
+    @PutMapping()
     public Event updateEvent(@RequestBody Event event) {
         LOGGER.info("PUT api/v1/events: {} ", event);
         eventService.updateEvent(event);

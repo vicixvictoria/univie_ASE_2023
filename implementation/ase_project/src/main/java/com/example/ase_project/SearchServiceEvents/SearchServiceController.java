@@ -31,6 +31,8 @@ public class SearchServiceController {
         this.eventInventoryService = eventInventoryService;
     }
 
+    //TODO: Events über Service ansprechen nicht Endpoint
+
     @GetMapping(value = "/getEvents")
     public List<Event> getAllEvents() {
         LOGGER.info("GET api/v1/events");
