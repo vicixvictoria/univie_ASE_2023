@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class EventService {
      *
      * @return List of events
      */
-    public List<Event> getAll() {
+    public Collection<Event> getAll() {
         LOGGER.debug("getAll Events");
         return iEventRepository.findAll();
     }
@@ -36,7 +37,7 @@ public class EventService {
      * @param id of organizer
      * @return List of all events from one organizer
      */
-    public List<Event> getAllEventsByorganizerID(Long id) {
+    public Collection<Event> getAllEventsByorganizerID(Long id) {
         LOGGER.debug("getAll Events by organizerID {}", id);
         return iEventRepository.findAllByorganizerID(id);
     }

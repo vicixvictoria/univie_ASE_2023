@@ -1,51 +1,63 @@
 package com.example.ase_project.Feedback.model;
 
-import com.example.ase_project.Feedback.model.data.FeedbackContent;
-import com.example.ase_project.Feedback.model.repository.FeedbackRepositoryLocal;
+import com.example.ase_project.Feedback.model.data.Feedback;
 import com.example.ase_project.Feedback.model.repository.IFeedbackRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class FeedbackService {
     private final IFeedbackRepository repository;
 
-    public FeedbackService() {
-        repository = new FeedbackRepositoryLocal();
+    @Autowired
+    public FeedbackService(IFeedbackRepository feedbackRepository) {
+        repository = feedbackRepository;
     }
 
-    public boolean createFeedback(String userID, String eventID, FeedbackContent feedbackContent) {
-
-        try {
-            repository.addFeedback(userID, eventID, feedbackContent);
-        } catch (IllegalArgumentException illegalArg) {
-            return false;
-        }
+    /**
+     * saves a feedback in the repository. THere are no checks applied. Validity checks are done at Feedback creation.
+     * @param feedback to be saved
+     * @return feedback
+     */
+    public boolean createFeedback(Feedback feedback) {
+        if (feedback == null) return false;
+        repository.save(feedback);
         return true;
     }
 
-    public Collection<FeedbackContent> getFeedbackForEvent(String eventID) {
-        Collection<FeedbackContent> feedbacks = new HashSet<>();
-        try {
-            feedbacks = repository.getFeedbackForEvent(eventID);
-        }
-        catch (IllegalArgumentException e) {
-            // TODO: log the exception message here
-        }
-        return feedbacks;
+    /**
+     * fetches all events that contain the eventID
+     * @param eventID: the ID
+     * @return List of found Feedbacks
+     */
+    public Collection<Feedback> getFeedbackForEvent(String eventID) {
+        return repository.getByEventID(eventID);
     }
 
-    public Collection<FeedbackContent> getFeedbackForUser(String userID) {
-        Collection<FeedbackContent> feedbacks = new HashSet<>();
-        try {
-            feedbacks = repository.getFeedbackForUser(userID);
-        }
-        catch (IllegalArgumentException e) {
-            // TODO: log the exception message here
-        }
-        return feedbacks;
+    /**
+     * fetch all events that contain the userID
+     * @param userID the ID
+     * @return List of found Feedbacks
+     */
+    public Collection<Feedback> getFeedbackForUser(String userID) {
+        return repository.getByUserID(userID);
+    }
+
+    /**
+     * get all feedbacks stored.
+     * @return List of all Feedbacks
+     */
+    public Collection<Feedback> getAll() {
+        return repository.findAll();
+    }
+
+    /**
+     * delete all feedbacks. Do only use for testing.
+     */
+    public void clearFeedbacks() {
+        this.repository.deleteAll();
     }
 }

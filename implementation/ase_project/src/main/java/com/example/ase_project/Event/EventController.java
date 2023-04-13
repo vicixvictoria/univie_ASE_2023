@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -23,13 +24,13 @@ public class EventController {
     }
 
     @GetMapping(value = "/getEvents")
-    public List<Event> getAllEvents() {
+    public Collection<Event> getAllEvents() {
         LOGGER.info("GET api/v1/events");
         return eventService.getAll();
     }
 
     @GetMapping("/{organizerID}")
-    public List<Event> getEventsByOrganizerID(@PathVariable Long organizerID) {
+    public Collection<Event> getEventsByOrganizerID(@PathVariable Long organizerID) {
         LOGGER.info("GET api/v1/events/{}", organizerID);
         return eventService.getAllEventsByorganizerID(organizerID);
     }

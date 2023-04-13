@@ -1,11 +1,17 @@
 package com.example.ase_project.Feedback.model.repository;
 
-import com.example.ase_project.Feedback.model.data.FeedbackContent;
+import com.example.ase_project.Feedback.model.data.Feedback;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 
-public interface IFeedbackRepository {
-    Collection<FeedbackContent> getFeedbackForUser(String userID);
-    Collection<FeedbackContent> getFeedbackForEvent(String eventID);
-    void addFeedback(String userID, String eventID, FeedbackContent feedbackContent);
+@Repository
+public interface IFeedbackRepository extends JpaRepository<Feedback, String> {
+    Collection<Feedback> getByEventID(String eventID);
+    Collection<Feedback> getByUserID(String userID);
+
+    List<Feedback> findAll();
+
 }
