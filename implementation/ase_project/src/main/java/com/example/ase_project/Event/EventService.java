@@ -26,7 +26,7 @@ public class EventService {
      *
      * @return List of events
      */
-    public Collection<Event> getAll() {
+    public List<Event> getAll() {
         LOGGER.debug("getAll Events");
         return iEventRepository.findAll();
     }
@@ -37,7 +37,7 @@ public class EventService {
      * @param id of organizer
      * @return List of all events from one organizer
      */
-    public Collection<Event> getAllEventsByorganizerID(Long id) {
+    public List<Event> getAllEventsByorganizerID(Long id) {
         LOGGER.debug("getAll Events by organizerID {}", id);
         return iEventRepository.findAllByorganizerID(id);
     }

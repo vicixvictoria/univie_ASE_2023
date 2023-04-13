@@ -8,15 +8,16 @@ import jakarta.persistence.Id;
 @Entity
 public class Feedback {
     @Id
+    private String feedbackID;
     private String eventID;
-    @Id
     private String userID;
     private int ratingOverall;
     private int ratingLocation;
     private int ratingFood;
     private String comment;
 
-    public Feedback(String eventID, String userID, int ratingOverall, int ratingFood, int ratingLocation, String comment) {
+    public Feedback(String feedbackID, String eventID, String userID, int ratingOverall, int ratingFood, int ratingLocation, String comment) {
+        this.feedbackID = feedbackID;
         this.userID = validateUserID(userID);
         this.eventID = validateEventID(eventID);
         this.ratingOverall = validateRating(ratingOverall);
@@ -27,6 +28,10 @@ public class Feedback {
 
     public Feedback() {
 
+    }
+
+    public String getFeedbackID() {
+        return feedbackID;
     }
 
     public String getUserID() {
