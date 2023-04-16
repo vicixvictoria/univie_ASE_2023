@@ -1,7 +1,7 @@
-package com.example.ase_project.EventInventory;
+package com.example.ase_project.eventInventory;
 
-import com.example.ase_project.Event.Event;
-import com.example.ase_project.Event.EventService;
+import com.example.ase_project.event.Event;
+import com.example.ase_project.event.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class EventInventoryController {
     }
 
     @GetMapping(value = "/getEventInventory")
-    public EventInventory getEventInventory(Long organizerID) {
+    public EventInventory getEventInventory(String organizerID) {
         LOGGER.info("GET api/v1/eventInventory");
         return eventInventoryService.getEventInventoryByOrganizerID(organizerID);
     }

@@ -1,6 +1,5 @@
-package com.example.ase_project.Event;
+package com.example.ase_project.event;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,12 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface IEventRepository extends JpaRepository<Event, Long> {
+public interface IEventRepository extends JpaRepository<Event, String> {
     List<Event> findAll();
 
-    List<Event> findAllByorganizerID(Long organizerID);
+    List<Event> findAllByorganizerID(String organizerID);
 
-    Event findEventByeventID(Long id);
+    Event findEventByeventID(String id);
 
     List<Event> findByType(EEventTypes type);
 

@@ -1,9 +1,9 @@
-package com.example.ase_project.SearchServiceEvents;
+package com.example.ase_project.searchServiceEvents;
 
-import com.example.ase_project.Event.EEventTypes;
-import com.example.ase_project.Event.Event;
-import com.example.ase_project.Event.EventService;
-import com.example.ase_project.EventInventory.EventInventoryService;
+import com.example.ase_project.event.EEventTypes;
+import com.example.ase_project.event.Event;
+import com.example.ase_project.event.EventService;
+import com.example.ase_project.eventInventory.EventInventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class SearchServiceController {
     }
 
     @GetMapping("/{organizerID}")
-    public List<Event> getEventsByOrganizerID(@PathVariable Long organizerID) {
+    public List<Event> getEventsByOrganizerID(@PathVariable String organizerID) {
         LOGGER.info("GET api/v1/events");
         return eventService.getAllEventsByorganizerID(organizerID);
     }

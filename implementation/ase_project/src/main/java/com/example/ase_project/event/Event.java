@@ -1,8 +1,7 @@
-package com.example.ase_project.Event;
+package com.example.ase_project.event;
 
 import jakarta.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Event {
@@ -11,13 +10,13 @@ public class Event {
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
-    private Long eventID;
+    private String eventID;
     private EEventTypes type;
     private int capacity;
     private Date date;
     private String description;
 
-    private Long organizerID;
+    private String organizerID;
 
    //FYI: Feedback is not stored in each event, we fetch the Feedback from the Feedback Service with the EventID
 
@@ -25,7 +24,7 @@ public class Event {
     public Event() {
     }
 
-    public Event(Long eventID, EEventTypes type, int capacity, Date date, String description, Long organizerID) {
+    public Event(String eventID, EEventTypes type, int capacity, Date date, String description, String organizerID) {
         this.eventID = eventID;
         this.type = type;
         this.capacity = capacity;
@@ -46,11 +45,11 @@ public class Event {
         this.organizerID = event.getOrganizerID();
     }
 
-    public Long getEventID() {
+    public String getEventID() {
         return eventID;
     }
 
-    public void setEventID(Long eventID) {
+    public void setEventID(String eventID) {
         this.eventID = eventID;
     }
 
@@ -87,11 +86,11 @@ public class Event {
     }
 
 
-    public Long getOrganizerID() {
+    public String getOrganizerID() {
         return organizerID;
     }
 
-    public void setOrganizerID(Long organizerID) {
+    public void setOrganizerID(String organizerID) {
         this.organizerID = organizerID;
     }
 

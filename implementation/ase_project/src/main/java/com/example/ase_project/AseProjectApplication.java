@@ -6,8 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
-@SpringBootApplication
-@EnableJpaRepositories(basePackages = {"com.example.ase_project.Event", "com.example.ase_project.EventInventory", "com.example.ase_project.Feedback"})
+@EnableJpaRepositories(basePackages = {"com.example.ase_project.event", "com.example.ase_project.eventInventory", "com.example.ase_project.Feedback", "com.example.ase_project.searchServiceEvents"})
 public class AseProjectApplication {
 
     public static void main(String[] args) {

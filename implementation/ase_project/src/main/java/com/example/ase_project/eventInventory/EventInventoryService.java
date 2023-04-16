@@ -1,6 +1,6 @@
-package com.example.ase_project.EventInventory;
+package com.example.ase_project.eventInventory;
 
-import com.example.ase_project.Event.Event;
+import com.example.ase_project.event.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class EventInventoryService {
      * @param id of organizer
      * @return event inventory
      */
-    public EventInventory getEventInventoryByOrganizerID(Long id) {
+    public EventInventory getEventInventoryByOrganizerID(String id) {
         LOGGER.debug("get Event Inventory by organizerID {}", id);
         return iEventInventoryRepository.findByorganizerID(id);
     }
@@ -59,7 +59,7 @@ public class EventInventoryService {
      */
     public void updateEventInventoryEvents(Event event) {
         LOGGER.debug("update existing Event Inventory Event List{}", event);
-        Long organizerID = event.getOrganizerID();
+        String organizerID = event.getOrganizerID();
         getEventInventoryByOrganizerID(organizerID).getEventListID().add(event.getEventID());
     }
 

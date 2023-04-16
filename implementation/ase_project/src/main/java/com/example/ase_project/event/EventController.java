@@ -1,4 +1,4 @@
-package com.example.ase_project.Event;
+package com.example.ase_project.event;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
-import java.util.List;
 
 
 @RestController
@@ -30,14 +29,14 @@ public class EventController {
     }
 
     @GetMapping(value = "/{organizerID}")
-    public Collection<Event> getEventsByOrganizerID(@PathVariable Long organizerID) {
+    public Collection<Event> getEventsByOrganizerID(@PathVariable String organizerID) {
         LOGGER.info("GET api/v1/events/{}", organizerID);
         return eventService.getAllEventsByorganizerID(organizerID);
     }
 
 
     @GetMapping("/{eventID}")
-    public Event getEventsByID(@PathVariable Long eventID) {
+    public Event getEventsByID(@PathVariable String eventID) {
         LOGGER.info("GET api/v1/events/{}", eventID);
         return eventService.getEventsByID(eventID);
     }

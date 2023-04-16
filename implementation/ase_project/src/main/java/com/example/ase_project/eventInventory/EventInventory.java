@@ -1,9 +1,8 @@
-package com.example.ase_project.EventInventory;
+package com.example.ase_project.eventInventory;
 
-import com.example.ase_project.Event.Event;
+import com.example.ase_project.event.Event;
 import jakarta.persistence.*;
 
-import java.awt.*;
 import java.util.List;
 
 @Entity
@@ -13,17 +12,17 @@ public class EventInventory {
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
-    private Long eventInventoryID;
+    private String eventInventoryID;
 
     @ElementCollection
-    private List<Long> eventListID;
+    private List<String> eventListID;
 
-    private Long organizerID;
+    private String organizerID;
 
     public EventInventory() {
     }
 
-    public EventInventory(List<Event> eventList, Long eventInventoryID, List eventListID, Long organizerID) {
+    public EventInventory(List<Event> eventList, String eventInventoryID, List eventListID, String organizerID) {
         this.eventListID = eventListID;
         //this.eventList = eventList;
         this.eventInventoryID = eventInventoryID;
@@ -36,27 +35,27 @@ public class EventInventory {
         this.organizerID = eventInventory.getOrganizerID();
     }
 
-    public Long getEventInventoryID() {
+    public String getEventInventoryID() {
         return eventInventoryID;
     }
 
-    public void setEventInventoryID(Long eventInventoryID) {
+    public void setEventInventoryID(String eventInventoryID) {
         this.eventInventoryID = eventInventoryID;
     }
 
-    public List<Long> getEventListID() {
+    public List<String> getEventListID() {
         return eventListID;
     }
 
-    public void setEventListID(List<Long> eventListID) {
+    public void setEventListID(List<String> eventListID) {
         this.eventListID = eventListID;
     }
 
-    public Long getOrganizerID() {
+    public String getOrganizerID() {
         return organizerID;
     }
 
-    public void setOrganizerID(Long organizerID) {
+    public void setOrganizerID(String organizerID) {
         this.organizerID = organizerID;
     }
 

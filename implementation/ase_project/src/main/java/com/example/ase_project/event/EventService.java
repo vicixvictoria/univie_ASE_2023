@@ -1,4 +1,4 @@
-package com.example.ase_project.Event;
+package com.example.ase_project.event;
 
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class EventService {
      * @param id of organizer
      * @return List of all events from one organizer
      */
-    public List<Event> getAllEventsByorganizerID(Long id) {
+    public List<Event> getAllEventsByorganizerID(String id) {
         LOGGER.debug("getAll Events by organizerID {}", id);
         return iEventRepository.findAllByorganizerID(id);
     }
@@ -48,7 +47,7 @@ public class EventService {
      * @param id from one event
      * @return event wiht id
      */
-    public Event getEventsByID(Long id) {
+    public Event getEventsByID(String id) {
         LOGGER.debug("getAll Events by eventID {}", id);
         return iEventRepository.findEventByeventID(id);
     }
