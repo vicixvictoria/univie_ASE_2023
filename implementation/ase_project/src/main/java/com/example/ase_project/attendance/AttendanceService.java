@@ -16,7 +16,7 @@ public class AttendanceService {
 
     /**
      * This method is called for attending an event with it's eventID
-     * @param eventID
+     * @param eventID for event identification
      * @return Attendee count
      */
     public static int attend(Long eventID) {
@@ -41,7 +41,7 @@ public class AttendanceService {
 
     /**
      * This method is called for getting the attendee count of a given event with it's eventID
-     * @param eventID
+     * @param eventID for event identification
      * @return Attendee count
      */
     public static int attendance(Long eventID) {

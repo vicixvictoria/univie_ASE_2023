@@ -13,7 +13,7 @@ public class RecommenderService {
 
     /**
      * This method is called for getting a List of eventID recommendations for a given attendeeID
-     * @param attendeeID
+     * @param attendeeID for attendee identification
      * @return List of recommended eventIDs
      */
     public static List<Long> recommend(Long attendeeID) {
