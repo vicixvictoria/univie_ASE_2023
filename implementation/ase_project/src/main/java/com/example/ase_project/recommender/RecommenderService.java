@@ -10,6 +10,12 @@ import java.util.List;
 @Service
 public class RecommenderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    /**
+     * This method is called for getting a List of eventID recommendations for a given attendeeID
+     * @param attendeeID
+     * @return List of recommended eventIDs
+     */
     public static List<Long> recommend(Long attendeeID) {
         List<Long> recommendations = new ArrayList<>();
         recommendations.add((long)100);

@@ -13,6 +13,12 @@ public class AttendanceService {
     static Map<Long,ArrayList<Long>> eventAttendeeMap = new HashMap<>();
     static long attendeeID = 100;
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    /**
+     * This method is called for attending an event with it's eventID
+     * @param eventID
+     * @return Attendee count
+     */
     public static int attend(Long eventID) {
         ArrayList<Long> attendees;
         if(eventAttendeeMap.get(eventID) == null) {
@@ -32,6 +38,12 @@ public class AttendanceService {
         }
         return eventAttendeeMap.get(eventID).size();
     }
+
+    /**
+     * This method is called for getting the attendee count of a given event with it's eventID
+     * @param eventID
+     * @return Attendee count
+     */
     public static int attendance(Long eventID) {
         if (eventAttendeeMap.get(eventID) == null) {
             return 0;
