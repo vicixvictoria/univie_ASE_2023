@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 @Service
 public class AttendanceService {
     static Map<Long,ArrayList<Long>> eventAttendeeMap = new HashMap<>();
+    static long attendeeID = 100;
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     public static int attend(Long eventID) {
-        Long attendeeID = (long)100;
         ArrayList<Long> attendees;
         if(eventAttendeeMap.get(eventID) == null) {
             attendees = new ArrayList<>();
@@ -31,5 +31,11 @@ public class AttendanceService {
             LOGGER.info("attendee registered for existing event");
         }
         return eventAttendeeMap.get(eventID).size();
+    }
+    public static int attendance(Long eventID) {
+        if (eventAttendeeMap.get(eventID) == null) {
+            return 0;
+        }
+        else return eventAttendeeMap.get(eventID).size();
     }
 }

@@ -14,7 +14,12 @@ public class AttendanceController {
 
     @PostMapping(value = "/attend/{eventID}")
     public int attend(@PathVariable Long eventID) {
-        LOGGER.info("Attended event");
+        LOGGER.info("Request: Attending event");
         return AttendanceService.attend(eventID);
+    }
+    @PostMapping(value = "/attendance/{eventID}")
+    public int attendance(@PathVariable Long eventID) {
+        LOGGER.info("Request: Getting attendance count");
+        return AttendanceService.attendance(eventID);
     }
 }
