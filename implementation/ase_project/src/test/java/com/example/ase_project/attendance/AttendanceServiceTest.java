@@ -1,8 +1,6 @@
 package com.example.ase_project.attendance;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import static com.example.ase_project.attendance.AttendanceService.attend;
 import static com.example.ase_project.attendance.AttendanceService.attendance;
 

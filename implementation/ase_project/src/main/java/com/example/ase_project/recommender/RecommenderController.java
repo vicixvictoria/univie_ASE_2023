@@ -7,7 +7,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/recommend")
+@RequestMapping(path = "api/v1/recommend")
 public class RecommenderController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

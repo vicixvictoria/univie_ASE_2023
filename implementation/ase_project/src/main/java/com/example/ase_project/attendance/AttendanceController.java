@@ -1,13 +1,12 @@
 package com.example.ase_project.attendance;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.lang.invoke.MethodHandles;
 
 @RestController
+@RequestMapping(path = "api/v1")
 public class AttendanceController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -17,7 +16,7 @@ public class AttendanceController {
         LOGGER.info("Request: Attending event");
         return AttendanceService.attend(eventID);
     }
-    @PostMapping(value = "/attendance/{eventID}")
+    @GetMapping ("/attendance/{eventID}")
     public int attendance(@PathVariable Long eventID) {
         LOGGER.info("Request: Getting attendance count");
         return AttendanceService.attendance(eventID);
