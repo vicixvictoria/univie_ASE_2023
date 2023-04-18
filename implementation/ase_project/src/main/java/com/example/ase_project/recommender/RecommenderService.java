@@ -16,11 +16,11 @@ public class RecommenderService {
      * @param attendeeID for attendee identification
      * @return List of recommended eventIDs
      */
-    public static List<Long> recommend(Long attendeeID) {
-        List<Long> recommendations = new ArrayList<>();
-        recommendations.add((long)100);
-        recommendations.add((long)200);
-        recommendations.add((long)300);
+    public static List<String> recommend(String attendeeID) {
+        List<String> recommendations = new ArrayList<>();
+        recommendations.add("100");
+        recommendations.add("200");
+        recommendations.add("300");
         LOGGER.info("Mock recommendations created for attendeeID: " + attendeeID);
         return recommendations;
     }

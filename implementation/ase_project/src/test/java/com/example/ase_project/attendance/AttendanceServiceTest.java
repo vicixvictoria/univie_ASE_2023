@@ -7,8 +7,8 @@ import static com.example.ase_project.attendance.AttendanceService.attendance;
 public class AttendanceServiceTest {
     @Test
     public void attendanceTest() {
-        Assertions.assertEquals(attend((long)100) , 1);
-        Assertions.assertEquals(attendance((long)100) , 1);
-        Assertions.assertEquals(attendance((long)200) , 0);
+        Assertions.assertEquals(attend("100") , 1);
+        Assertions.assertEquals(attendance("100") , 1);
+        Assertions.assertEquals(attendance("200") , 0);
     }
 }

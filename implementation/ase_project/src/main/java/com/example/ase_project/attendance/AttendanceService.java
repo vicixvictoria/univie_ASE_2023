@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 
 @Service
 public class AttendanceService {
-    static Map<Long,ArrayList<Long>> eventAttendeeMap = new HashMap<>();
-    static long attendeeID = 100;
+    static Map<String,ArrayList<String>> eventAttendeeMap = new HashMap<>();
+    static String attendeeID = "100";
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
@@ -19,8 +19,8 @@ public class AttendanceService {
      * @param eventID for event identification
      * @return Attendee count
      */
-    public static int attend(Long eventID) {
-        ArrayList<Long> attendees;
+    public static int attend(String eventID) {
+        ArrayList<String> attendees;
         if(eventAttendeeMap.get(eventID) == null) {
             attendees = new ArrayList<>();
             attendees.add(attendeeID);
@@ -44,7 +44,7 @@ public class AttendanceService {
      * @param eventID for event identification
      * @return Attendee count
      */
-    public static int attendance(Long eventID) {
+    public static int attendance(String eventID) {
         if (eventAttendeeMap.get(eventID) == null) {
             return 0;
         }

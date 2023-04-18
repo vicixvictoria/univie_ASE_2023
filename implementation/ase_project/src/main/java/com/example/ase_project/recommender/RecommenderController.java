@@ -13,7 +13,7 @@ public class RecommenderController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @GetMapping("/{attendeeID}")
-    public List<Long> recommend(@PathVariable Long attendeeID) {
+    public List<String> recommend(@PathVariable String attendeeID) {
         LOGGER.info("Mock recommendations send");
         return RecommenderService.recommend(attendeeID);
     }

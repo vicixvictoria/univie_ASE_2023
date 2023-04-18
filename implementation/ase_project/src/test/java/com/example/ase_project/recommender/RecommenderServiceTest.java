@@ -6,6 +6,6 @@ import static com.example.ase_project.recommender.RecommenderService.recommend;
 public class RecommenderServiceTest {
     @Test
     public void recommendTest() {
-        Assertions.assertEquals(recommend((long)100), recommend((long)100));
+        Assertions.assertEquals(recommend("100"), recommend("100"));
     }
 }
