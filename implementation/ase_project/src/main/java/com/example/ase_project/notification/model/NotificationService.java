@@ -8,6 +8,7 @@ import com.example.ase_project.notification.model.notificationsendtime.INotifica
 import com.example.ase_project.notification.model.repository.INotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,22 @@ import java.util.Date;
 @Service
 public class NotificationService {
 
+    //TODO: remove this once I can get the correct user object into this class
+    @Value("${NOTIFICATION_TARGET_EMAIL:advancedsoftwareengineer@gmail.com}")
+    private String notificationTargetEmail;
+
     private final INotificationRepository repository;
     private final ThreadPoolTaskScheduler taskScheduler;
     private final NotificationSender notificationSender;
     private final INotificationSendTime notificationSendTime;
 
+    /**
+     * Constructor, for the NotificationService
+     * @param repository Autowired, the repository, where objects are stored
+     * @param taskScheduler Autowired, used to schedule notifications
+     * @param notificationSender Autowired, used to send notifications
+     * @param notificationSendTime Autowired, used to determine when to send the reminder notification
+     */
     @Autowired
     public NotificationService(@Qualifier("local") INotificationRepository repository,
                                ThreadPoolTaskScheduler taskScheduler,
@@ -35,13 +47,6 @@ public class NotificationService {
 
         // This is used when an event gets updated, to cancel the scheduled notification
         this.taskScheduler.setRemoveOnCancelPolicy(true);
-
-        // TODO: remove this. this is just for testing :)
-//        NotificationEvent event = new NotificationEvent("ev_id", "event_name", "such description",
-//                Date.from(Instant.now().plusSeconds(ENotificationConstants.DAY_SECONDS.get()).plusSeconds(30)),
-//                EEventType.REGISTERED);
-//        this.addEvent("epic_id", event);
-//        this.addEvent("lame_id", event);
     }
 
     private void scheduleNotification(NotificationUser user, NotificationEvent event) {
@@ -51,16 +56,35 @@ public class NotificationService {
                 notificationSendTime.get(event));
     }
 
+    /**
+     * Gets all events given a userId
+     * @param userId the userId which will be queried
+     * @return a collection of all events associated with the given userId
+     */
     public Collection<NotificationEvent> getEvents(String userId) {
         return repository.getEvents(userId);
     }
 
+    /**
+     * Adds a notification for the user with the given ID and the given event
+     * @param userId the id of the user who will receive a notification
+     * @param event the event about which will be notified
+     */
     public void addEvent(String userId, NotificationEvent event) {
-        NotificationUser user = repository.getUserById(userId);
+
+        // TODO: the user should be queried from somewhere and not hardcoded here
+        NotificationUser user = new NotificationUser();
+        user.setId(userId);
+        user.setEmail(notificationTargetEmail);
+
         scheduleNotification(user, event);
-        repository.addEvent(userId, event);
+        repository.addEvent(user, event);
     }
 
+    /**
+     * Updates the given event and sends a notification to all users, who are associated with the event
+     * @param event the event to be updated, must have the same Id as the to be updated event
+     */
     public void updateEvent(NotificationEvent event) {
         Collection<NotificationUser> updatedUsers = repository.updateEvent(event);
 
@@ -70,9 +94,5 @@ public class NotificationService {
             scheduleNotification(user, event);
             notificationSender.sendUpdated(user, event);
         }
-    }
-
-    public Collection<NotificationUser> getUser() {
-        return repository.getUser();
     }
 }

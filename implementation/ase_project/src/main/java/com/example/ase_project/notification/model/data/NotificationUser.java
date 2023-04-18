@@ -1,20 +1,15 @@
 package com.example.ase_project.notification.model.data;
 
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.Id;
-
 import java.util.Objects;
 
-//@Entity
-public class NotificationUser{
+/**
+ * Used to store relevant information for the notification domain about a user of the application
+ */
+public class NotificationUser {
 
-    //@Id
-    //@Nonnull
-    private String id; // TODO: Potentially change this. Depends a little how it will be implemented in the regular user
-    //@Nonnull
+    private String id;
     private String email;
 
-    // JPA Entities need to have an empty constructor
     public NotificationUser() {}
 
     public NotificationUser(String id, String email) {

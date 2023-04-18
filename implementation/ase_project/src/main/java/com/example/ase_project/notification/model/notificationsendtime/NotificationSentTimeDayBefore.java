@@ -9,6 +9,10 @@ import java.time.Instant;
 @Service
 @Qualifier("day-before")
 public class NotificationSentTimeDayBefore implements INotificationSendTime {
+
+    /**
+     * @inheritDoc
+     */
     @Override
     public Instant get(NotificationEvent event) {
         return event.getEventDate().toInstant().minusSeconds(ENotificationConstants.DAY_SECONDS.get());

@@ -12,15 +12,18 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class NotificationSender {
 
-    // TODO: is it better if this lives here rather then in the Service class?
-    //  I am not sure, as this should decrease coupling, but on the other hand it makes it harder to change which
-    //  notificationCreator gets used, as now not all dependency injections happen in the Service
     private final INotificationCreator notificationCreatorUpcoming;
     private final INotificationCreator notificationCreatorUpdated;
 
 
     private static final String SEND_NOTIFICATION_ENDPOINT = "http://localhost:8080/sendNotification";
 
+    /**
+     * Constructor for the NotificationSender class
+     * @param notificationCreatorUpcoming Object, which encodes how an "upcoming" notification is supposed to be
+     *                                    generated
+     * @param notificationCreatorUpdated Object, which encodes how an "updated" notification is supposed to be generated
+     */
     @Autowired
     public NotificationSender(@Qualifier("placeholder") INotificationCreator notificationCreatorUpcoming,
                               @Qualifier("placeholder") INotificationCreator notificationCreatorUpdated) {
@@ -34,10 +37,20 @@ public class NotificationSender {
                 new NotificationContent(user.getEmail(), notificationCreator.create(event)));
     }
 
+    /**
+     * Send a notification about an "upcoming" event to the given user
+     * @param user the user who will receive the notification
+     * @param event the event about which will be notified
+     */
     public void sendUpcoming(NotificationUser user, NotificationEvent event) {
        send(user, event, notificationCreatorUpcoming);
     }
 
+    /**
+     * Send a notification about an "updated" event to the given user
+     * @param user the user who will receive the notification
+     * @param event the event about which will be notified
+     */
     public void sendUpdated(NotificationUser user, NotificationEvent event) {
         send(user, event, notificationCreatorUpdated);
     }

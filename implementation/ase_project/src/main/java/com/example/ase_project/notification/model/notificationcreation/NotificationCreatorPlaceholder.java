@@ -6,7 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Qualifier("placeholder")
-public class NotificationCreatorPlaceholder implements INotificationCreator{
+public class NotificationCreatorPlaceholder implements INotificationCreator {
+
+    /**
+     * @inheritDoc
+     */
     public String create(NotificationEvent event) {
         return "Placeholder notification content";
     }

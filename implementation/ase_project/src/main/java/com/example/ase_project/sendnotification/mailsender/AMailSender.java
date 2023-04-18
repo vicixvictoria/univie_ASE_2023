@@ -9,6 +9,11 @@ public abstract class AMailSender {
         this.senderPassword = senderPassword;
     }
 
+    /**
+     * Sends an email to targetEmail with the given message
+     * @param targetEmail the address which will receive an email
+     * @param message the content of the email
+     */
     public abstract void send(String targetEmail, String message);
 
 }

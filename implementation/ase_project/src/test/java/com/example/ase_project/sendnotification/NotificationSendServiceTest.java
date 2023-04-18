@@ -1,7 +1,6 @@
 package com.example.ase_project.sendnotification;
 
 import com.example.ase_project.sendnotification.mailsender.AMailSender;
-import com.example.ase_project.sendnotification.mailsender.IMailSenderFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,25 +13,16 @@ import static org.mockito.Mockito.when;
 
 public class NotificationSendServiceTest {
 
-    private IMailSenderFactory mailSenderFactory;
     private AMailSender mailSender;
 
     @BeforeEach
     public void setupMailSenderFactory() {
-        mailSenderFactory = Mockito.mock(IMailSenderFactory.class);
         mailSender = Mockito.mock(AMailSender.class);
-        when(mailSenderFactory.create(Mockito.anyString(), Mockito.anyString())).thenReturn(mailSender);
-    }
-
-    @Test
-    public void NotificationSendService_constructor_factoryCalled() {
-        NotificationSendService notificationSendService = new NotificationSendService(mailSenderFactory);
-        Mockito.verify(mailSenderFactory, Mockito.times(1)).create(Mockito.anyString(), Mockito.anyString());
     }
 
     @Test
     public void NotificationSendService_sendNotification_sendCalled() {
-        NotificationSendService notificationSendService = new NotificationSendService(mailSenderFactory);
+        NotificationSendService notificationSendService = new NotificationSendService(mailSender);
         String email = "test@mail.com";
         String message = "Example text";
         notificationSendService.sendNotification(email, message);
@@ -41,7 +31,7 @@ public class NotificationSendServiceTest {
 
     @Test
     public void NotificationSendService_sendNotification_invalidEmail() {
-        NotificationSendService notificationSendService = new NotificationSendService(mailSenderFactory);
+        NotificationSendService notificationSendService = new NotificationSendService(mailSender);
         String email = "123";
         String message = "Example text";
         Executable test = () -> notificationSendService.sendNotification(email, message);
@@ -51,7 +41,7 @@ public class NotificationSendServiceTest {
 
     @Test
     public void NotificationSendService_sendNotification_emptyMessage() {
-        NotificationSendService notificationSendService = new NotificationSendService(mailSenderFactory);
+        NotificationSendService notificationSendService = new NotificationSendService(mailSender);
         String email = "test@mail.com";
         String message = "";
         notificationSendService.sendNotification(email, message);
@@ -60,7 +50,7 @@ public class NotificationSendServiceTest {
 
     @Test
     public void NotificationSendService_sendNotification_emptyEmail() {
-        NotificationSendService notificationSendService = new NotificationSendService(mailSenderFactory);
+        NotificationSendService notificationSendService = new NotificationSendService(mailSender);
         String email = "";
         String message = "Example text";
         Executable test = () -> notificationSendService.sendNotification(email, message);

@@ -1,14 +1,12 @@
 package com.example.ase_project.notification.model.data;
 
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.Id;
-
 import java.util.Date;
 
-//@Entity
+/**
+ * Used to store relevant information for the notification domain about an event
+ */
 public class NotificationEvent {
 
-    //@Id
     private String id;
     private String name;
     private String description;

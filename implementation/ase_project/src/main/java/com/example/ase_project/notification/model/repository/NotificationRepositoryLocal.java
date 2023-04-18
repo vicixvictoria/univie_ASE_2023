@@ -12,58 +12,54 @@ import java.util.stream.Collectors;
 @Qualifier("local")
 public class NotificationRepositoryLocal implements INotificationRepository {
 
-    private final Map<NotificationUser, Set<NotificationEvent>> userEventStore = new HashMap<>();
-    private final Map<String, NotificationUser> userStore = new HashMap<>();
+    private final Map<NotificationEvent, Set<NotificationUser>> eventUserStore = new HashMap<>();
 
+    private void createEntryIfEmpty(NotificationEvent event) {
+        if (!eventUserStore.containsKey(event)) {
+            eventUserStore.put(event, new HashSet<>());
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
     @Override
     public Collection<NotificationEvent> getEvents(String userId) {
         // TODO: Custom exception
-        NotificationUser user = userStore.get(userId);
-        assert userEventStore.containsKey(user);
 
-        return Collections.unmodifiableSet(userEventStore.get(user));
+        assert userId != null;
+
+        return eventUserStore.entrySet().stream()
+                .filter(entry -> entry.getValue().stream()
+                        .map(NotificationUser::getId)
+                        .anyMatch(ele -> ele.equals(userId)))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toUnmodifiableSet());
     }
 
+    /**
+     * @inheritDoc
+     */
+    // TODO: rename me
     @Override
-    public void addEvent(String userId, NotificationEvent event) {
+    public void addEvent(NotificationUser user, NotificationEvent event) {
 
-        if (!userStore.containsKey(userId)) {
-            NotificationUser newUser = new NotificationUser(); // TODO: how do I get the proper object
-            newUser.setId(userId);
+        createEntryIfEmpty(event);
 
-            userStore.put(userId, newUser);
-            userEventStore.put(newUser, new HashSet<>());
-        }
+        assert eventUserStore.containsKey(event);
 
-        NotificationUser user = userStore.get(userId);
-        assert userEventStore.containsKey(user);
-
-        userEventStore.get(user).add(event);
+        eventUserStore.get(event).add(user);
     }
 
-    @Override
-    public Collection<NotificationUser> getUser() {
-        return Collections.unmodifiableSet(userEventStore.keySet());
-    }
-
-    @Override
-    public NotificationUser getUserById(String userId) {
-        return userStore.get(userId);
-    }
-
+    /**
+     * @inheritDoc
+     */
     @Override
     public Collection<NotificationUser> updateEvent(NotificationEvent event) {
-        // find all updated users
-        var update = userEventStore.entrySet().stream().filter(entry -> entry.getValue().contains(event)).collect(Collectors.toSet());
 
-        update.stream().forEach(entry -> {
-            // TODO: this is pretty bad, I should probably use a different data structure here
-            //  the idea right now is that the new and old event have the same ID, and thus equal
-            //  So, I remove the old one and add the new one.
-            entry.getValue().remove(event);
-            entry.getValue().add(event);
-        });
+        // if the event is not contain simply create an entry for it
+        createEntryIfEmpty(event);
 
-        return update.stream().map(Map.Entry::getKey).collect(Collectors.toUnmodifiableSet());
+        return Collections.unmodifiableSet(eventUserStore.get(event));
     }
 }
