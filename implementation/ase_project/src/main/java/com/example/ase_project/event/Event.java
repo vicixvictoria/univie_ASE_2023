@@ -7,9 +7,6 @@ import java.util.Date;
 public class Event {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
     private String eventID;
     private EEventTypes type;
     private int capacity;

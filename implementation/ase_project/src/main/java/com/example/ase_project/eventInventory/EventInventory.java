@@ -9,9 +9,6 @@ import java.util.List;
 public class EventInventory {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
     private String eventInventoryID;
 
     @ElementCollection
