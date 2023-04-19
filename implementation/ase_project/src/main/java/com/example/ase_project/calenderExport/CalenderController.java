@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 public class CalenderController {
 
     @GetMapping("/calender/{calenderType}")
-    public String calenderExport(@PathVariable EExportType calenderType) throws Exception {
+    public String calenderExport(@PathVariable EExportType calenderType, @RequestBody UserCalender userCalender) throws Exception {
         //calendar with events must be set before
         ExportCalender exportCalender = new ExportCalender(calenderType);
-        ACalenderExportType calender =  exportCalender.createExportCalender(calenderType);
+        ACalenderExportType calender =  exportCalender.createExportCalender(calenderType, userCalender);
         return calender.convert();
     }
 
