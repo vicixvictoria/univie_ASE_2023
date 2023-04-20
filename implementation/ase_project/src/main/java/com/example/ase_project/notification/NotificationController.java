@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
 
-// TODO: return HTTP status codes
 
 @RestController
 @RequestMapping("/api/v1/notification")

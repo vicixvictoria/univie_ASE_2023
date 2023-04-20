@@ -1,8 +1,9 @@
-package com.example.ase_project.Feedback.model.data;
+package com.example.ase_project.feedback.model.data;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.util.UUID;
 
 
 @Entity
@@ -16,8 +17,8 @@ public class Feedback {
     private int ratingFood;
     private String comment;
 
-    public Feedback(String feedbackID, String eventID, String userID, int ratingOverall, int ratingFood, int ratingLocation, String comment) {
-        this.feedbackID = feedbackID;
+    public Feedback(String eventID, String userID, int ratingOverall, int ratingFood, int ratingLocation, String comment) {
+        this.feedbackID = UUID.randomUUID().toString();
         this.userID = validateUserID(userID);
         this.eventID = validateEventID(eventID);
         this.ratingOverall = validateRating(ratingOverall);
