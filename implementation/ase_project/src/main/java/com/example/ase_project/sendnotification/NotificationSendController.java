@@ -33,5 +33,4 @@ public class NotificationSendController {
         LOGGER.info("GET /api/v1/sendNotification");
         notificationSendService.sendNotification(notificationContent.email(), notificationContent.message());
     }
-
 }
