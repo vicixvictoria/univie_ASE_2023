@@ -55,4 +55,11 @@ public class EventInventoryController {
         return event;
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{eventInventoryID}")
+    public void deleteEventInventory(@PathVariable String eventInventoryID){
+        LOGGER.info("DELETE api/v1/eventInventory: {} ", eventInventoryID);
+        eventInventoryService.deleteEvent(eventInventoryID);
+    }
+
 }

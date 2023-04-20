@@ -74,4 +74,13 @@ public class EventInventoryService {
         return iEventInventoryRepository.save(eventInventory);
     }
 
+    /**
+     * This method is called to delete an eventInventory with a certain ID
+     * @param eventInventoryID
+     */
+    public void deleteEvent(String eventInventoryID){
+        LOGGER.debug("delete event {}", eventInventoryID);
+        iEventInventoryRepository.deleteById(eventInventoryID);
+    }
+
 }

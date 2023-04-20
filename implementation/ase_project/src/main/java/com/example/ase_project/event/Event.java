@@ -15,19 +15,22 @@ public class Event {
 
     private String organizerID;
 
+    private String eventName;
+
    //FYI: Feedback is not stored in each event, we fetch the Feedback from the Feedback Service with the EventID
 
 
     public Event() {
     }
 
-    public Event(String eventID, EEventTypes type, int capacity, Date date, String description, String organizerID) {
+    public Event(String eventID, EEventTypes type, int capacity, Date date, String description, String organizerID, String eventName) {
         this.eventID = eventID;
         this.type = type;
         this.capacity = capacity;
         this.date = date;
         this.description = description;
         this.organizerID = organizerID;
+        this.eventName = eventName;
     }
 
     public Event(Event event) {
@@ -40,6 +43,7 @@ public class Event {
         this.date = event.getDate();
         this.description = event.getDescription();
         this.organizerID = event.getOrganizerID();
+        this.eventName = event.getEventName();
     }
 
     public String getEventID() {
@@ -91,5 +95,11 @@ public class Event {
         this.organizerID = organizerID;
     }
 
+    public String getEventName() {
+        return eventName;
+    }
 
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
 }

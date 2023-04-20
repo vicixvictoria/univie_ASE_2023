@@ -57,4 +57,12 @@ public class EventController {
         return event;
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{eventID}")
+    public void deleteEvent(@PathVariable String eventID){
+        LOGGER.info("DELETE api/v1/events: {} ", eventID);
+        eventService.deleteEvent(eventID);
+    }
+
+
 }

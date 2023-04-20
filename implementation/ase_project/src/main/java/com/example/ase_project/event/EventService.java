@@ -110,4 +110,14 @@ public class EventService {
         return iEventRepository.save(event);
     }
 
+    /**
+     * This method is called to delete an event with a certain ID
+     * @param eventID
+     */
+    public void deleteEvent(String eventID){
+        LOGGER.debug("delete event {}", getEventsByID(eventID));
+        iEventRepository.deleteById(eventID);
+    }
+
+
 }
