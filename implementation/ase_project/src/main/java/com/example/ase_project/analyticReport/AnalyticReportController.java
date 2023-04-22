@@ -29,13 +29,13 @@ public class AnalyticReportController {
 
     @GetMapping(value = "/feedback/{eventID}")
     public ResponseEntity<AnalyticReportFeedback> getAnalyticReportFeedback(@PathVariable String eventID) {
-        LOGGER.info("GET api/v1/analyticReportAttendee/{}", eventID);
+        LOGGER.info("GET api/v1/feedback/{}", eventID);
         return analyticReportService.getAnalyticReportFeedback(eventID);
     }
 
     @GetMapping(value = "/event/{eventID}")
     public ResponseEntity<AnalyticReportEvent> getAnalyticReportEvent(@PathVariable String eventID) {
-        LOGGER.info("GET api/v1/analyticReportOrganizer/{}", eventID);
+        LOGGER.info("GET api/v1/event/{}", eventID);
         return analyticReportService.getAnalyticReportEvent(eventID);
     }
 }

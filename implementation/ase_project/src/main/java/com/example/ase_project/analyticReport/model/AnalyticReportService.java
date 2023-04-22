@@ -13,8 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.lang.invoke.MethodHandles;
 @Service public class AnalyticReportService {
-    private static final String GET_FEEDBACK_ENDPONT = "http://localhost:8080/api/v1/feedback/event/";
-    private static final String GET_EVENT_ENDPONT = "http://localhost:8080/api/v1/events/";
+    private static final String GET_FEEDBACK_ENDPOINT = "http://localhost:8080/api/v1/feedback/event/";
+    private static final String GET_EVENT_ENDPOINT = "http://localhost:8080/api/v1/events/";
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     public AnalyticReportService() {
 
@@ -26,8 +26,8 @@ import java.lang.invoke.MethodHandles;
         }
 
         RestTemplate restTemplate = new RestTemplate();
-        Event event = restTemplate.getForObject(GET_EVENT_ENDPONT,
-                Event.class);
+        Event event = restTemplate.getForObject(GET_EVENT_ENDPOINT + "/event/" + eventID,
+                    Event.class);
 
         if (event == null) {
             LOGGER.warn("getAnalyticReportOrganizer: no event found for eventID: {}", eventID);
@@ -43,7 +43,7 @@ import java.lang.invoke.MethodHandles;
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<FeedbackList> feedbackList = restTemplate.getForEntity(GET_FEEDBACK_ENDPONT + eventID, FeedbackList.class);
+        ResponseEntity<FeedbackList> feedbackList = restTemplate.getForEntity(GET_FEEDBACK_ENDPOINT + eventID, FeedbackList.class);
         LOGGER.debug("getAnalyticReportAttendee: Creating analytic report from eventID {}, feedbacks fetched with feedbackService", eventID);
         return new ResponseEntity<>(new AnalyticReportFeedback(eventID, feedbackList.getBody()), HttpStatus.OK);
     }

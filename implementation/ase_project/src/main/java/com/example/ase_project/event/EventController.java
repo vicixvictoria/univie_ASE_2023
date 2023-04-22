@@ -28,14 +28,14 @@ public class EventController {
         return eventService.getAll();
     }
 
-    @GetMapping(value = "/{organizerID}")
+    @GetMapping(value = "/organizer/{organizerID}")
     public Collection<Event> getEventsByOrganizerID(@PathVariable String organizerID) {
         LOGGER.info("GET api/v1/events/{}", organizerID);
         return eventService.getAllEventsByorganizerID(organizerID);
     }
 
 
-    @GetMapping("/{eventID}")
+    @GetMapping("/event/{eventID}")
     public Event getEventsByID(@PathVariable String eventID) {
         LOGGER.info("GET api/v1/events/{}", eventID);
         return eventService.getEventsByID(eventID);
