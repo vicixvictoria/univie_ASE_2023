@@ -71,9 +71,9 @@ public class AseProjectFeedbackServiceTests {
         Assertions.assertNotEquals(return1.getBody(), return3.getBody());
         Assertions.assertNotEquals(return3.getBody(), return2.getBody());
 
-        Assertions.assertEquals(2, fetch1.getBody().get().size());
-        Assertions.assertEquals(2, fetch2.getBody().get().size());
-        Assertions.assertEquals(3, fetch3.getBody().get().size());
+        Assertions.assertEquals(2, fetch1.getBody().getFeedbacks().size());
+        Assertions.assertEquals(2, fetch2.getBody().getFeedbacks().size());
+        Assertions.assertEquals(3, fetch3.getBody().getFeedbacks().size());
     }
 
     @Test

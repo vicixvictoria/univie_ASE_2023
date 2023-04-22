@@ -21,10 +21,10 @@ public record AnalyticReportFeedback(String eventID, FeedbackList feedbacks) {
      */
     public float getMeanOverallRating() {
         float total = 0;
-        for (Feedback feedback : this.feedbacks.get()) {
+        for (Feedback feedback : this.feedbacks.getFeedbacks()) {
             total += feedback.getRatingOverall();
         }
-        return total / this.feedbacks.get().size();
+        return total / this.feedbacks.getFeedbacks().size();
     }
 
     /**
@@ -34,7 +34,7 @@ public record AnalyticReportFeedback(String eventID, FeedbackList feedbacks) {
      */
     public int getNumberOfComments() {
         int numberOfComments = 0;
-        for (Feedback feedback : this.feedbacks.get()) {
+        for (Feedback feedback : this.feedbacks.getFeedbacks()) {
             if (!feedback.getComment().equals("")) {
                 numberOfComments++;
             }
@@ -46,7 +46,7 @@ public record AnalyticReportFeedback(String eventID, FeedbackList feedbacks) {
         StringBuilder ret = new StringBuilder();
         ret.append(this.eventID);
         ret.append(": ");
-        for (Feedback feedback : this.feedbacks.get()) {
+        for (Feedback feedback : this.feedbacks.getFeedbacks()) {
             ret.append(feedback.toString());
             ret.append(", ");
         }

@@ -14,9 +14,9 @@ public class FeedbackList {
         this.feedbacks = feedbacks;
     }
 
-    public FeedbackList(FeedbackList feedbackList) { this.feedbacks = feedbackList.get();}
+    public FeedbackList(FeedbackList feedbackList) { this.feedbacks = feedbackList.getFeedbacks();}
 
-    public Collection<Feedback> get() {
+    public Collection<Feedback> getFeedbacks() {
         return this.feedbacks;
     }
 
@@ -25,7 +25,7 @@ public class FeedbackList {
     }
 
     public void add (FeedbackList feedbackList) {
-        for (Feedback elem: feedbackList.get()) {
+        for (Feedback elem: feedbackList.getFeedbacks()) {
             this.add(elem);
         }
     }

@@ -91,7 +91,7 @@ public class AnalyticReportServiceTests {
         AnalyticReportFeedback report = response.getBody();
 
         Assertions.assertEquals(report.eventID(), "100");
-        Assertions.assertEquals(report.feedbacks().get().size(), feedbackService.getEventFeedback("100").getBody().get().size());
+        Assertions.assertEquals(report.feedbacks().getFeedbacks().size(), feedbackService.getEventFeedback("100").getBody().getFeedbacks().size());
     }
 
     @Test
