@@ -1,26 +1,22 @@
 package com.example.ase_project.notification;
 
+import static org.mockito.Mockito.when;
+
 import com.example.ase_project.notification.model.NotificationSender;
 import com.example.ase_project.notification.model.NotificationService;
 import com.example.ase_project.notification.model.data.NotificationEvent;
 import com.example.ase_project.notification.model.data.NotificationUser;
 import com.example.ase_project.notification.model.notificationsendtime.INotificationSendTime;
 import com.example.ase_project.notification.model.repository.INotificationRepository;
-import com.example.ase_project.sendnotification.NotificationSendService;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import static org.mockito.Mockito.when;
 
 public class NotificationServiceTest {
 
@@ -44,7 +40,8 @@ public class NotificationServiceTest {
         returnedEvents = Mockito.mock(Collection.class);
         when(repository.getEvents(Mockito.anyString())).thenReturn(returnedEvents);
 
-        updatedUser = List.of(new NotificationUser(), new NotificationUser(), new NotificationUser());
+        updatedUser = List.of(new NotificationUser(), new NotificationUser(),
+                new NotificationUser());
         when(repository.updateEvent(Mockito.any())).thenReturn(updatedUser);
     }
 
@@ -72,7 +69,8 @@ public class NotificationServiceTest {
 
     @Test
     public void NotificationService_addEvent_validCall() {
-        NotificationService sendService = new NotificationService(repository, taskScheduler, notificationSender, notificationSendTime);
+        NotificationService sendService = new NotificationService(repository, taskScheduler,
+                notificationSender, notificationSendTime);
 
         NotificationUser user = new NotificationUser();
         user.setId("someId");
@@ -81,52 +79,62 @@ public class NotificationServiceTest {
         sendService.addEvent(user.getId(), event);
 
         Mockito.verify(repository, Mockito.times(1)).addEvent(user, event);
-        Mockito.verify(taskScheduler, Mockito.times(1)).schedule(Mockito.any(), Mockito.eq(returnedInstant));
+        Mockito.verify(taskScheduler, Mockito.times(1))
+                .schedule(Mockito.any(), Mockito.eq(returnedInstant));
     }
 
     @Test
     public void NotificationService_addEvent_emptyId() {
-        NotificationService sendService = new NotificationService(repository, taskScheduler, notificationSender, notificationSendTime);
+        NotificationService sendService = new NotificationService(repository, taskScheduler,
+                notificationSender, notificationSendTime);
         String userId = "";
         NotificationEvent event = Mockito.mock(NotificationEvent.class);
 
         Executable test = () -> sendService.addEvent(userId, event);
 
         Assertions.assertThrows(RuntimeException.class, test);
-        Mockito.verify(taskScheduler, Mockito.times(0)).schedule(Mockito.any(), Mockito.any(Instant.class));
+        Mockito.verify(taskScheduler, Mockito.times(0))
+                .schedule(Mockito.any(), Mockito.any(Instant.class));
     }
 
     @Test
     public void NotificationService_getEvents_validCall() {
-        NotificationService sendService = new NotificationService(repository, taskScheduler, notificationSender, notificationSendTime);
+        NotificationService sendService = new NotificationService(repository, taskScheduler,
+                notificationSender, notificationSendTime);
         String userId = "someId";
         var result = sendService.getEvents(userId);
 
         Assertions.assertEquals(returnedEvents, result);
-        Mockito.verify(taskScheduler, Mockito.times(0)).schedule(Mockito.any(), Mockito.any(Instant.class));
+        Mockito.verify(taskScheduler, Mockito.times(0))
+                .schedule(Mockito.any(), Mockito.any(Instant.class));
         Mockito.verify(repository, Mockito.times(1)).getEvents(userId);
     }
 
     @Test
     public void NotificationService_getEvents_emptyId() {
-        NotificationService sendService = new NotificationService(repository, taskScheduler, notificationSender, notificationSendTime);
+        NotificationService sendService = new NotificationService(repository, taskScheduler,
+                notificationSender, notificationSendTime);
         String userId = "";
         Executable test = () -> sendService.getEvents(userId);
 
         Assertions.assertThrows(RuntimeException.class, test);
-        Mockito.verify(taskScheduler, Mockito.times(0)).schedule(Mockito.any(), Mockito.any(Instant.class));
+        Mockito.verify(taskScheduler, Mockito.times(0))
+                .schedule(Mockito.any(), Mockito.any(Instant.class));
         Mockito.verify(repository, Mockito.times(0)).getEvents(userId);
     }
 
     @Test
     public void NotificationService_updateEvent_validCall() {
-        NotificationService sendService = new NotificationService(repository, taskScheduler, notificationSender, notificationSendTime);
+        NotificationService sendService = new NotificationService(repository, taskScheduler,
+                notificationSender, notificationSendTime);
         NotificationEvent event = Mockito.mock(NotificationEvent.class);
         sendService.updateEvent(event);
 
         Mockito.verify(repository, Mockito.times(1)).updateEvent(event);
-        Mockito.verify(taskScheduler, Mockito.times(updatedUser.size())).schedule(Mockito.any(), Mockito.eq(returnedInstant));
-        Mockito.verify(notificationSender, Mockito.times(updatedUser.size())).sendUpdated(Mockito.any(), Mockito.eq(event));
+        Mockito.verify(taskScheduler, Mockito.times(updatedUser.size()))
+                .schedule(Mockito.any(), Mockito.eq(returnedInstant));
+        Mockito.verify(notificationSender, Mockito.times(updatedUser.size()))
+                .sendUpdated(Mockito.any(), Mockito.eq(event));
     }
     // TODO: maybe also add invalid case
 

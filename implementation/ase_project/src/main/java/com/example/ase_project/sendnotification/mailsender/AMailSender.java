@@ -1,6 +1,7 @@
 package com.example.ase_project.sendnotification.mailsender;
 
 public abstract class AMailSender {
+
     protected final String senderEmail;
     protected final String senderPassword;
 
@@ -11,8 +12,9 @@ public abstract class AMailSender {
 
     /**
      * Sends an email to targetEmail with the given message
+     *
      * @param targetEmail the address which will receive an email
-     * @param message the content of the email
+     * @param message     the content of the email
      */
     public abstract void send(String targetEmail, String message);
 

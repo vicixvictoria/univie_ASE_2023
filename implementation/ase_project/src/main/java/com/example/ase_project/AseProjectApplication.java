@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {"com.example.ase_project.event", "com.example.ase_project.eventInventory", "com.example.ase_project.feedback", "com.example.ase_project.searchServiceEvents", "com.example.ase_project.taggingEvent","com.example.ase_project.bookmarkEvent", "com.example.ase_project.login"})
+@EnableJpaRepositories(basePackages = {"com.example.ase_project.event",
+        "com.example.ase_project.eventInventory", "com.example.ase_project.feedback",
+        "com.example.ase_project.searchServiceEvents", "com.example.ase_project.taggingEvent",
+        "com.example.ase_project.bookmarkEvent", "com.example.ase_project.login"})
 public class AseProjectApplication {
 
     public static void main(String[] args) {

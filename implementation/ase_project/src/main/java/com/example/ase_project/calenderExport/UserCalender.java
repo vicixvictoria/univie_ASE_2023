@@ -6,12 +6,14 @@ import java.util.List;
 
 
 public class UserCalender {
+
     private Calendar calender;
 
     private List<Date> registeredEvents;   // this then should be list of registered Events, with their dates
     private List<Date> bookmarkedEvents;  // this then should be list of bookmarked Events, with their dates
 
-    public UserCalender(List<Date> registeredEvents, List<Date> bookmarkedEvents) {       //this then should be a Event type, interface to other domains
+    public UserCalender(List<Date> registeredEvents,
+            List<Date> bookmarkedEvents) {       //this then should be a Event type, interface to other domains
         this.calender = Calendar.getInstance();
         this.registeredEvents = registeredEvents;
         this.bookmarkedEvents = bookmarkedEvents;
@@ -21,12 +23,12 @@ public class UserCalender {
         return registeredEvents;
     }
 
-    public List<Date> getBookmarkedEvents() {
-        return bookmarkedEvents;
-    }
-
     public void setRegisteredEvents(List<Date> registeredEvents) {
         this.registeredEvents = registeredEvents;
+    }
+
+    public List<Date> getBookmarkedEvents() {
+        return bookmarkedEvents;
     }
 
     public void setBookmarkedEvents(List<Date> bookmarkedEvents) {

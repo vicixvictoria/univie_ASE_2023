@@ -17,10 +17,12 @@ public record AnalyticReportEvent(String eventID, Event event) {
         // TODO: implement
         return 0;
     }
+
     public int getNumberOfAttending() {
         // TODO: implement
         return 0;
     }
+
     public int getNumberOfBookmarked() {
         // TODO: implement
         return 0;

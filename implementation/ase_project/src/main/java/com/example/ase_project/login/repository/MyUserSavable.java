@@ -2,16 +2,13 @@ package com.example.ase_project.login.repository;
 
 import com.example.ase_project.login.data.ERole;
 import com.example.ase_project.login.data.MyUser;
-import com.example.ase_project.login.data.MyUserData;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.UniqueConstraint;
-
-import java.util.UUID;
 
 @Entity
 public class MyUserSavable {
+
     @Id
     private String id;
     @Column(unique = true)
@@ -19,7 +16,8 @@ public class MyUserSavable {
     private String password;
     private ERole role;
 
-    public MyUserSavable() {}
+    public MyUserSavable() {
+    }
 
     public MyUserSavable(String id, String email, String password, ERole role) {
         this.id = id;
@@ -36,28 +34,28 @@ public class MyUserSavable {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public ERole getRole() {
-        return role;
-    }
-
-    public String getId() {
-        return id;
-    }
-
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public ERole getRole() {
+        return role;
+    }
+
     public void setRole(ERole role) {
         this.role = role;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setId(String id) {

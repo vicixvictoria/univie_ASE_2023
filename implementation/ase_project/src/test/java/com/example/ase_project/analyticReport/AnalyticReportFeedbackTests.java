@@ -6,21 +6,22 @@ import com.example.ase_project.feedback.model.data.FeedbackList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.ArgumentMatchers.any;
-
 public class AnalyticReportFeedbackTests {
 
     private FeedbackList getFeedbackListWithComments(int numberOfFeedbacks) {
         FeedbackList feedbackList = new FeedbackList();
-        for (int i = 1; i < numberOfFeedbacks+1; i++) {
-            feedbackList.add(new Feedback("100", Integer.toString(100+i), i%5, i%5, i%5, "comment"));
+        for (int i = 1; i < numberOfFeedbacks + 1; i++) {
+            feedbackList.add(
+                    new Feedback("100", Integer.toString(100 + i), i % 5, i % 5, i % 5, "comment"));
         }
         return feedbackList;
     }
+
     private FeedbackList getFeedbackListWithoutComments(int numberOfFeedbacks) {
         FeedbackList feedbackList = new FeedbackList();
-        for (int i = 1; i < numberOfFeedbacks+1; i++) {
-            feedbackList.add(new Feedback("100", Integer.toString(100+i), i%5, i%5, i%5, null));
+        for (int i = 1; i < numberOfFeedbacks + 1; i++) {
+            feedbackList.add(
+                    new Feedback("100", Integer.toString(100 + i), i % 5, i % 5, i % 5, null));
         }
         return feedbackList;
     }

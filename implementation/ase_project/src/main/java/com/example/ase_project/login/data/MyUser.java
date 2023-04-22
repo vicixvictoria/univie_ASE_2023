@@ -1,8 +1,5 @@
 package com.example.ase_project.login.data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
 import java.util.UUID;
 
 public class MyUser extends MyUserData {

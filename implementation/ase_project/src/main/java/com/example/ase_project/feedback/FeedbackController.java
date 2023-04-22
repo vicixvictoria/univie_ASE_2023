@@ -1,31 +1,30 @@
 package com.example.ase_project.feedback;
 
-import com.example.ase_project.feedback.model.data.Feedback;
 import com.example.ase_project.feedback.model.FeedbackService;
+import com.example.ase_project.feedback.model.data.Feedback;
 import com.example.ase_project.feedback.model.data.FeedbackList;
+import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.lang.invoke.MethodHandles;
-import java.util.Collection;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "api/v1/feedback/")
 public class FeedbackController {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
     private final FeedbackService feedbackService;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
-    public FeedbackController (FeedbackService service) {
+    public FeedbackController(FeedbackService service) {
         this.feedbackService = service;
     }
 
@@ -34,6 +33,7 @@ public class FeedbackController {
         LOGGER.debug("GET api/v1/feedback");
         return feedbackService.getAll();
     }
+
     @PostMapping(value = "")
     public ResponseEntity<String> createFeedback(@RequestBody Feedback feedback) {
         LOGGER.debug("POST api/v1/feedback");
@@ -45,6 +45,7 @@ public class FeedbackController {
         LOGGER.debug("GET api/v1/feedback/{}", feedbackID);
         return feedbackService.getFeedback(feedbackID);
     }
+
     @GetMapping(value = "event/{eventID}")
     public ResponseEntity<FeedbackList> getEventFeedback(@PathVariable String eventID) {
         LOGGER.debug("GET api/v1/feedback/event/{}", eventID);

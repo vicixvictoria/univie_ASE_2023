@@ -1,8 +1,9 @@
 package com.example.ase_project.eventInventory;
 
 import com.example.ase_project.event.Event;
-import jakarta.persistence.*;
-
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,8 @@ public class EventInventory {
     public EventInventory() {
     }
 
-    public EventInventory(List<Event> eventList, String eventInventoryID, List eventListID, String organizerID) {
+    public EventInventory(List<Event> eventList, String eventInventoryID, List eventListID,
+            String organizerID) {
         this.eventListID = eventListID;
         //this.eventList = eventList;
         this.eventInventoryID = eventInventoryID;

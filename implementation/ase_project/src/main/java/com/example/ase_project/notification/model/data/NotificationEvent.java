@@ -13,9 +13,11 @@ public class NotificationEvent {
     private Date eventDate;
     private EEventType type;
 
-    public NotificationEvent() {}
+    public NotificationEvent() {
+    }
 
-    public NotificationEvent(String id, String name, String description, Date eventDate, EEventType type) {
+    public NotificationEvent(String id, String name, String description, Date eventDate,
+            EEventType type) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -23,12 +25,12 @@ public class NotificationEvent {
         this.type = type;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -65,8 +67,12 @@ public class NotificationEvent {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof NotificationEvent that)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof NotificationEvent that)) {
+            return false;
+        }
 
         return getId().equals(that.getId());
     }

@@ -1,6 +1,7 @@
 package com.example.ase_project.event;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.util.Date;
 
 @Entity
@@ -17,13 +18,14 @@ public class Event {
 
     private String eventName;
 
-   //FYI: Feedback is not stored in each event, we fetch the Feedback from the Feedback Service with the EventID
+    //FYI: Feedback is not stored in each event, we fetch the Feedback from the Feedback Service with the EventID
 
 
     public Event() {
     }
 
-    public Event(String eventID, EEventTypes type, int capacity, Date date, String description, String organizerID, String eventName) {
+    public Event(String eventID, EEventTypes type, int capacity, Date date, String description,
+            String organizerID, String eventName) {
         this.eventID = eventID;
         this.type = type;
         this.capacity = capacity;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class NotificationSendService {
 
     private final AMailSender mailSender;
+
     @Autowired
     public NotificationSendService(@Qualifier("google") AMailSender mailSender) {
         this.mailSender = mailSender;
@@ -16,7 +17,8 @@ public class NotificationSendService {
 
     /**
      * Sends a notification with the message to the given email
-     * @param email the email recipient of the notification
+     *
+     * @param email   the email recipient of the notification
      * @param message the message of the notification
      */
     public void sendNotification(String email, String message) {

@@ -1,9 +1,8 @@
 package com.example.ase_project.event;
 
+import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Date;
 
 class EventServiceTest {
 

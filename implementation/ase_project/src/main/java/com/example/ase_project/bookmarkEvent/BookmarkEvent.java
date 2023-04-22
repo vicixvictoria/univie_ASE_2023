@@ -2,15 +2,16 @@ package com.example.ase_project.bookmarkEvent;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import java.lang.invoke.MethodHandles;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.invoke.MethodHandles;
-import java.util.UUID;
-
 @Entity
 public class BookmarkEvent {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
 
     @Id
     private String BookmarkEventID;
@@ -18,8 +19,11 @@ public class BookmarkEvent {
     private Boolean isBookmarked; //sets and unsets bookmarked false -> previously bookmarked
     private String attendeeID;
 
-    public BookmarkEvent(String bookmarkEventID, String eventID, Boolean isBookmarked, String attendeeID) {
-        LOGGER.debug("BookmarkEvent Entity created bookmarkEventID: {}, eventID: {}, attendeeID: {}", bookmarkEventID, eventID, attendeeID);
+    public BookmarkEvent(String bookmarkEventID, String eventID, Boolean isBookmarked,
+            String attendeeID) {
+        LOGGER.debug(
+                "BookmarkEvent Entity created bookmarkEventID: {}, eventID: {}, attendeeID: {}",
+                bookmarkEventID, eventID, attendeeID);
         this.BookmarkEventID = UUID.randomUUID().toString().replace("-", "");
         this.eventID = eventID;
         this.isBookmarked = isBookmarked;

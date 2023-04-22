@@ -1,18 +1,21 @@
 package com.example.ase_project.recommender;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 @Service
 public class RecommenderService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
 
     /**
      * This method is called for getting a List of eventID recommendations for a given attendeeID
+     *
      * @param attendeeID for attendee identification
      * @return List of recommended eventIDs
      */

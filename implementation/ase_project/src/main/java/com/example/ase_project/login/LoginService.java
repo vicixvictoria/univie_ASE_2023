@@ -7,15 +7,9 @@ import com.example.ase_project.login.data.MyUserData;
 import com.example.ase_project.login.exception.UserNotFoundException;
 import com.example.ase_project.login.repository.IMyUserRepository;
 import com.example.ase_project.login.repository.MyUserSavable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.UserDetailsManager;
-import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {

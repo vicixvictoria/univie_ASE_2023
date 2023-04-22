@@ -1,23 +1,23 @@
 package com.example.ase_project.login;
 
+import static com.example.ase_project.login.helper.LoginConstants.SECRET;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import static com.example.ase_project.login.helper.LoginConstants.SECRET;
-
 /**
- * Based on: <a href="https://erinc.io/2020/08/02/spring-jwt-authentication-and-authorization/">source</a>
+ * Based on: <a
+ * href="https://erinc.io/2020/08/02/spring-jwt-authentication-and-authorization/">source</a>
  */
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -41,8 +41,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
-                                    HttpServletResponse res,
-                                    FilterChain chain) throws IOException, ServletException {
+            HttpServletResponse res,
+            FilterChain chain) throws IOException, ServletException {
 
         String header = extractAuthenticationHeader(req);
 

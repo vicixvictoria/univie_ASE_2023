@@ -2,17 +2,17 @@ package com.example.ase_project.taggingEvent;
 
 import com.example.ase_project.taggingEvent.repository.ITaggingRepository;
 import jakarta.transaction.Transactional;
+import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.invoke.MethodHandles;
-
 @Service
 public class TaggingService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
 
     private final ITaggingRepository repository;
 
@@ -31,14 +31,16 @@ public class TaggingService {
     /**
      * method is called to add a New TaggingEvent anr returns new TaggingEvent
      *
-     * @param  userId, eventId, etags
+     * @param userId, eventId, etags
      * @return TaggingEvent
      */
     public TaggingEvent addNewTaggingEvent(String userId, String eventId, ETags eTags) {
         LOGGER.debug("add New TaggingEvent");
-        if (repository.existsByEventIdAndUserId(eventId, userId)) { //in case Event already exists in database
+        if (repository.existsByEventIdAndUserId(eventId,
+                userId)) { //in case Event already exists in database
             LOGGER.debug("TaggingEvent changed");
-            TaggingEvent taggingEvent = repository.getTaggingEventByEventIdAndUserId(eventId, userId);
+            TaggingEvent taggingEvent = repository.getTaggingEventByEventIdAndUserId(eventId,
+                    userId);
             repository.deleteByEventIdAndUserId(eventId, userId);
             TaggingEvent newTaggingEvent = new TaggingEvent(taggingEvent);
             newTaggingEvent.addEventTag(eTags);
@@ -55,13 +57,14 @@ public class TaggingService {
     /**
      * method is called to delete a Tag and changes the TaggingEvent, returns TaggingEvent
      *
-     * @param   userId,  eventId,  eTags
+     * @param userId, eventId,  eTags
      * @return TaggingEvent
      */
     @Transactional
     public TaggingEvent removeTag(String userId, String eventId, ETags eTags) {
         LOGGER.debug("Remove Tag from TaggingEvent");
-        TaggingEvent changedTaggingEvent = repository.getTaggingEventByEventIdAndUserId(eventId, userId);
+        TaggingEvent changedTaggingEvent = repository.getTaggingEventByEventIdAndUserId(eventId,
+                userId);
         if (changedTaggingEvent.getEventTags() == null) {  //removes DB entry not longer needed
             LOGGER.debug("TaggingEvent deleted from Database");
             repository.deleteAllByEventIdAndUserId(eventId, userId);
@@ -76,7 +79,7 @@ public class TaggingService {
     /**
      * removes TaggingEvent from Database
      *
-     * @param   userId,  eventId
+     * @param userId, eventId
      * @return void
      */
     @Transactional

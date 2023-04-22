@@ -7,10 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
-import java.util.concurrent.Callable;
-
-import static org.mockito.Mockito.when;
-
 public class NotificationSendServiceTest {
 
     private AMailSender mailSender;
@@ -35,7 +31,8 @@ public class NotificationSendServiceTest {
         String email = "123";
         String message = "Example text";
         Executable test = () -> notificationSendService.sendNotification(email, message);
-        Assertions.assertThrows(RuntimeException.class, test); // TODO: potentially change to concrete exception
+        Assertions.assertThrows(RuntimeException.class,
+                test); // TODO: potentially change to concrete exception
         Mockito.verify(mailSender, Mockito.times(0)).send(email, message);
     }
 
@@ -54,7 +51,8 @@ public class NotificationSendServiceTest {
         String email = "";
         String message = "Example text";
         Executable test = () -> notificationSendService.sendNotification(email, message);
-        Assertions.assertThrows(RuntimeException.class, test); // TODO: potentially change to concrete exception
+        Assertions.assertThrows(RuntimeException.class,
+                test); // TODO: potentially change to concrete exception
         Mockito.verify(mailSender, Mockito.times(0)).send(email, message);
     }
 

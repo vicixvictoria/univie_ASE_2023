@@ -1,9 +1,12 @@
 package com.example.ase_project.feedback;
 
+import static org.mockito.Mockito.when;
+
 import com.example.ase_project.feedback.model.FeedbackService;
 import com.example.ase_project.feedback.model.data.Feedback;
 import com.example.ase_project.feedback.model.data.FeedbackList;
 import com.example.ase_project.feedback.model.repository.IFeedbackRepository;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,11 +15,8 @@ import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-
-import static org.mockito.Mockito.when;
-
 public class AseProjectFeedbackServiceTests {
+
     IFeedbackRepository repository;
     FeedbackService service;
 
@@ -37,7 +37,6 @@ public class AseProjectFeedbackServiceTests {
         mockResponseAll.add(feedback1);
         mockResponseAll.add(feedback2);
         mockResponseAll.add(feedback3);
-
 
         repository = Mockito.mock(IFeedbackRepository.class);
 
@@ -78,10 +77,10 @@ public class AseProjectFeedbackServiceTests {
 
     @Test
     public void feedbackService_createNewFeedback_argumentsAreNull() {
-        Executable test1 = () -> new Feedback(null, "200", 3, 1,2,"food was bad");
-        Executable test2 = () -> new Feedback("100", null, 3,2,3, "food was bad");
-        Executable test3 = () -> new Feedback("100", "200", 7, 8,6,"food was bad");
-        Executable test4 = () -> new Feedback("100", "200", 3,1,2, null);
+        Executable test1 = () -> new Feedback(null, "200", 3, 1, 2, "food was bad");
+        Executable test2 = () -> new Feedback("100", null, 3, 2, 3, "food was bad");
+        Executable test3 = () -> new Feedback("100", "200", 7, 8, 6, "food was bad");
+        Executable test4 = () -> new Feedback("100", "200", 3, 1, 2, null);
 
         Assertions.assertThrows(IllegalArgumentException.class, test1);
         Assertions.assertThrows(IllegalArgumentException.class, test2);

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.XML;
 
 public class CalenderXMLExport extends ACalenderExportType {
+
     public CalenderXMLExport(UserCalender calender) {
         super(calender);
     }

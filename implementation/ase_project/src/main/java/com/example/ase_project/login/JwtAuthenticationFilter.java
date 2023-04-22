@@ -1,8 +1,10 @@
 package com.example.ase_project.login;
 
+import static com.example.ase_project.login.helper.LoginConstants.EXPIRATION_TIME_MS;
+import static com.example.ase_project.login.helper.LoginConstants.SECRET;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.ase_project.login.data.MyUser;
 import com.example.ase_project.login.data.MyUserData;
 import com.example.ase_project.login.exception.UserNotFoundException;
 import com.example.ase_project.login.helper.ELoginEndpoints;
@@ -12,33 +14,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
-
-import static com.example.ase_project.login.helper.LoginConstants.EXPIRATION_TIME_MS;
-import static com.example.ase_project.login.helper.LoginConstants.SECRET;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Based on: <a href="https://erinc.io/2020/08/02/spring-jwt-authentication-and-authorization/">source</a>
+ * Based on: <a
+ * href="https://erinc.io/2020/08/02/spring-jwt-authentication-and-authorization/">source</a>
  */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final IMyUserRepository myUserRepository;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, IMyUserRepository myUserRepository) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+            IMyUserRepository myUserRepository) {
         this.authenticationManager = authenticationManager;
         this.myUserRepository = myUserRepository;
 
@@ -59,13 +55,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
-                                                HttpServletResponse res) throws RuntimeException {
+            HttpServletResponse res) throws RuntimeException {
         try {
             MyUserData user = new ObjectMapper().readValue(req.getInputStream(), MyUserData.class);
 
             // TODO: check if the repository contains the user and if the passwords match
             try {
-                Optional<MyUserSavable> queryResult = myUserRepository.findMyUserSavableByEmail(user.getEmail());
+                Optional<MyUserSavable> queryResult = myUserRepository.findMyUserSavableByEmail(
+                        user.getEmail());
 
                 if (queryResult.isEmpty()) {
                     throw new UsernameNotFoundException("bla bla");
@@ -76,7 +73,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 if (!foundUser.getPassword().equals(user.getPassword())) {
                     throw new UsernameNotFoundException("bla bla");
                 }
-            } catch (UsernameNotFoundException e)  {
+            } catch (UsernameNotFoundException e) {
                 throw new UserNotFoundException(e.getMessage());
             }
 
@@ -92,8 +89,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
-                                            Authentication auth) throws IOException {
+    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res,
+            FilterChain chain,
+            Authentication auth) throws IOException {
         String token = generateJWT(auth);
         String body = generateBody(auth, token);
         res.getWriter().write(body);

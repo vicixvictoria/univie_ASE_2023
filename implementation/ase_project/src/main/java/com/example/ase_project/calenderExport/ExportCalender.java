@@ -5,8 +5,6 @@ import com.example.ase_project.calenderExport.calenderFactory.ConcreteCalenderEx
 import com.example.ase_project.calenderExport.calenderFactory.ConcreteCalenderExportFactoryJSON;
 import com.example.ase_project.calenderExport.calenderFactory.ConcreteCalenderExportFactoryXML;
 
-import java.util.Calendar;
-
 public class ExportCalender {
 
     private ACalenderExportFactory exportFactory;
@@ -19,10 +17,12 @@ public class ExportCalender {
         this.exportType = type;
     }
 
-    public ExportCalender(EExportType type){
+    public ExportCalender(EExportType type) {
         this.exportType = type;
     }
-    public ACalenderExportType createExportCalender(EExportType exportType, UserCalender userCalenderExport) throws Exception {
+
+    public ACalenderExportType createExportCalender(EExportType exportType,
+            UserCalender userCalenderExport) throws Exception {
         switch (this.exportType) {
             case XML -> exportFactory = new ConcreteCalenderExportFactoryXML();
             case JSON -> exportFactory = new ConcreteCalenderExportFactoryJSON();

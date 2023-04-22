@@ -1,19 +1,20 @@
 package com.example.ase_project.event;
 
 import jakarta.transaction.Transactional;
+import java.lang.invoke.MethodHandles;
+import java.util.Date;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.invoke.MethodHandles;
-import java.util.Date;
-import java.util.List;
-
 @Service
 public class EventService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
     private final IEventRepository iEventRepository;
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
     public EventService(IEventRepository iEventRepository) {
@@ -86,7 +87,8 @@ public class EventService {
     }
 
     /**
-     * This methode is called to create and save a new event with the given parameters in the object event
+     * This methode is called to create and save a new event with the given parameters in the object
+     * event
      *
      * @param event to be inserted
      * @return newly created and saved event
@@ -98,7 +100,8 @@ public class EventService {
     }
 
     /**
-     * This method is called to update and existing event with the given parameters in the object event
+     * This method is called to update and existing event with the given parameters in the object
+     * event
      *
      * @param event to be inserted
      * @return updated event
@@ -112,9 +115,10 @@ public class EventService {
 
     /**
      * This method is called to delete an event with a certain ID
+     *
      * @param eventID
      */
-    public void deleteEvent(String eventID){
+    public void deleteEvent(String eventID) {
         LOGGER.debug("delete event {}", getEventsByID(eventID));
         iEventRepository.deleteById(eventID);
     }

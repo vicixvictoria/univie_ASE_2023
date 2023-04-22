@@ -4,6 +4,9 @@ import com.example.ase_project.event.EEventTypes;
 import com.example.ase_project.event.Event;
 import com.example.ase_project.event.EventService;
 import com.example.ase_project.eventInventory.EventInventoryService;
+import java.lang.invoke.MethodHandles;
+import java.util.Date;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +15,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.invoke.MethodHandles;
-import java.util.Date;
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "api/v1/searchService")
 public class SearchServiceController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
 
     private final EventService eventService;
     private final EventInventoryService eventInventoryService;
 
     @Autowired
-    public SearchServiceController(EventService eventService, EventInventoryService eventInventoryService) {
+    public SearchServiceController(EventService eventService,
+            EventInventoryService eventInventoryService) {
         this.eventService = eventService;
         this.eventInventoryService = eventInventoryService;
     }

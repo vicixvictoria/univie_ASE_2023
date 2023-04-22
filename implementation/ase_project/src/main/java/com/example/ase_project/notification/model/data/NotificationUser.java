@@ -10,19 +10,20 @@ public class NotificationUser {
     private String id;
     private String email;
 
-    public NotificationUser() {}
+    public NotificationUser() {
+    }
 
     public NotificationUser(String id, String email) {
         this.id = id;
         this.email = email;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-    
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -35,8 +36,12 @@ public class NotificationUser {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof NotificationUser that)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof NotificationUser that)) {
+            return false;
+        }
         return Objects.equals(getId(), that.getId());
     }
 

@@ -4,8 +4,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * With the current implementation the LOGIN endpoint (responsible to authenticate users and hand out JWT tokens), has
- * to be unique, regardless of the RequestMethod
+ * With the current implementation the LOGIN endpoint (responsible to authenticate users and hand
+ * out JWT tokens), has to be unique, regardless of the RequestMethod
  */
 public enum ELoginEndpoints {
     LOGIN("/authenticate", RequestMethod.POST),

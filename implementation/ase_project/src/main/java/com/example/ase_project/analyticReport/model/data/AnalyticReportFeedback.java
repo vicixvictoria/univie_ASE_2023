@@ -4,6 +4,7 @@ import com.example.ase_project.feedback.model.data.Feedback;
 import com.example.ase_project.feedback.model.data.FeedbackList;
 
 public record AnalyticReportFeedback(String eventID, FeedbackList feedbacks) {
+
     public AnalyticReportFeedback {
         if (eventID == null) {
             throw new IllegalArgumentException("eventID can not be null");

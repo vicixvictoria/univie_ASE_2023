@@ -3,6 +3,7 @@ package com.example.ase_project.feedback.model;
 import com.example.ase_project.feedback.model.data.Feedback;
 import com.example.ase_project.feedback.model.data.FeedbackList;
 import com.example.ase_project.feedback.model.repository.IFeedbackRepository;
+import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.Collection;
-
 @Service
 public class FeedbackService {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
     private final IFeedbackRepository repository;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
     public FeedbackService(IFeedbackRepository feedbackRepository) {
@@ -25,7 +24,9 @@ public class FeedbackService {
     }
 
     /**
-     * saves a feedback in the repository. THere are no checks applied. Validity checks are done at Feedback creation.
+     * saves a feedback in the repository. THere are no checks applied. Validity checks are done at
+     * Feedback creation.
+     *
      * @param feedback to be saved
      * @return ResponseEntity containing the feedbackID and the status code)
      */
@@ -40,6 +41,7 @@ public class FeedbackService {
 
     /**
      * fetches all events that contain the eventID
+     *
      * @param eventID: the ID
      * @return ResponseEntity containing a Collection of found Feedbacks
      */
@@ -54,6 +56,7 @@ public class FeedbackService {
 
     /**
      * fetch all events that contain the userID
+     *
      * @param userID the ID
      * @return ResponseEntity containing a Collection of found Feedbacks
      */
@@ -68,6 +71,7 @@ public class FeedbackService {
 
     /**
      * get all feedbacks stored.
+     *
      * @return ResponseEntity containing a Collection of all Feedbacks
      */
     public ResponseEntity<FeedbackList> getAll() {
@@ -77,6 +81,7 @@ public class FeedbackService {
 
     /**
      * get specific feedback by id
+     *
      * @param feedbackID the ID
      * @return ResponseEntity containing a Feedback
      */

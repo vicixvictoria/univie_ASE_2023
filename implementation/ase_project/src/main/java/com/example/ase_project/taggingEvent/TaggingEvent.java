@@ -2,17 +2,18 @@ package com.example.ase_project.taggingEvent;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Entity
 public class TaggingEvent {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
 
     @Id
     private String taggingEventId;
@@ -23,7 +24,8 @@ public class TaggingEvent {
     private List<ETags> eventTags = new ArrayList<>();
 
     public TaggingEvent(String userId, String eventId, ETags eventTags) {
-        LOGGER.debug("TaggingEvent Entity created userId: {}, eventId: {}, eventTags: {}", userId, eventId, eventTags);
+        LOGGER.debug("TaggingEvent Entity created userId: {}, eventId: {}, eventTags: {}", userId,
+                eventId, eventTags);
         this.eventId = eventId;
         if (eventTags != null) {
             this.eventTags.add(eventTags);

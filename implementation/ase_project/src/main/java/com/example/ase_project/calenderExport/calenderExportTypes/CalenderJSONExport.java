@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CalenderJSONExport extends ACalenderExportType {
+
     public CalenderJSONExport(UserCalender calender) {
         super(calender);
     }

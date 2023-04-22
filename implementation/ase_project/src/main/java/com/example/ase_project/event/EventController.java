@@ -1,19 +1,28 @@
 package com.example.ase_project.event;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import java.lang.invoke.MethodHandles;
-import java.util.Collection;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 @RequestMapping(path = "api/v1/events")
 public class EventController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
 
     private final EventService eventService;
 
@@ -59,7 +68,7 @@ public class EventController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{eventID}")
-    public void deleteEvent(@PathVariable String eventID){
+    public void deleteEvent(@PathVariable String eventID) {
         LOGGER.info("DELETE api/v1/events: {} ", eventID);
         eventService.deleteEvent(eventID);
     }

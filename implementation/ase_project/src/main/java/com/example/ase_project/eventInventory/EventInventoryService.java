@@ -1,19 +1,19 @@
 package com.example.ase_project.eventInventory;
 
 import com.example.ase_project.event.Event;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.invoke.MethodHandles;
-import java.util.List;
-
 @Service
 public class EventInventoryService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
     private final IEventInventoryRepository iEventInventoryRepository;
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
     public EventInventoryService(IEventInventoryRepository iEventInventoryRepository) {
@@ -42,7 +42,8 @@ public class EventInventoryService {
     }
 
     /**
-     * This methode is called to create and save a new event inventory with the given parameters in the object eventInventory
+     * This methode is called to create and save a new event inventory with the given parameters in
+     * the object eventInventory
      *
      * @param eventInventory to be inserted
      * @return newly created eventInventory
@@ -55,7 +56,8 @@ public class EventInventoryService {
     /**
      * this method is called to update and existing event inventory by the given event
      *
-     * @param event should deliver organizerID and eventID so that the right eventListID can be updated
+     * @param event should deliver organizerID and eventID so that the right eventListID can be
+     *              updated
      */
     public void updateEventInventoryEvents(Event event) {
         LOGGER.debug("update existing Event Inventory Event List{}", event);
@@ -64,7 +66,8 @@ public class EventInventoryService {
     }
 
     /**
-     * this method is called to update and existing event inventory with the given parameters in the object eventInventory
+     * this method is called to update and existing event inventory with the given parameters in the
+     * object eventInventory
      *
      * @param eventInventory to be inserted
      * @return updated eventInventory
@@ -76,9 +79,10 @@ public class EventInventoryService {
 
     /**
      * This method is called to delete an eventInventory with a certain ID
+     *
      * @param eventInventoryID
      */
-    public void deleteEvent(String eventInventoryID){
+    public void deleteEvent(String eventInventoryID) {
         LOGGER.debug("delete event {}", eventInventoryID);
         iEventInventoryRepository.deleteById(eventInventoryID);
     }
