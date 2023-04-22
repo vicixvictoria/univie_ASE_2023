@@ -2,6 +2,7 @@ package com.example.ase_project.feedback;
 
 import com.example.ase_project.feedback.model.FeedbackService;
 import com.example.ase_project.feedback.model.data.Feedback;
+import com.example.ase_project.feedback.model.data.FeedbackList;
 import com.example.ase_project.feedback.model.repository.IFeedbackRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class AseProjectFeedbackServiceTests {
@@ -60,9 +59,9 @@ public class AseProjectFeedbackServiceTests {
         ResponseEntity<String> return2 = service.createFeedback(feedback2);
         ResponseEntity<String> return3 = service.createFeedback(feedback3);
 
-        ResponseEntity<Collection<Feedback>> fetch1 = service.getEventFeedback("100");
-        ResponseEntity<Collection<Feedback>> fetch2 = service.getUserFeedback("200");
-        ResponseEntity<Collection<Feedback>> fetch3 = service.getAll();
+        ResponseEntity<FeedbackList> fetch1 = service.getEventFeedback("100");
+        ResponseEntity<FeedbackList> fetch2 = service.getUserFeedback("200");
+        ResponseEntity<FeedbackList> fetch3 = service.getAll();
 
         Assertions.assertNotNull(return1.getBody());
         Assertions.assertNotNull(return2.getBody());
@@ -72,9 +71,9 @@ public class AseProjectFeedbackServiceTests {
         Assertions.assertNotEquals(return1.getBody(), return3.getBody());
         Assertions.assertNotEquals(return3.getBody(), return2.getBody());
 
-        Assertions.assertEquals(2, fetch1.getBody().size());
-        Assertions.assertEquals(2, fetch2.getBody().size());
-        Assertions.assertEquals(3, fetch3.getBody().size());
+        Assertions.assertEquals(2, fetch1.getBody().get().size());
+        Assertions.assertEquals(2, fetch2.getBody().get().size());
+        Assertions.assertEquals(3, fetch3.getBody().get().size());
     }
 
     @Test

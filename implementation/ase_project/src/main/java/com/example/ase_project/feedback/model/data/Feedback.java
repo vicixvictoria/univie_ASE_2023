@@ -51,6 +51,14 @@ public class Feedback {
         return ratingOverall;
     }
 
+    public int getRatingLocation() {
+        return ratingLocation;
+    }
+
+    public int getRatingFood() {
+        return ratingFood;
+    }
+
 
     private static int validateRating(int rating) {
         if (0 < rating && rating < 6) return rating;

@@ -1,12 +1,10 @@
 package com.example.ase_project.analyticReport.model.data;
 
 import com.example.ase_project.feedback.model.data.Feedback;
+import com.example.ase_project.feedback.model.data.FeedbackList;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public record AnalyticReportAttendee(String eventID, List<Feedback> feedbacks) {
-    public AnalyticReportAttendee {
+public record AnalyticReportFeedback(String eventID, FeedbackList feedbacks) {
+    public AnalyticReportFeedback {
         if (eventID == null) {
             throw new IllegalArgumentException("eventID can not be null");
         }
@@ -23,10 +21,10 @@ public record AnalyticReportAttendee(String eventID, List<Feedback> feedbacks) {
      */
     public float getMeanOverallRating() {
         float total = 0;
-        for (Feedback feedback : this.feedbacks) {
+        for (Feedback feedback : this.feedbacks.get()) {
             total += feedback.getRatingOverall();
         }
-        return total / this.feedbacks.size();
+        return total / this.feedbacks.get().size();
     }
 
     /**
@@ -36,7 +34,7 @@ public record AnalyticReportAttendee(String eventID, List<Feedback> feedbacks) {
      */
     public int getNumberOfComments() {
         int numberOfComments = 0;
-        for (Feedback feedback : this.feedbacks) {
+        for (Feedback feedback : this.feedbacks.get()) {
             if (!feedback.getComment().equals("")) {
                 numberOfComments++;
             }
@@ -48,7 +46,7 @@ public record AnalyticReportAttendee(String eventID, List<Feedback> feedbacks) {
         StringBuilder ret = new StringBuilder();
         ret.append(this.eventID);
         ret.append(": ");
-        for (Feedback feedback : this.feedbacks) {
+        for (Feedback feedback : this.feedbacks.get()) {
             ret.append(feedback.toString());
             ret.append(", ");
         }

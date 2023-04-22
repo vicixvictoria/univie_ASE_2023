@@ -2,6 +2,7 @@ package com.example.ase_project.feedback;
 
 import com.example.ase_project.feedback.model.data.Feedback;
 import com.example.ase_project.feedback.model.FeedbackService;
+import com.example.ase_project.feedback.model.data.FeedbackList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class FeedbackController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<Collection<Feedback>> getAllFeedback() {
+    public ResponseEntity<FeedbackList> getAllFeedback() {
         LOGGER.debug("GET api/v1/feedback");
         return feedbackService.getAll();
     }
@@ -45,13 +46,13 @@ public class FeedbackController {
         return feedbackService.getFeedback(feedbackID);
     }
     @GetMapping(value = "event/{eventID}")
-    public ResponseEntity<Collection<Feedback>> getFeedbacksForEvent(@PathVariable String eventID) {
+    public ResponseEntity<FeedbackList> getEventFeedback(@PathVariable String eventID) {
         LOGGER.debug("GET api/v1/feedback/event/{}", eventID);
         return feedbackService.getEventFeedback(eventID);
     }
 
     @GetMapping(value = "user/{userID}")
-    public ResponseEntity<Collection<Feedback>> getUserFeedback(@PathVariable String userID) {
+    public ResponseEntity<FeedbackList> getUserFeedback(@PathVariable String userID) {
         LOGGER.debug("GET api/v1/feedback/user/{}", userID);
         return feedbackService.getUserFeedback(userID);
     }

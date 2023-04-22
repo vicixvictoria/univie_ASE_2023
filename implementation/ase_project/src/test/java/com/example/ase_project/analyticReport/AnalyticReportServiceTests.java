@@ -1,8 +1,8 @@
 package com.example.ase_project.analyticReport;
 
 import com.example.ase_project.analyticReport.model.AnalyticReportService;
-import com.example.ase_project.analyticReport.model.data.AnalyticReportAttendee;
-import com.example.ase_project.analyticReport.model.data.AnalyticReportOrganizer;
+import com.example.ase_project.analyticReport.model.data.AnalyticReportFeedback;
+import com.example.ase_project.analyticReport.model.data.AnalyticReportEvent;
 import com.example.ase_project.event.EEventTypes;
 import com.example.ase_project.event.Event;
 import com.example.ase_project.event.EventService;
@@ -32,9 +32,9 @@ public class AnalyticReportServiceTests {
     private IEventRepository eventRepository;
 
     private ArrayList<Event> getEventList() {
-        Event event1 = new Event("100", EEventTypes.FOOD, 25, new Date(), "vegan food festival", "999");
-        Event event2 = new Event("101", EEventTypes.HEALTH, 25, new Date(), "is sport healthier than burgers?", "999");
-        Event event3 = new Event("102", EEventTypes.ENTERTAINMENT, 25, new Date(), "'i was not entertained' - how to show them they are wrong", "999");
+        Event event1 = new Event("100", EEventTypes.FOOD, 25, new Date(), "vegan food festival", "999", "name1");
+        Event event2 = new Event("101", EEventTypes.HEALTH, 25, new Date(), "is sport healthier than burgers?", "999", "name1");
+        Event event3 = new Event("102", EEventTypes.ENTERTAINMENT, 25, new Date(), "'i was not entertained' - how to show them they are wrong", "999", "name1");
         ArrayList<Event> mockResponse = new ArrayList<>();
         mockResponse.add(event1);
         mockResponse.add(event2);
@@ -62,7 +62,7 @@ public class AnalyticReportServiceTests {
     @Test
     public void AnalyticReport_getAnalyticReportOrganizer_validCall() {
         when(eventRepository.findEventByeventID("101")).thenReturn(getEventList().get(1));
-        AnalyticReportOrganizer report = new AnalyticReportOrganizer("101", eventService.getEventsByID("101"));
+        AnalyticReportEvent report = new AnalyticReportEvent("101", eventService.getEventsByID("101"));
 
         Assertions.assertNotNull(report);
         Assertions.assertEquals("101", report.eventID());
@@ -71,13 +71,13 @@ public class AnalyticReportServiceTests {
     @Test
     public void AnalyticReport_getAnalyticReportOrganizer_eventIdIsNull() {
         when(eventRepository.findEventByeventID("101")).thenReturn(getEventList().get(1));
-        Executable test = () ->  new AnalyticReportOrganizer(null, eventService.getEventsByID("101"));
+        Executable test = () ->  new AnalyticReportEvent(null, eventService.getEventsByID("101"));
         Assertions.assertThrows(IllegalArgumentException.class, test);
     }
     @Test
     public void AnalyticReport_getAnalyticReportOrganizer_eventIsNull() {
         when(eventRepository.findEventByeventID("101")).thenReturn(getEventList().get(1));
-        Executable test = () ->  new AnalyticReportOrganizer("101", null);
+        Executable test = () ->  new AnalyticReportEvent("101", null);
         Assertions.assertThrows(IllegalArgumentException.class, test);
     }
     @Test
@@ -87,16 +87,16 @@ public class AnalyticReportServiceTests {
         mockResponse.add(getFeedbackList().get(1));
         when(feedbackRepository.getByEventID("100")).thenReturn(mockResponse);
 
-        ResponseEntity<AnalyticReportAttendee> response = apService.getAnalyticReportAttendee("100");
-        AnalyticReportAttendee report = response.getBody();
+        ResponseEntity<AnalyticReportFeedback> response = apService.getAnalyticReportFeedback("100");
+        AnalyticReportFeedback report = response.getBody();
 
         Assertions.assertEquals(report.eventID(), "100");
-        Assertions.assertEquals(report.feedbacks().size(), feedbackService.getEventFeedback("100").getBody().size());
+        Assertions.assertEquals(report.feedbacks().get().size(), feedbackService.getEventFeedback("100").getBody().get().size());
     }
 
     @Test
     public void AnalyticReport_getAnalyticReportAttendee_eventIdIsNull() {
-        Executable test = () -> apService.getAnalyticReportAttendee(null);
+        Executable test = () -> apService.getAnalyticReportFeedback(null);
         Assertions.assertThrows(IllegalArgumentException.class, test);
     }
 }

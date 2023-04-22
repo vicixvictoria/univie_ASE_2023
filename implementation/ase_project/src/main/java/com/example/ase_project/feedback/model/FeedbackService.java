@@ -1,6 +1,7 @@
 package com.example.ase_project.feedback.model;
 
 import com.example.ase_project.feedback.model.data.Feedback;
+import com.example.ase_project.feedback.model.data.FeedbackList;
 import com.example.ase_project.feedback.model.repository.IFeedbackRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,15 +43,12 @@ public class FeedbackService {
      * @param eventID: the ID
      * @return ResponseEntity containing a Collection of found Feedbacks
      */
-    public ResponseEntity<Collection<Feedback>> getEventFeedback(String eventID) {
+    public ResponseEntity<FeedbackList> getEventFeedback(String eventID) {
         if (eventID == null) {
             LOGGER.warn("getEventFeedback: eventID can not be null");
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        Collection<Feedback> feedbacks = repository.getByEventID(eventID);
-        if (feedbacks == null) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
+        FeedbackList feedbacks = new FeedbackList(repository.getByEventID(eventID));
         return new ResponseEntity<>(feedbacks, HttpStatus.OK);
     }
 
@@ -59,16 +57,12 @@ public class FeedbackService {
      * @param userID the ID
      * @return ResponseEntity containing a Collection of found Feedbacks
      */
-    public ResponseEntity<Collection<Feedback>> getUserFeedback(String userID) {
+    public ResponseEntity<FeedbackList> getUserFeedback(String userID) {
         if (userID == null) {
             LOGGER.warn("getUserFeedback: userID can not be null");
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new FeedbackList(), HttpStatus.BAD_REQUEST);
         }
-        Collection<Feedback> feedbacks = repository.getByUserID(userID);
-        if (feedbacks == null) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
-
+        FeedbackList feedbacks = new FeedbackList(repository.getByUserID(userID));
         return new ResponseEntity<>(feedbacks, HttpStatus.OK);
     }
 
@@ -76,11 +70,8 @@ public class FeedbackService {
      * get all feedbacks stored.
      * @return ResponseEntity containing a Collection of all Feedbacks
      */
-    public ResponseEntity<Collection<Feedback>> getAll() {
-        Collection<Feedback> feedbacks = repository.findAll();
-        if (feedbacks == null) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
+    public ResponseEntity<FeedbackList> getAll() {
+        FeedbackList feedbacks = new FeedbackList(repository.findAll());
         return new ResponseEntity<>(feedbacks, HttpStatus.OK);
     }
 

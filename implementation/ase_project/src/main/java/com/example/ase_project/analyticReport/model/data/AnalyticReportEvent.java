@@ -1,12 +1,10 @@
 package com.example.ase_project.analyticReport.model.data;
 
 import com.example.ase_project.event.Event;
-import com.mongodb.lang.NonNull;
 
-// TODO: add methods to
-public record AnalyticReportOrganizer(@NonNull String eventID, @NonNull Event event) {
+public record AnalyticReportEvent(String eventID, Event event) {
 
-    public AnalyticReportOrganizer {
+    public AnalyticReportEvent {
         if (eventID == null) {
             throw new IllegalArgumentException("eventID can not be null");
         }
