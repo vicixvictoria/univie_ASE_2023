@@ -16,7 +16,7 @@ public class NotificationSender {
     private final INotificationCreator notificationCreatorUpdated;
 
 
-    private static final String SEND_NOTIFICATION_ENDPOINT = "http://localhost:8080/sendNotification";
+    private static final String SEND_NOTIFICATION_ENDPOINT = "http://localhost:8080/api/v1/sendNotification";
 
     /**
      * Constructor for the NotificationSender class
