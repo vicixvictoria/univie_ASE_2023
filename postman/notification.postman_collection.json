@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "3c1b372f-dc4f-4679-ac64-d0c7be63a1ed",
+		"name": "notification",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":\"event-id\",\n    \"name\":\"event-name\",\n    \"description\":\"event-description\",\n    \"eventDate\":\"2023-04-23T09:21:00\",\n    \"type\":\"BOOKMARKED\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/notification/my-user-id",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"notification",
+						"my-user-id"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":\"event-id\",\n    \"name\":\"event-name\",\n    \"description\":\"event-description\",\n    \"eventDate\":\"2023-04-23T09:30:00\",\n    \"type\":\"BOOKMARKED\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/notification",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"notification"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
