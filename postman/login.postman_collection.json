@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "7629047b-3732-460b-9d58-6b96c28ebc75",
+		"name": "login",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"my@email.com\",\n    \"password\":\"my_secure_password\",\n    \"role\":\"ATTENDEE\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/login/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"login",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"my@email.com\",\n    \"password\":\"my_secure_password\",\n    \"role\":\"ATTENDEE\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/login/authenticate",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"login",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validateToken",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"my-secret-and-secure-token\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/login/verifyToken",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"login",
+						"verifyToken"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
