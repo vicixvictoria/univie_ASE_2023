@@ -1,0 +1,32 @@
+{
+	"info": {
+		"_postman_id": "4b077d70-abca-4c9d-8131-96e47f110a47",
+		"name": "Maintenance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27048236"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/api/v1/maintenance/logs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/maintenance/logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"maintenance",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
