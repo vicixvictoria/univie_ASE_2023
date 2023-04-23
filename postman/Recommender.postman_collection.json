@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "1a789df1-039e-4e03-8d58-732e2dd436e3",
+		"name": "Recommender",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3942943"
+	},
+	"item": [
+		{
+			"name": "recommendation for user 101",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/recommend/101",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"recommend",
+						"101"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
