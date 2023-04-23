@@ -1,0 +1,70 @@
+{
+	"info": {
+		"_postman_id": "071393b9-164c-46d5-a4ac-90c95fcc1a7f",
+		"name": "Attendance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3942943"
+	},
+	"item": [
+		{
+			"name": "attendance for event 101",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/attendance/101",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"attendance",
+						"101"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register for event 101",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"eventName\": \"name\",\r\n\"eventID\": \"100\",\r\n\"EEventTypes\":\"FOOD\",\r\n\"capacity\":1,\r\n\"date\": null,\r\n\"description\": \"test2\",\r\n\"organizerID\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/attend/101",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"attend",
+						"101"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
