@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.ase.recommender</groupId>
     <artifactId>ase_project</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>recommender</version>
     <name>ase_project</name>
     <description>ase_project</description>
     <properties>
