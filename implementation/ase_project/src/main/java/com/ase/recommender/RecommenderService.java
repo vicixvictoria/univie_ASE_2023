@@ -1,4 +1,4 @@
-package recommender;
+package com.ase.recommender;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
