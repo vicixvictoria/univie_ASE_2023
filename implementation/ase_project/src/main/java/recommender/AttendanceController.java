@@ -1,4 +1,4 @@
-package com.example.ase_project.attendance;
+package attendance;
 
 import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
