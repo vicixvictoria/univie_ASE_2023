@@ -1,0 +1,58 @@
+services:
+  analyticReport:
+    image: analyticreport
+    build:
+      dockerfile: analyticReport/Dockerfile
+
+  attendance:
+    image: attendance
+    build:
+      dockerfile: attendance/Dockerfile
+
+  event:
+    image: event
+    build:
+      dockerfile: event/Dockerfile
+
+  eventInventory:
+    image: eventinventory
+    build:
+      dockerfile: eventInventory/Dockerfile
+
+  feedback:
+    image: feedback
+    build:
+      dockerfile: feedback/Dockerfile
+
+  login:
+    image: login
+    build:
+      dockerfile: login/Dockerfile
+
+  maintenance:
+    image: maintenance
+    build:
+      dockerfile: maintenance/Dockerfile
+
+  notification:
+    image: notification
+    build:
+      dockerfile: notification/Dockerfile
+
+  recommender:
+    image: recommender
+    build:
+      dockerfile: recommender/Dockerfile
+
+  searchServiceEvents:
+    image: searchserviceevents
+    build:
+      dockerfile: searchServiceEvents/Dockerfile
+
+  sendNotification:
+    image: sendnotification
+    build:
+      dockerfile: sendNotification/Dockerfile
+
+  rabbitmq:
+    image: rabbitmq
