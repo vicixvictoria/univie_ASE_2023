@@ -52,7 +52,7 @@ services:
   sendNotification:
     image: sendnotification
     build:
-      dockerfile: sendNotification/Dockerfile
+      dockerfile: sendnotification/Dockerfile
 
   rabbitmq:
     image: rabbitmq
