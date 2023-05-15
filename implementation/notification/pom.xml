@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ase</groupId>
-	<artifactId>notifaction</artifactId>
+	<artifactId>notification</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>notifaction</name>
 	<description>Notification domain</description>

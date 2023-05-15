@@ -1,58 +1,47 @@
 services:
   analyticReport:
     image: analyticreport
-    build:
-      dockerfile: analyticReport/Dockerfile
+    build: analyticReport
 
   attendance:
     image: attendance
-    build:
-      dockerfile: attendance/Dockerfile
+    build: attendance
 
   event:
     image: event
-    build:
-      dockerfile: event/Dockerfile
+    build: event
 
   eventInventory:
     image: eventinventory
-    build:
-      dockerfile: eventInventory/Dockerfile
+    build: eventInventory
 
   feedback:
     image: feedback
-    build:
-      dockerfile: feedback/Dockerfile
+    build: feedback
 
   login:
     image: login
-    build:
-      dockerfile: login/Dockerfile
+    build: login
 
   maintenance:
     image: maintenance
-    build:
-      dockerfile: maintenance/Dockerfile
+    build: maintenance
 
   notification:
     image: notification
-    build:
-      dockerfile: notification/Dockerfile
+    build: notification
 
   recommender:
     image: recommender
-    build:
-      dockerfile: recommender/Dockerfile
+    build: recommender
 
   searchServiceEvents:
     image: searchserviceevents
-    build:
-      dockerfile: searchServiceEvents/Dockerfile
+    build: searchServiceEvents
 
   sendNotification:
     image: sendnotification
-    build:
-      dockerfile: sendNotification/Dockerfile
+    build: sendnotification
 
   rabbitmq:
     image: rabbitmq
