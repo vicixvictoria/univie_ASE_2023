@@ -14,7 +14,9 @@ default:
 
 before_script:
   - cd implementation/common 
-  - mvn install -f pom.xml && cd ../../
+  - mvn package
+  - mvn install -f pom.xml 
+  - cd ../../
 
 # buildAnalyticReport:
 #   stage: build
