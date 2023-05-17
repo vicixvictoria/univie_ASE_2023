@@ -13,7 +13,7 @@ default:
     expire_in: 7 days
 
 before_script:
-  - cd implementation/common && mvn install && cd ../../
+  - cd implementation/common && mvn install -f pom.xml && cd ../../
 
 # buildAnalyticReport:
 #   stage: build
