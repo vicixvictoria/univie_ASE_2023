@@ -41,7 +41,7 @@ services:
 
   sendNotification:
     image: sendnotification
-    build: sendnotification
+    build: sendNotification
 
   rabbitmq:
     image: rabbitmq
