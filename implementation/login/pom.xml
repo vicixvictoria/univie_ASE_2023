@@ -45,6 +45,11 @@
       <artifactId>h2</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.amqp</groupId>
+      <artifactId>spring-rabbit</artifactId>
+      <version>3.0.4</version>
+    </dependency>
   </dependencies>
 
   <build>

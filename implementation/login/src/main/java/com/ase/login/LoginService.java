@@ -15,15 +15,18 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     private final IMyUserRepository myUserRepository;
+    private final Publisher publisher;
 
     @Autowired
-    public LoginService(IMyUserRepository myUserRepository) {
+    public LoginService(IMyUserRepository myUserRepository, Publisher publisher) {
         this.myUserRepository = myUserRepository;
+        this.publisher = publisher;
     }
 
     public void addUser(MyUserData newUserData) {
         MyUser newUser = new MyUser(newUserData);
         myUserRepository.save(new MyUserSavable(newUser));
+        publisher.newUserCreated(newUser);
     }
 
 
@@ -47,5 +50,7 @@ public class LoginService {
 
         userSavable.setEmail(user.getEmail());
         userSavable.setPassword(user.getPassword());
+
+        publisher.userUpdated(new MyUser(user)); // TODO: this is incorrect!
     }
 }
