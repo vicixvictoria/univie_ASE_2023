@@ -12,21 +12,44 @@ default:
     expire_in: 7 days
 
 
-build:
+buildBookmark:
   stage: build
   tags:
     - ase-0203
   script:
-    - cd implementation/bookmarkService && mvn package
+    - cd implementation/bookmarkService && mvn package -Dmaven.test.skip
   artifacts:
     paths:
       - implementation/bookmarkService/target/
 
-test:
-  stage: test
-  script:
-    - cd implementation/bookmark && mvn test
+buildTagging:
+  stage: build
   tags:
     - ase-0203
-  needs:
-    - build
+  script:
+    - cd implementation/taggingService && mvn package -Dmaven.test.skip
+  artifacts:
+    paths:
+      - implementation/bookmarkService/target/  
+
+testBookmark:
+  stage: test
+  dependencies:
+    - buildBookmark
+  script:
+    - cd implementation/bookmarkService && mvn package -Dmaven.test.skip
+    - mvn test
+  tags:
+      - ase-0203
+
+testTagging:
+  stage: test
+  dependencies:
+    - buildTagging
+  script:
+    - cd implementation/taggingService && mvn package -Dmaven.test.skip
+    - mvn test
+  tags:
+      - ase-0203
+
+
