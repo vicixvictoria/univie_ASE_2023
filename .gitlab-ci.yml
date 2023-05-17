@@ -15,7 +15,8 @@ default:
 before_script:
   - cd implementation/common 
   - mvn package
-  - mvn install:install file -Dfile=target/common-1.0-SNAPSHOT.jar -DgroupId=com.ase -DartifactId=common -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+  - mvn install
+#  - mvn install:install file -Dfile=target/common-1.0-SNAPSHOT.jar -DgroupId=com.ase -DartifactId=common -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
   - cd ../../
 
 # buildAnalyticReport:
