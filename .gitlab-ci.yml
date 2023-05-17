@@ -12,6 +12,9 @@ default:
   artifacts:
     expire_in: 7 days
 
+before_script:
+  - cd implementation/common && mvn install && cd ../../
+
 buildAnalyticReport:
   stage: build
   tags:
