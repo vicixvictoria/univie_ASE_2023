@@ -123,10 +123,11 @@ buildNotification:
    tags:
      - ase-0203
    script:
-     - cd implementation/notification && mvn package -Dmaven.test.skip
+     - cd implementation/notification
+     - mvn clean && mvn package -Dmaven.test.skip
    artifacts:
     paths:
-      - implementation/notification/target/
+    - implementation/notification/target/
 
 # buildRecommender:
 #   stage: build
