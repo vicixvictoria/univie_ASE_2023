@@ -393,5 +393,5 @@ deploy:
   tags:
     - ase-0203
   script:
-    - cd implementation/bookmarkService
+    - cd implementation/bookmarkService/Dockerfile
     - docker-compose up
