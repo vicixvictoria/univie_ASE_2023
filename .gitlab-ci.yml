@@ -3,7 +3,6 @@ stages:
   - test
   - deploy
 
-image: maven:3.8.5-openjdk-17
 
 default:
   artifacts:
@@ -17,6 +16,7 @@ before_script:
 
 buildAnalyticReport:
   stage: build
+  image: maven:3.8.5-openjdk-17
   tags:
     - ase-0203
   script:
@@ -169,6 +169,7 @@ buildAnalyticReport:
 
 testAnalyticReport:
   stage: test 
+  image: maven:3.8.5-openjdk-17
   needs:
     - buildAnalyticReport
   tags:
