@@ -363,14 +363,6 @@ testAnalyticReport:
 #     paths:
 #       - implementation/taggingService/target/ 
 
-services:
-  - docker:dind
-
-variables:
-  DOCKER_HOST: tcp://docker:2375
-  DOCKER_DRIVER: overlay2
-
-
 deploy:
   before_script:
     - echo "deploy stage"
