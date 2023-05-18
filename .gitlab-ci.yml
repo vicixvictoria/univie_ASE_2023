@@ -393,4 +393,5 @@ deploy:
   tags:
     - ase-0203
   script:
+    - cd ..
     - docker-compose down && docker-compose up
