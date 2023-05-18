@@ -373,4 +373,5 @@ deploy:
     - ase-0203
   script:
     - cd implementation
+    - show_path
     - docker-compose down && docker-compose up 
