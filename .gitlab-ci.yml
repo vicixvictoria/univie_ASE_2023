@@ -388,10 +388,12 @@ testNotification:
 #     - docker-compose down && docker-compose up
 
 deploy:
+  before_script:
+    - echo "deploy stage"
   image: docker/compose:1.29.2
   stage: deploy
   tags:
     - ase-0203
   script:
     - cd implementation
-    - docker-compose up
+    - docker-compose up 
