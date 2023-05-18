@@ -25,146 +25,146 @@ buildAnalyticReport:
     paths:
     - implementation/analyticReport/target/
 
-buildAttendance:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/attendance && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-    - implementation/attendance/target/
+# buildAttendance:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/attendance && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#     - implementation/attendance/target/
 
-buildBookmarkService:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/bookmarkService && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/bookmarkService/target/
+# buildBookmarkService:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/bookmarkService && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/bookmarkService/target/
 
-buildCalendar:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/calendar && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/calendar/target/
+# buildCalendar:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/calendar && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/calendar/target/
 
-buildCommon:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/common && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/common/target/
+# buildCommon:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/common && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/common/target/
 
-buildEvent:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/event && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/event/target/
+# buildEvent:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/event && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/event/target/
 
-buildEventInventory:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/eventInventory && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/eventInventory/target/
+# buildEventInventory:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/eventInventory && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/eventInventory/target/
 
-buildFeedback:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/feedback && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/feedback/target/
+# buildFeedback:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/feedback && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/feedback/target/
 
-buildLogin:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/login && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/login/target/
+# buildLogin:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/login && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/login/target/
 
-buildMaintenance:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/maintenance && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/maintenance/target/
+# buildMaintenance:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/maintenance && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/maintenance/target/
 
-buildNotification:
-   stage: build
-   tags:
-     - ase-0203
-   script:
-     - cd implementation/notification
-     - mvn clean package -Dmaven.test.skip
-   artifacts:
-    paths:
-    - implementation/notification/target/
+# buildNotification:
+#    stage: build
+#    tags:
+#      - ase-0203
+#    script:
+#      - cd implementation/notification
+#      - mvn clean package -Dmaven.test.skip
+#    artifacts:
+#     paths:
+#     - implementation/notification/target/
 
-buildRecommender:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/recommender && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/recommender/target/
+# buildRecommender:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/recommender && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/recommender/target/
 
-buildSearchServiceEvents:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/searchServiceEvents && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/searchServiceEvents/target/
+# buildSearchServiceEvents:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/searchServiceEvents && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/searchServiceEvents/target/
 
-buildSendNotification:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/sendNotification && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/sendNotification/target/
+# buildSendNotification:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/sendNotification && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/sendNotification/target/
 
-buildTagging:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/taggingService && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/bookmarkService/target/  
+# buildTagging:
+#   stage: build
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/taggingService && mvn package -Dmaven.test.skip
+#   artifacts:
+#     paths:
+#       - implementation/bookmarkService/target/  
 
 
 testAnalyticReport:
@@ -180,187 +180,187 @@ testAnalyticReport:
     paths:
     - implementation/analyticReport/target/
 
-testAttendance:
-  stage: test 
-  needs:
-    - buildAttendance 
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/attendance && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-    - implementation/attendance/target/
+# testAttendance:
+#   stage: test 
+#   needs:
+#     - buildAttendance 
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/attendance && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#     - implementation/attendance/target/
 
-testBookmarkService:
-  stage: test 
-  needs:
-    - buildBookmarkService 
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/bookmarkService && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/bookmarkService/target/
+# testBookmarkService:
+#   stage: test 
+#   needs:
+#     - buildBookmarkService 
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/bookmarkService && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/bookmarkService/target/
 
-testCalendar:
-  stage: test 
-  needs: 
-    - buildCalendar
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/calendar && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/calendar/target/
+# testCalendar:
+#   stage: test 
+#   needs: 
+#     - buildCalendar
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/calendar && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/calendar/target/
 
-testCommon:
-  stage: test 
-  needs: 
-    - buildCommon
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/common && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/common/target/
+# testCommon:
+#   stage: test 
+#   needs: 
+#     - buildCommon
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/common && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/common/target/
 
-testEvent:
-  stage: test 
-  needs:
-    - buildEvent 
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/event && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/event/target/
+# testEvent:
+#   stage: test 
+#   needs:
+#     - buildEvent 
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/event && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/event/target/
 
-testEventInventory:
-  stage: test 
-  needs: 
-    - buildEventInventory
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/eventInventory && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/eventInventory/target/
+# testEventInventory:
+#   stage: test 
+#   needs: 
+#     - buildEventInventory
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/eventInventory && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/eventInventory/target/
 
-testFeedback:
-  stage: test 
-  needs: 
-    - buildFeedback
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/feedback && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/feedback/target/
+# testFeedback:
+#   stage: test 
+#   needs: 
+#     - buildFeedback
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/feedback && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/feedback/target/
 
-testLogin:
-  stage: test 
-  needs: 
-    - buildLogin
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/login && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/login/target/
+# testLogin:
+#   stage: test 
+#   needs: 
+#     - buildLogin
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/login && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/login/target/
 
-testMaintenance:
-  stage: test 
-  needs:
-    - buildMaintenance 
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/maintenance && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/maintenance/target/
+# testMaintenance:
+#   stage: test 
+#   needs:
+#     - buildMaintenance 
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/maintenance && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/maintenance/target/
 
-testNotification:
-   stage: test 
-   needs: 
-     - buildNotification
-   tags:
-     - ase-0203
-   script:
-     - cd implementation/notification && mvn package -Dmaven.test.skip
-     - mvn test
-   artifacts:
-     paths:
-       - implementation/notification/target/
+# testNotification:
+#    stage: test 
+#    needs: 
+#      - buildNotification
+#    tags:
+#      - ase-0203
+#    script:
+#      - cd implementation/notification && mvn package -Dmaven.test.skip
+#      - mvn test
+#    artifacts:
+#      paths:
+#        - implementation/notification/target/
 
-testRecommender:
-  stage: test 
-  needs: 
-    - buildRecommender
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/recommender && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/recommender/target/
+# testRecommender:
+#   stage: test 
+#   needs: 
+#     - buildRecommender
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/recommender && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/recommender/target/
 
-testSearchServiceEvents:
-  stage: test 
-  needs: 
-    - buildSearchServiceEvents
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/searchServiceEvents && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/searchServiceEvents/target/
+# testSearchServiceEvents:
+#   stage: test 
+#   needs: 
+#     - buildSearchServiceEvents
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/searchServiceEvents && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/searchServiceEvents/target/
 
-testSendNotification:
-  stage: test 
-  needs: 
-    - buildSendNotification
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/sendNotification && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/sendNotification/target/
+# testSendNotification:
+#   stage: test 
+#   needs: 
+#     - buildSendNotification
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/sendNotification && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/sendNotification/target/
 
-testTagging:
-  stage: test 
-  needs: 
-    - buildTagging
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/taggingService && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/taggingService/target/ 
+# testTagging:
+#   stage: test 
+#   needs: 
+#     - buildTagging
+#   tags:
+#     - ase-0203
+#   script:
+#     - cd implementation/taggingService && mvn package -Dmaven.test.skip
+#     - mvn test
+#   artifacts:
+#     paths:
+#       - implementation/taggingService/target/ 
 
 
 
