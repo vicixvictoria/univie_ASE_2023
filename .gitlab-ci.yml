@@ -393,6 +393,6 @@ deploy:
   tags:
     - ase-0203
   script:
-    - echp $PATH
+    - echo $PATH
     - cd implementation/bookmarkService
     - docker-compose up
