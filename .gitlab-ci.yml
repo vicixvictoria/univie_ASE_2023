@@ -388,11 +388,10 @@ testNotification:
 #     - docker-compose down && docker-compose up
 
 deploy:
-  image: maven:3.8.5-openjdk-17
+  image: docker/compose:1.29.2
   stage: deploy
   tags:
     - ase-0203
   script:
-    - echo $PATH
-    - cd implementation/bookmarkService
+    - cd implementation
     - docker-compose up
