@@ -388,8 +388,8 @@ testNotification:
 #     - docker-compose down && docker-compose up
 
 deploy:
-  #image: docker/compose:alpine-1.29.2
-  image: maven:3.8.5-openjdk-17
+  image: docker/compose:alpine-1.29.2
+  #image: maven:3.8.5-openjdk-17
   stage: deploy
   tags:
     - ase-0203
