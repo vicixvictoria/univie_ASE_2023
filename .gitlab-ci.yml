@@ -367,7 +367,7 @@ testAnalyticReport:
 deploy:
   before_script:
     - echo "deploy stage"
-  image: docker:24.0.0-dind
+  image: docker:18-dind
   stage: deploy
   tags:
     - ase-0203
