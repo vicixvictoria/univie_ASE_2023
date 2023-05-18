@@ -1,4 +1,4 @@
-package com.ase;
+package com.ase.common;
 
 import java.io.Serializable;
 

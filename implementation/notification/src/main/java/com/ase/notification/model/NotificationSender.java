@@ -1,8 +1,7 @@
 package com.ase.notification.model;
 
-import com.ase.notification.model.data.NotificationContent;
+import com.ase.common.sendNotification.NotificationContent;
 import com.ase.notification.model.data.NotificationEvent;
-import com.ase.notification.model.data.NotificationUser;
 import com.ase.notification.model.notificationcreation.INotificationCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class NotificationSender {
+
+    // TODO: this will need to be reworked to work with rabbitMQ
 
     private final INotificationCreator notificationCreatorUpcoming;
     private final INotificationCreator notificationCreatorUpdated;
@@ -34,30 +35,27 @@ public class NotificationSender {
         this.notificationCreatorUpdated = notificationCreatorUpdated;
     }
 
-    private void send(NotificationUser user, NotificationEvent event,
-            INotificationCreator notificationCreator) {
+    private void send(NotificationEvent event, INotificationCreator notificationCreator) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.postForLocation(SEND_NOTIFICATION_ENDPOINT,
-                new NotificationContent(user.getEmail(), notificationCreator.create(event)));
+                new NotificationContent(event.getUserId(), notificationCreator.create(event)));
     }
 
     /**
-     * Send a notification about an "upcoming" event to the given user
+     * Send a notification about an "upcoming"
      *
-     * @param user  the user who will receive the notification
      * @param event the event about which will be notified
      */
-    public void sendUpcoming(NotificationUser user, NotificationEvent event) {
-        send(user, event, notificationCreatorUpcoming);
+    public void sendUpcoming(NotificationEvent event) {
+        send(event, notificationCreatorUpcoming);
     }
 
     /**
-     * Send a notification about an "updated" event to the given user
+     * Send a notification about an "updated" event
      *
-     * @param user  the user who will receive the notification
      * @param event the event about which will be notified
      */
-    public void sendUpdated(NotificationUser user, NotificationEvent event) {
-        send(user, event, notificationCreatorUpdated);
+    public void sendUpdated(NotificationEvent event) {
+        send(event, notificationCreatorUpdated);
     }
 }

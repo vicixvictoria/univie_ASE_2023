@@ -14,7 +14,7 @@ public class NotificationSentTimeDayBefore implements INotificationSendTime {
      */
     @Override
     public Instant get(NotificationEvent event) {
-        return event.getEventDate().toInstant()
+        return event.getEvent().getEventDate().toInstant()
                 .minusSeconds(ENotificationConstants.DAY_SECONDS.get());
     }
 }

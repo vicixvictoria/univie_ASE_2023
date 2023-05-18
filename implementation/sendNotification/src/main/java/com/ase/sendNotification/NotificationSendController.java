@@ -1,5 +1,6 @@
 package com.ase.sendNotification;
 
+import com.ase.common.sendNotification.NotificationContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,6 @@ public class NotificationSendController {
     @PostMapping
     public void sendNotification(@RequestBody NotificationContent notificationContent) {
         LOGGER.info("GET /api/v1/sendNotification");
-        notificationSendService.sendNotification(notificationContent.email(), notificationContent.message());
+        notificationSendService.sendNotification(notificationContent.userId(), notificationContent.message());
     }
 }
