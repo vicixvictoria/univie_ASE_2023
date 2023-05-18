@@ -297,18 +297,18 @@ buildNotification:
 #     paths:
 #       - implementation/maintenance/target/
 
-# testNotification:
-#   stage: test 
-#   needs: 
-#     - buildNotification
-#   tags:
-#     - ase-0203
-#   script:
-#     - cd implementation/notification && mvn package -Dmaven.test.skip
-#     - mvn test
-#   artifacts:
-#     paths:
-#       - implementation/notification/target/
+testNotification:
+   stage: test 
+   needs: 
+     - buildNotification
+   tags:
+     - ase-0203
+   script:
+     - cd implementation/notification && mvn package -Dmaven.test.skip
+     - mvn test
+   artifacts:
+     paths:
+       - implementation/notification/target/
 
 # testRecommender:
 #   stage: test 
