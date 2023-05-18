@@ -1,60 +1,57 @@
 package com.ase.notification.model.data;
 
-import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import java.util.Objects;
+import java.util.UUID;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
- * Used to store relevant information for the notification domain about an event
+ * Contains all relevant information about a notification.
  */
+@Entity
 public class NotificationEvent {
-
+    @Id
     private String id;
-    private String name;
-    private String description;
-    private Date eventDate;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private RawEvent event;
+    private String userId;  // can easily be extended to hold a user. I don't know how it will work yet
     private EEventType type;
 
     public NotificationEvent() {
     }
 
-    public NotificationEvent(String id, String name, String description, Date eventDate,
-            EEventType type) {
+    public NotificationEvent(String id, RawEvent event, String userId, EEventType type) {
         this.id = id;
-        this.name = name;
-        this.description = description;
-        this.eventDate = eventDate;
+        this.event = event;
+        this.userId = userId;
         this.type = type;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public NotificationEvent(RawEvent event, String userId, EEventType type) {
+        this.id = UUID.randomUUID().toString();
+        this.event = event;
+        this.userId = userId;
+        this.type = type;
     }
 
-    public String getId() {
-        return id;
+    public IUnmodifiableRawEvent getEvent() {
+        return event;
     }
 
-    public String getName() {
-        return name;
+    public void setEvent(RawEvent event) {
+        this.event = event;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUserId() {
+        return userId;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getEventDate() {
-        return eventDate;
-    }
-
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
+    public void setUserId(String eventId) {
+        this.userId = userId;
     }
 
     public EEventType getType() {
@@ -73,12 +70,12 @@ public class NotificationEvent {
         if (!(o instanceof NotificationEvent that)) {
             return false;
         }
-
-        return getId().equals(that.getId());
+        return getEvent().equals(that.getEvent()) && getUserId().equals(that.getUserId())
+                && getType() == that.getType();
     }
 
     @Override
     public int hashCode() {
-        return getId().hashCode();
+        return Objects.hash(getEvent(), getUserId(), getType());
     }
 }

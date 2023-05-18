@@ -1,10 +1,16 @@
 package com.ase.notification.model;
 
+import com.ase.notification.model.data.EEventType;
 import com.ase.notification.model.data.NotificationEvent;
-import com.ase.notification.model.data.NotificationUser;
+import com.ase.notification.model.data.RawEvent;
 import com.ase.notification.model.notificationsendtime.INotificationSendTime;
-import com.ase.notification.model.repository.INotificationRepository;
+import com.ase.notification.model.repository.IEventRepository;
+import com.ase.notification.model.repository.INotificationEventRepository;
+import java.lang.invoke.MethodHandles;
 import java.util.Collection;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,26 +24,33 @@ public class NotificationService {
     @Value("${NOTIFICATION_TARGET_EMAIL:advancedsoftwareengineer@gmail.com}")
     private String notificationTargetEmail;
 
-    private final INotificationRepository repository;
+    private final INotificationEventRepository notificationEventRepository;
+    private final IEventRepository eventRepository;
     private final ThreadPoolTaskScheduler taskScheduler;
     private final NotificationSender notificationSender;
     private final INotificationSendTime notificationSendTime;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
+
     /**
      * Constructor, for the NotificationService
      *
-     * @param repository           Autowired, the repository, where objects are stored
-     * @param taskScheduler        Autowired, used to schedule notifications
-     * @param notificationSender   Autowired, used to send notifications
-     * @param notificationSendTime Autowired, used to determine when to send the reminder
-     *                             notification
+     * @param notificationEventRepository Autowired, used to store all notificationEvents
+     * @param eventRepository             Autowired, used to store a copy of all Events
+     * @param taskScheduler               Autowired, used to schedule notifications
+     * @param notificationSender          Autowired, used to send notifications
+     * @param notificationSendTime        Autowired, used to determine when to send the reminder
+     *                                    notification
      */
     @Autowired
-    public NotificationService(@Qualifier("local") INotificationRepository repository,
+    public NotificationService(INotificationEventRepository notificationEventRepository,
+            IEventRepository eventRepository,
             ThreadPoolTaskScheduler taskScheduler,
             NotificationSender notificationSender,
             @Qualifier("day-before") INotificationSendTime notificationSendTime) {
-        this.repository = repository;
+        this.notificationEventRepository = notificationEventRepository;
+        this.eventRepository = eventRepository;
         this.taskScheduler = taskScheduler;
         this.notificationSender = notificationSender;
         this.notificationSendTime = notificationSendTime;
@@ -46,38 +59,35 @@ public class NotificationService {
         this.taskScheduler.setRemoveOnCancelPolicy(true);
     }
 
-    private void scheduleNotification(NotificationUser user, NotificationEvent event) {
+    private void scheduleNotification(NotificationEvent event) {
         // TODO: We will need the future to be able to call `future.cancel(false)` to be able to cancel scheduled
-        //  notifications. Thus we will need to save it somewhere
-        var future = taskScheduler.schedule(() -> notificationSender.sendUpcoming(user, event),
-                notificationSendTime.get(event));
-    }
-
-    /**
-     * Gets all events given a userId
-     *
-     * @param userId the userId which will be queried
-     * @return a collection of all events associated with the given userId
-     */
-    public Collection<NotificationEvent> getEvents(String userId) {
-        return repository.getEvents(userId);
+        //  notifications. Thus, we will need to save it somewhere
+        var future = taskScheduler.schedule(
+                () -> notificationSender.sendUpcoming(event), notificationSendTime.get(event));
     }
 
     /**
      * Adds a notification for the user with the given ID and the given event
      *
-     * @param userId the id of the user who will receive a notification
-     * @param event  the event about which will be notified
+     * @param userId  the id of the user who will receive a notification
+     * @param eventId the id of the event about which will be notified
+     * @param type    the type of the event
      */
-    public void addEvent(String userId, NotificationEvent event) {
+    public void addEvent(String userId, String eventId, EEventType type) {
+        Optional<RawEvent> rawEvent = eventRepository.findById(eventId);
 
-        // TODO: the user should be queried from somewhere and not hardcoded here
-        NotificationUser user = new NotificationUser();
-        user.setId(userId);
-        user.setEmail(notificationTargetEmail);
+        if (rawEvent.isEmpty()) {
+            LOGGER.error(String.format(
+                    "Tried registering an event which is not in the database! EventId: %s",
+                    eventId));
+            assert false;
+            return;
+        }
 
-        scheduleNotification(user, event);
-        repository.addEvent(user, event);
+        NotificationEvent event = new NotificationEvent(rawEvent.get(), userId, type);
+
+        scheduleNotification(event);
+        notificationEventRepository.save(event);
     }
 
     /**
@@ -86,14 +96,58 @@ public class NotificationService {
      *
      * @param event the event to be updated, must have the same Id as the to be updated event
      */
-    public void updateEvent(NotificationEvent event) {
-        Collection<NotificationUser> updatedUsers = repository.updateEvent(event);
+    public void updateEvent(RawEvent event) {
+        Optional<RawEvent> oldEventResult = eventRepository.findById(event.getId());
+
+        if (oldEventResult.isEmpty()) {
+            LOGGER.error(String.format(
+                    "An update request for an entity which does not exist was called. Failing gracefully. EventID: %s",
+                    event.getId()));
+            assert false;
+            return;
+        }
+
+        RawEvent oldEvent = oldEventResult.get();
+        oldEvent.update(event);
+        // flush the database to make sure the event is actually updated as we will be querying
+        //  NotificationEvents, containing that event in the next step
+        eventRepository.flush();
+
+        Optional<Collection<NotificationEvent>> updatedEventsResult =
+                notificationEventRepository.findNotificationEventsByEvent(event);
+
+        if (updatedEventsResult.isEmpty()) {
+            LOGGER.info(String.format(
+                            "Tried updating the event with id %s, but no notification registered for this event"),
+                    event.getId());
+            return;
+        }
+
+        Collection<NotificationEvent> updatedEvents = updatedEventsResult.get();
 
         // TODO: remove old taskScheduler
 
-        for (var user : updatedUsers) {
-            scheduleNotification(user, event);
-            notificationSender.sendUpdated(user, event);
+        for (NotificationEvent notificationEvent : updatedEvents) {
+            scheduleNotification(notificationEvent);
+            notificationSender.sendUpdated(notificationEvent);
         }
+    }
+
+    /**
+     * Saves a new event into the repository
+     *
+     * @param event the event to be saved
+     */
+    public void newEvent(RawEvent event) {
+        eventRepository.save(event);
+    }
+
+    /**
+     * Deletes an event from the repository
+     *
+     * @param event the event to be deleted
+     */
+    public void deleteEvent(RawEvent event) {
+        eventRepository.delete(event);
     }
 }

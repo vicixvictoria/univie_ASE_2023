@@ -16,11 +16,11 @@ public class NotificationSendService {
 
     /**
      * Sends a notification with the message to the given email
-     * @param email the email recipient of the notification
+     * @param userId the userId of the recipient of the notification
      * @param message the message of the notification
      */
-    public void sendNotification(String email, String message) {
-        mailSender.send(email, message);
+    public void sendNotification(String userId, String message) {
+        mailSender.send(userId, message);
     }
 
 }
