@@ -373,6 +373,4 @@ deploy:
     - ase-0203
   script:
     - cd implementation
-    - pwd
-    - systemctl docker start
     - docker-compose down && docker-compose up 
