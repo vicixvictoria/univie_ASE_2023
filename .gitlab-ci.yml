@@ -389,7 +389,8 @@ testNotification:
 
 deploy:
   #image: docker/compose:alpine-1.29.2
-  image: maven:3.8.5-openjdk-17
+  #image: maven:3.8.5-openjdk-17
+  image: spring-boot
   stage: deploy
   tags:
     - ase-0203
