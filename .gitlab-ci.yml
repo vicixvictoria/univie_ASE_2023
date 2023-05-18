@@ -363,29 +363,6 @@ testNotification:
 #       - implementation/taggingService/target/ 
 
 
-# deploy: 
-#   image: docker/compose:alpine-1.29.2
-#   stage: deploy
-#   needs:
-#     - testAnalyticReport
-#     - testAttendance
-#     - testBookmarkService
-#     - testCalendar
-#     - testCommon
-#     - testEvent
-#     - testEventInventory
-#     - testFeedback
-#     - testLogin
-#     - testMaintenance
-#     - testNotification
-#     - testRecommender
-#     - testSearchServiceEvents
-#     - testSendNotification
-#     - testTagging
-#   tags:
-#     - ase-0203
-#   script:
-#     - docker-compose down && docker-compose up
 
 deploy:
   before_script:
@@ -396,4 +373,4 @@ deploy:
     - ase-0203
   script:
     - cd implementation
-    - docker-compose up 
+    - docker-compose down && docker-compose up 
