@@ -366,7 +366,7 @@ testAnalyticReport:
 deploy:
   before_script:
     - echo "deploy stage"
-  image: docker:stable
+  image: docker:latest
   stage: deploy
   tags:
     - ase-0203
