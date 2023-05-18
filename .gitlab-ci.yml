@@ -367,11 +367,12 @@ testAnalyticReport:
 deploy:
   before_script:
     - echo "deploy stage"
-  image: docker/compose:debian-1.29.2
+  image: docker:latest
   stage: deploy
   tags:
     - ase-0203
   script:
     - cd implementation
     - pwd
+    - systemctl docker start
     - docker-compose down && docker-compose up 
