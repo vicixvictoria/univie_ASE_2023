@@ -388,7 +388,7 @@ testNotification:
 #     - docker-compose down && docker-compose up
 
 deploy:
-  #image: docker/compose:alpine-1.29.2
+  image: docker/compose:alpine-1.29.2
   stage: deploy
   tags:
     - ase-0203
