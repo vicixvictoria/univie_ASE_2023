@@ -366,11 +366,16 @@ default:
 
 deploy:
   before_script:
-  - echo "deploy stage"
+    - echo "deploy stage"
   image:
+    name: docker
+
+  services:
+    - docker:dind
+
   stage: deploy
   tags:
     - ase-0203
   script:
     - cd implementation
-    - docker -v
+    - docker compose up
