@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.ase.common.taggingEvent.ETags;
 
 @Entity
 public class TaggingEvent {
@@ -21,7 +22,7 @@ public class TaggingEvent {
     private String userId;
     private String eventId;
 
-    private List<ETags> eventTags = new ArrayList<>();
+    private List<com.ase.common.taggingEvent.ETags> eventTags = new ArrayList<>();
 
     public TaggingEvent(String userId, String eventId, ETags eventTags) {
         LOGGER.debug("TaggingEvent Entity created userId: {}, eventId: {}, eventTags: {}", userId,

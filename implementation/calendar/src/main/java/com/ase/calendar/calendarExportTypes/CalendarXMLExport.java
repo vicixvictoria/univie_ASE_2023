@@ -12,6 +12,11 @@ public class CalendarXMLExport extends ACalendarExportType {
         super(calender);
     }
 
+    /**
+     * converts Calendar into XML calendar in String format
+     *
+     * @return String representing an XML Calendar
+     */
     @Override
     public String convert() {
         ObjectMapper objectMapper = new ObjectMapper();

@@ -11,6 +11,11 @@ public class CalendarJSONExport extends ACalendarExportType {
         super(calender);
     }
 
+    /**
+     * converts Calendar into JSON calendar in String format
+     *
+     * @return String representing an JSON Calendar
+     */
     @Override
     public String convert() {
         ObjectMapper objectMapper = new ObjectMapper();
