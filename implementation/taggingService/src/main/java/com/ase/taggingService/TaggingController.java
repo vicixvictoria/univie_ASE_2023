@@ -1,5 +1,6 @@
 package com.ase.taggingService;
 
+import com.ase.common.taggingEvent.ETags;
 import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.ase.common.taggingEvent.ETags;
 
 @RestController
 @RequestMapping(path = "api/v1/tag")

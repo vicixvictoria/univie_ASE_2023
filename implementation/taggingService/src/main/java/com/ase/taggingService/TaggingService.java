@@ -1,5 +1,6 @@
 package com.ase.taggingService;
 
+import com.ase.common.taggingEvent.ETags;
 import com.ase.taggingService.repository.ITaggingRepository;
 import jakarta.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
@@ -7,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ase.common.taggingEvent.ETags;
 
 @Service
 public class TaggingService {

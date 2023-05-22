@@ -31,7 +31,7 @@ public class BookmarkService {
     /**
      * method is called to add a bookmarked event, returns the created BookmarkEvent
      *
-     * @param eventId, attendeeId
+     * @param eventId, attendeeId as strings
      * @return BookmarkEvent
      */
     public BookmarkEvent addBookmarkEvent(String eventId, String attendeeId) {
@@ -39,7 +39,7 @@ public class BookmarkService {
         BookmarkEvent bookmarkEvent = new BookmarkEvent(eventId, attendeeId);
         try {
             repository.save(bookmarkEvent);
-            publisher.newBookmarkEvent(eventId,attendeeId);
+            publisher.newBookmarkEvent(eventId, attendeeId);
         } catch (EntityNotFoundException e) {
             LOGGER.error("Failed to add new BookmarkEvent", e.getMessage());
             return null;

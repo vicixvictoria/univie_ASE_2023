@@ -1,5 +1,6 @@
 package com.ase.taggingService;
 
+import com.ase.common.taggingEvent.ETags;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import java.lang.invoke.MethodHandles;
@@ -8,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.ase.common.taggingEvent.ETags;
 
 @Entity
 public class TaggingEvent {
