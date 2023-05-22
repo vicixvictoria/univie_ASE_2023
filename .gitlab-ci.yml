@@ -373,4 +373,4 @@ deploy:
     - ase-0203
   script:
     - cd implementation
-    - docker -w
+    - docker -v
