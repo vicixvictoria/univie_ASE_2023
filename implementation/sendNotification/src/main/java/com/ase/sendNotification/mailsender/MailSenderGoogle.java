@@ -1,13 +1,12 @@
 package com.ase.sendNotification.mailsender;
 
+import java.util.Properties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-
-import java.util.Properties;
 
 @Service
 @Qualifier("google")
@@ -32,7 +31,7 @@ public class MailSenderGoogle extends AMailSender {
     }
 
     public MailSenderGoogle(@Value("${NOTIFICATION_SENDER_EMAIL}") String senderEmail,
-                            @Value("${NOTIFICATION_SENDER_PASSWORD}") String senderPassword) {
+            @Value("${NOTIFICATION_SENDER_PASSWORD}") String senderPassword) {
         super(senderEmail, senderPassword);
         this.mailSender = configureMailSender(this.senderEmail, this.senderPassword);
     }
