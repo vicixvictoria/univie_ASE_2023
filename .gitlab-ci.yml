@@ -363,17 +363,19 @@ testTagging:
     paths:
       - implementation/taggingService/target/ 
 
-# variables:
-#   DOCKER_HOST: tcp://docker:2375
-#   DOCKER_DRIVER: overlay2
 
-# deploy:
-#   before_script:
-#     - echo "deploy stage"
-#   image: docker:latest
-#   stage: deploy
-#   tags:
-#     - ase-0203
-#   script:
-#     - cd implementation
-#     - docker-compose down && docker-compose up '
+deploy:
+  before_script:
+    - echo "deploy stage"
+  image:
+    name: docker
+
+  services:
+     - docker:dind
+
+  stage: deploy
+  tags:
+     - ase-0203
+  script:
+     - cd implementation
+     - docker compose up
