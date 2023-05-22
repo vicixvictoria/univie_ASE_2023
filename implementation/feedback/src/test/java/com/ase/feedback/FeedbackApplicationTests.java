@@ -3,6 +3,7 @@ package com.ase.feedback;
 import static org.mockito.Mockito.when;
 
 import com.ase.feedback.model.FeedbackService;
+import com.ase.feedback.network.Publisher;
 import com.ase.feedback.model.data.Feedback;
 import com.ase.feedback.model.data.FeedbackList;
 import com.ase.feedback.model.repository.IFeedbackRepository;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -44,7 +46,10 @@ public class FeedbackApplicationTests {
         when(repository.getByUserID("200")).thenReturn(mockResponseUser);
         when(repository.findAll()).thenReturn(mockResponseAll);
 
-        service = new FeedbackService(repository);
+        RabbitTemplate template = Mockito.mock(RabbitTemplate.class);
+        Publisher publisher = new Publisher(template);
+
+        service = new FeedbackService(repository, publisher);
     }
 
     @Test
@@ -94,4 +99,5 @@ public class FeedbackApplicationTests {
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Assertions.assertEquals("", response.getBody());
     }
+
 }
