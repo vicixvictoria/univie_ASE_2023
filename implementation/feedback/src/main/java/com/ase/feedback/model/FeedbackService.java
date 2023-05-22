@@ -4,6 +4,8 @@ import com.ase.feedback.model.data.Feedback;
 import com.ase.feedback.model.data.FeedbackList;
 import com.ase.feedback.model.repository.IFeedbackRepository;
 import java.lang.invoke.MethodHandles;
+
+import com.ase.feedback.network.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,12 @@ public class FeedbackService {
     private final static Logger LOGGER = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
     private final IFeedbackRepository repository;
+    private final Publisher publisher;
 
     @Autowired
-    public FeedbackService(IFeedbackRepository feedbackRepository) {
-        repository = feedbackRepository;
+    public FeedbackService(IFeedbackRepository feedbackRepository, Publisher publisher) {
+        this.repository = feedbackRepository;
+        this.publisher = publisher;
     }
 
     /**
@@ -36,6 +40,7 @@ public class FeedbackService {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }
         repository.save(feedback);
+        publisher.newFeedbackCreated(feedback);
         return new ResponseEntity<>(feedback.getFeedbackID(), HttpStatus.CREATED);
     }
 
