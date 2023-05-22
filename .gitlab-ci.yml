@@ -3,17 +3,17 @@ stages:
   - test
   - deploy
 
-image: maven:3.8.5-openjdk-17
+#image: maven:3.8.5-openjdk-17
 
 default:
   artifacts:
     expire_in: 7 days
 
-before_script:
-  - cd implementation/common 
-  - mvn clean install
-#  - mvn install:install file -Dfile=target/common-1.0-SNAPSHOT.jar -DgroupId=com.ase -DartifactId=common -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
-  - cd ../../
+# before_script:
+#   - cd implementation/common 
+#   - mvn clean install
+# #  - mvn install:install file -Dfile=target/common-1.0-SNAPSHOT.jar -DgroupId=com.ase -DartifactId=common -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+#   - cd ../../
 
 # buildAnalyticReport:
 #   stage: build
