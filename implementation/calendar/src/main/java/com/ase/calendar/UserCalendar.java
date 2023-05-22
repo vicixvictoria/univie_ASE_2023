@@ -9,11 +9,11 @@ public class UserCalendar {
 
     private Calendar calender;
 
-    private List<Date> registeredEvents;   // this then should be list of registered Events, with their dates
-    private List<Date> bookmarkedEvents;  // this then should be list of bookmarked Events, with their dates
+    private List<Date> registeredEvents;
+    private List<Date> bookmarkedEvents;
 
     public UserCalendar(List<Date> registeredEvents,
-            List<Date> bookmarkedEvents) {       //this then should be a Event type, interface to other domains
+            List<Date> bookmarkedEvents) {
         this.calender = Calendar.getInstance();
         this.registeredEvents = registeredEvents;
         this.bookmarkedEvents = bookmarkedEvents;

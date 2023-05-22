@@ -1,7 +1,9 @@
 package com.ase.bookmarkService;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.lang.invoke.MethodHandles;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -16,17 +18,14 @@ public class BookmarkEvent {
     @Id
     private String BookmarkEventID;
     private String eventID;
-    private Boolean isBookmarked; //sets and unsets bookmarked false -> previously bookmarked
     private String attendeeID;
-
-    public BookmarkEvent(String bookmarkEventID, String eventID, Boolean isBookmarked,
+    public BookmarkEvent(String bookmarkEventID, String eventID,
             String attendeeID) {
         LOGGER.debug(
                 "BookmarkEvent Entity created bookmarkEventID: {}, eventID: {}, attendeeID: {}",
                 bookmarkEventID, eventID, attendeeID);
         this.BookmarkEventID = UUID.randomUUID().toString().replace("-", "");
         this.eventID = eventID;
-        this.isBookmarked = isBookmarked;
         this.attendeeID = attendeeID;
     }
 
@@ -35,7 +34,6 @@ public class BookmarkEvent {
         this.BookmarkEventID = UUID.randomUUID().toString().replace("-", "");
         this.eventID = event;
         this.attendeeID = attendee;
-        this.isBookmarked = setBookmark;
     }
 
     public BookmarkEvent(String event, String attendee) {
@@ -43,12 +41,12 @@ public class BookmarkEvent {
         this.BookmarkEventID = UUID.randomUUID().toString().replace("-", "");
         this.eventID = event;
         this.attendeeID = attendee;
-        this.isBookmarked = true;
     }
+
 
     public BookmarkEvent() {
         LOGGER.debug("BookmarkEvent Entity created with random UUID");
-        this.BookmarkEventID = UUID.randomUUID().toString().replace("-", "");
+        //this.BookmarkEventID = UUID.randomUUID().toString().replace("-", "");
     }
 
 
@@ -58,14 +56,6 @@ public class BookmarkEvent {
 
     public void setEvent(String event) {
         this.eventID = event;
-    }
-
-    public Boolean getBookmarked() {
-        return isBookmarked;
-    }
-
-    public void setBookmarked(Boolean bookmarked) {
-        isBookmarked = bookmarked;
     }
 
     public String getAttendee() {

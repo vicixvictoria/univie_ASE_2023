@@ -21,6 +21,12 @@ public class ExportCalendar {
         this.exportType = type;
     }
 
+    /**
+     * creates an export calendar based on type
+     *
+     * @param exportType, userCalendar
+     * @return ACalendarExportType calendar type to be exported
+     */
     public ACalendarExportType createExportCalender(EExportType exportType,
             UserCalendar userCalendarExport) throws Exception {
         switch (this.exportType) {

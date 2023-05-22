@@ -11,6 +11,11 @@ public class CalendarICalExport extends ACalendarExportType {
         super(calender);
     }
 
+    /**
+     * converts Calendar into ICAl calendar in String format
+     *
+     * @return String representing an ICal Calendar
+     */
     @Override
     public String convert() {
         String ICalBeginTag = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:Even_App\nMETHOD:PUBLISH\n";

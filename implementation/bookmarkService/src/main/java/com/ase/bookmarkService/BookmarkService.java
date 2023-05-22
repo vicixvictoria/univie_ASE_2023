@@ -19,9 +19,13 @@ public class BookmarkService {
 
     private final IBookmarkRepository repository;
 
+    private final Publisher publisher;
+
+
     @Autowired
-    public BookmarkService(IBookmarkRepository repository) {
+    public BookmarkService(IBookmarkRepository repository, Publisher publisher) {
         this.repository = repository;
+        this.publisher = publisher;
     }
 
     /**
@@ -35,6 +39,7 @@ public class BookmarkService {
         BookmarkEvent bookmarkEvent = new BookmarkEvent(eventId, attendeeId);
         try {
             repository.save(bookmarkEvent);
+            publisher.newBookmarkEvent(eventId,attendeeId);
         } catch (EntityNotFoundException e) {
             LOGGER.error("Failed to add new BookmarkEvent", e.getMessage());
             return null;
@@ -53,6 +58,7 @@ public class BookmarkService {
         LOGGER.debug("Delete Bookmark Event");
         try {
             repository.deleteBookmarkEventsByAttendeeIDAndEventID(attendeeId, eventId);
+            publisher.deleteBookmarkEvent(eventId, attendeeId);
         } catch (EntityNotFoundException e) {
             LOGGER.error("Entity BookmarkEvent not found", e.getMessage());
         }
