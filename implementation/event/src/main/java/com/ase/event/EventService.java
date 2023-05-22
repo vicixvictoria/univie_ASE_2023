@@ -16,9 +16,12 @@ public class EventService {
             MethodHandles.lookup().lookupClass());
     private final IEventRepository iEventRepository;
 
+    private final Publisher publisher;
+
     @Autowired
-    public EventService(IEventRepository iEventRepository) {
+    public EventService(IEventRepository iEventRepository, Publisher publisher) {
         this.iEventRepository = iEventRepository;
+        this.publisher = publisher;
     }
 
     /**
@@ -96,7 +99,9 @@ public class EventService {
     @Transactional
     public Event createEvent(Event event) {
         LOGGER.debug("create and save new event {}", event);
-        return iEventRepository.save(event);
+        Event newEvent =  iEventRepository.save(event);
+        publisher.newEvent(event);
+        return newEvent;
     }
 
     /**
@@ -110,7 +115,9 @@ public class EventService {
     public Event updateEvent(Event event) {
         LOGGER.debug("update event {}", event);
         Event event1 = iEventRepository.findEventByeventID(event.getEventID());
-        return iEventRepository.save(event);
+        Event updatedEvent = iEventRepository.save(event);
+        publisher.updateEvent(updatedEvent);
+        return updatedEvent;
     }
 
     /**
@@ -120,7 +127,9 @@ public class EventService {
      */
     public void deleteEvent(String eventID) {
         LOGGER.debug("delete event {}", getEventsByID(eventID));
+        Event deletedEvent = iEventRepository.findEventByeventID(eventID);
         iEventRepository.deleteById(eventID);
+        publisher.deleteEvent(deletedEvent);
     }
 
 
