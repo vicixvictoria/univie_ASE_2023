@@ -38,7 +38,7 @@ public class BookmarkController {
         service.deleteBookmarkEvent(eventId, attendeeId);
     }
 
-    @GetMapping("bookmarkedEvents/{attendee}")  //all bookmarked events per attendee
+    @GetMapping("bookmarkedEvents/{attendee}")   //all bookmarked events per attendee
     public List<BookmarkEvent> getBookmarkedEventuser(@PathVariable String attendee) {
         LOGGER.info("GET /bookmarkedEvents/{}", attendee);
         return service.getBookmarkedEventsForUser(attendee);

@@ -1,9 +1,7 @@
 package com.ase.bookmarkService;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import java.lang.invoke.MethodHandles;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -19,8 +17,8 @@ public class BookmarkEvent {
     private String BookmarkEventID;
     private String eventID;
     private String attendeeID;
-    public BookmarkEvent(String bookmarkEventID, String eventID,
-            String attendeeID) {
+
+    public BookmarkEvent(String bookmarkEventID, String eventID, String attendeeID) {
         LOGGER.debug(
                 "BookmarkEvent Entity created bookmarkEventID: {}, eventID: {}, attendeeID: {}",
                 bookmarkEventID, eventID, attendeeID);
