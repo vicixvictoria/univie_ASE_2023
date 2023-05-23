@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class Publisher {
 
     @Value("${event.exchange}")
-    private final String exchangeName;
+    private String exchangeName;
 
     private final Converter converter = new Converter();
     private final RabbitTemplate rabbitTemplate;
