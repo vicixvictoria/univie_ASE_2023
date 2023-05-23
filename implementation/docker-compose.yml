@@ -1,0 +1,47 @@
+services:
+  analyticReport:
+    image: analyticreport
+    build: analyticReport
+
+  attendance:
+    image: attendance
+    build: attendance
+
+  event:
+    image: event
+    build: event
+
+  eventInventory:
+    image: eventinventory
+    build: eventInventory
+
+  feedback:
+    image: feedback
+    build: feedback
+
+  login:
+    image: login
+    build: login
+
+  maintenance:
+    image: maintenance
+    build: maintenance
+
+  notification:
+    image: notification
+    build: notification
+
+  recommender:
+    image: recommender
+    build: recommender
+
+  searchServiceEvents:
+    image: searchserviceevents
+    build: searchServiceEvents
+
+  sendNotification:
+    image: sendnotification
+    build: sendNotification
+
+  rabbitmq:
+    image: rabbitmq
