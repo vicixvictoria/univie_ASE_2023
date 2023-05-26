@@ -1,0 +1,25 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.ase</groupId>
+  <artifactId>aggregator</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>analyticReport</module>
+    <module>attendance</module>
+    <module>bookmarkService</module>
+    <module>calendar</module>
+    <module>common</module>
+    <module>event</module>
+    <module>eventInventory</module>
+    <module>feedback</module>
+    <module>login</module>
+    <module>maintenance</module>
+    <module>notification</module>
+    <module>recommender</module>
+    <module>searchServiceEvents</module>
+    <module>sendNotification</module>
+    <module>taggingService</module>
+  </modules>
+</project>

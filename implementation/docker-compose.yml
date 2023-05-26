@@ -2,46 +2,104 @@ services:
   analyticReport:
     image: analyticreport
     build: analyticReport
+    networks:
+      analyticReport-rabbit:
 
   attendance:
     image: attendance
     build: attendance
+    networks:
+      attendance-rabbit:
 
   event:
     image: event
     build: event
+    networks:
+      event-rabbit:
 
   eventInventory:
     image: eventinventory
     build: eventInventory
+    networks:
+      eventInventory-rabbit:
 
   feedback:
     image: feedback
     build: feedback
+    networks:
+      feedback-rabbit:
 
   login:
     image: login
     build: login
+    networks:
+      login-rabbit:
 
   maintenance:
     image: maintenance
     build: maintenance
+    networks:
+      maintenance-rabbit:
 
   notification:
     image: notification
     build: notification
+    networks:
+      notification-rabbit:
 
   recommender:
     image: recommender
     build: recommender
+    networks:
+      recommender-rabbit:
 
   searchServiceEvents:
     image: searchserviceevents
     build: searchServiceEvents
+    networks:
+      searchServiceEvent-rabbit:
 
   sendNotification:
     image: sendnotification
     build: sendNotification
+    networks:
+      sendNotification-rabbit:
 
   rabbitmq:
     image: rabbitmq
+    networks:
+      analyticReport-rabbit:
+      attendance-rabbit:
+      event-rabbit:
+      eventInventory-rabbit:
+      feedback-rabbit:
+      login-rabbit:
+      maintenance-rabbit:
+      notification-rabbit:
+      recommender-rabbit:
+      searchServiceEvent-rabbit:
+      sendNotification-rabbit:
+
+networks:
+  analyticReport-rabbit:
+    name: analyticReport-rabbit
+  attendance-rabbit:
+    name: attendance-rabbit
+  event-rabbit:
+    name: event-rabbit
+  eventInventory-rabbit:
+    name: eventInventory-rabbit
+  feedback-rabbit:
+    name: feedback-rabbit
+  login-rabbit:
+    name: login-rabbit
+  maintenance-rabbit:
+    name: maintenance-rabbit
+  notification-rabbit:
+    name: notification-rabbit
+  recommender-rabbit:
+    name: recommender-rabbit
+  searchServiceEvent-rabbit:
+    name: searchServiceEvent-rabbit
+  sendNotification-rabbit:
+    name: sendNotification-rabbit
