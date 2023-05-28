@@ -17,12 +17,6 @@ services:
     networks:
       event-rabbit:
 
-  eventInventory:
-    image: eventinventory
-    build: eventInventory
-    networks:
-      eventInventory-rabbit:
-
   feedback:
     image: feedback
     build: feedback
