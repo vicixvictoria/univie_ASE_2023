@@ -346,13 +346,13 @@ deploy:
     - echo "deploy stage"
   image:
     name: docker
-
-   services:
+  
+  services:
      - docker:dind
 
-   stage: deploy
-   tags:
-     - ase-0203
-   script:
-     - cd implementation
-     - docker compose up -d
+  stage: deploy
+  tags:
+    - ase-0203
+  script:
+    - cd implementation
+    - docker compose up -d
