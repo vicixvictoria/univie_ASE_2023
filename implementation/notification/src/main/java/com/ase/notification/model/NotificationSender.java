@@ -1,23 +1,18 @@
 package com.ase.notification.model;
 
-import com.ase.common.sendNotification.NotificationContent;
+import com.ase.notification.Publisher;
 import com.ase.notification.model.data.NotificationEvent;
 import com.ase.notification.model.notificationcreation.INotificationCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class NotificationSender {
-
-    // TODO: this will need to be reworked to work with rabbitMQ
-
     private final INotificationCreator notificationCreatorUpcoming;
     private final INotificationCreator notificationCreatorUpdated;
 
-
-    private static final String SEND_NOTIFICATION_ENDPOINT = "http://localhost:8080/api/v1/sendNotification";
+    private final Publisher publisher;
 
     /**
      * Constructor for the NotificationSender class
@@ -26,19 +21,21 @@ public class NotificationSender {
      *                                    supposed to be generated
      * @param notificationCreatorUpdated  Object, which encodes how an "updated" notification is
      *                                    supposed to be generated
+     * @param publisher                   Object, capable of publishing messages to RabbitMQ
+     *                                    exchanges
      */
     @Autowired
     public NotificationSender(
             @Qualifier("placeholder") INotificationCreator notificationCreatorUpcoming,
-            @Qualifier("placeholder") INotificationCreator notificationCreatorUpdated) {
+            @Qualifier("placeholder") INotificationCreator notificationCreatorUpdated,
+            Publisher publisher) {
         this.notificationCreatorUpcoming = notificationCreatorUpcoming;
         this.notificationCreatorUpdated = notificationCreatorUpdated;
+        this.publisher = publisher;
     }
 
     private void send(NotificationEvent event, INotificationCreator notificationCreator) {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForLocation(SEND_NOTIFICATION_ENDPOINT,
-                new NotificationContent(event.getUserId(), notificationCreator.create(event)));
+        publisher.publishNotification(event.getUserId(), notificationCreator.create(event));
     }
 
     /**

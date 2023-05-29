@@ -1,9 +1,12 @@
 package com.ase.notification.model.data;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.util.Objects;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.UUID;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,13 +15,23 @@ import org.hibernate.annotations.OnDeleteAction;
  * Contains all relevant information about a notification.
  */
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "UniqueRow", columnNames = {"eventId", "userId", "type"})
+})
 public class NotificationEvent {
+
     @Id
     private String id;
+
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "eventId", unique = true)
     private RawEvent event;
-    private String userId;  // can easily be extended to hold a user. I don't know how it will work yet
+
+    @Column(unique = true)
+    private String userId; // only save a userId here, we don't need the entire user object
+
+    @Column(unique = true)
     private EEventType type;
 
     public NotificationEvent() {
@@ -36,6 +49,14 @@ public class NotificationEvent {
         this.event = event;
         this.userId = userId;
         this.type = type;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public IUnmodifiableRawEvent getEvent() {
@@ -76,6 +97,6 @@ public class NotificationEvent {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEvent(), getUserId(), getType());
+        return getId().hashCode();
     }
 }
