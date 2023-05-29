@@ -1,6 +1,8 @@
 package com.ase.notification;
 
 import com.ase.common.RabbitMQMessage;
+import com.ase.common.attendance.AttendanceMessage;
+import com.ase.common.bookmarkEvent.BookmarkEventMessage;
 import com.ase.common.event.Event;
 import com.ase.notification.model.NotificationService;
 import com.ase.notification.model.data.EEventType;
@@ -27,33 +29,68 @@ public class Subscriber {
 
     @Autowired
     public Subscriber(NotificationService notificationService) {
+        assert notificationService != null;
         this.notificationService = notificationService;
     }
 
     private void registerNotification(String userId, String eventId, EEventType type) {
         LOGGER.info(String.format("Registered a new notification for the user %s for the event %s",
                 userId, eventId));
-        notificationService.addEvent(userId, eventId, type);
+        notificationService.addNotificationEvent(userId, eventId, type);
+    }
+
+    private void updateNotification(String userId, String eventId, EEventType type) {
+        LOGGER.error("The bookmarked event should not get updated ever!");
+        assert false;
+    }
+
+    private void deleteNotification(String userId, String eventId, EEventType type) {
+        LOGGER.info(String.format("Deleted a notification for the user %s for the event %s",
+                userId, eventId));
+        notificationService.deleteNotificationEvent(userId, eventId, type);
     }
 
     /**
      * Registers the user with the given id for a notification about the specified event
      *
-     * @param userId  {@link String} contains the userId of the to be notified user
-     * @param eventId {@link String} the eventId which was bookmarked
+     * @param bookmarkMessage contains the messaged bookmark object
      */
-    public void registerNotificationBookmarked(String userId, String eventId) {
-        registerNotification(userId, eventId, EEventType.BOOKMARKED);
+    public void registerNotificationBookmarked(
+            RabbitMQMessage<BookmarkEventMessage> bookmarkMessage) {
+        assert bookmarkMessage != null;
+
+        BookmarkEventMessage bookmark = bookmarkMessage.getContent();
+        assert bookmark != null;
+
+        switch (bookmarkMessage.getMessageType()) {
+            case NEW -> registerNotification(bookmark.userId(), bookmark.eventId(),
+                    EEventType.BOOKMARKED);
+            case UPDATE -> updateNotification(bookmark.userId(), bookmark.eventId(),
+                    EEventType.BOOKMARKED);
+            case DELETE -> deleteNotification(bookmark.userId(), bookmark.eventId(),
+                    EEventType.BOOKMARKED);
+        }
     }
 
     /**
      * Registers the user with the given id for a notification about the specified event
      *
-     * @param userId  {@link String} contains the userId of the to be notified user
-     * @param eventId {@link String} the eventId which was registered
+     * @param registeredMessage contains the messaged registered object
      */
-    public void registerNotificationRegistered(String userId, String eventId) {
-        registerNotification(userId, eventId, EEventType.REGISTERED);
+    public void registerNotificationRegistered(
+            RabbitMQMessage<AttendanceMessage> registeredMessage) {
+        assert registeredMessage != null;
+
+        AttendanceMessage registered = registeredMessage.getContent();
+
+        switch (registeredMessage.getMessageType()) {
+            case NEW -> registerNotification(registered.userID(), registered.eventID(),
+                    EEventType.REGISTERED);
+            case UPDATE -> updateNotification(registered.userID(), registered.eventID(),
+                    EEventType.REGISTERED);
+            case DELETE -> deleteNotification(registered.userID(), registered.eventID(),
+                    EEventType.BOOKMARKED);
+        }
     }
 
     /**
@@ -63,6 +100,7 @@ public class Subscriber {
      *                     operation which was performed on it
      */
     public void eventConsumer(RabbitMQMessage<Event> eventMessage) {
+        assert eventMessage != null;
         LOGGER.info("Received an event message");
 
         Converter converter = new Converter();

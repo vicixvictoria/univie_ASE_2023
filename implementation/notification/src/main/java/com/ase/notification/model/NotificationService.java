@@ -2,8 +2,8 @@ package com.ase.notification.model;
 
 import com.ase.notification.model.data.EEventType;
 import com.ase.notification.model.data.NotificationEvent;
+import com.ase.notification.model.data.NotificationEventFactory;
 import com.ase.notification.model.data.RawEvent;
-import com.ase.notification.model.notificationsendtime.INotificationSendTime;
 import com.ase.notification.model.repository.IEventRepository;
 import com.ase.notification.model.repository.INotificationEventRepository;
 import java.lang.invoke.MethodHandles;
@@ -12,23 +12,18 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationService {
 
-    //TODO: remove this once I can get the correct user object into this class
-    @Value("${NOTIFICATION_TARGET_EMAIL:advancedsoftwareengineer@gmail.com}")
-    private String notificationTargetEmail;
-
     private final INotificationEventRepository notificationEventRepository;
     private final IEventRepository eventRepository;
-    private final ThreadPoolTaskScheduler taskScheduler;
     private final NotificationSender notificationSender;
-    private final INotificationSendTime notificationSendTime;
+    private final NotificationEventFactory notificationEventFactory;
+    private final NotificationScheduler scheduler;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
@@ -38,32 +33,26 @@ public class NotificationService {
      *
      * @param notificationEventRepository Autowired, used to store all notificationEvents
      * @param eventRepository             Autowired, used to store a copy of all Events
-     * @param taskScheduler               Autowired, used to schedule notifications
-     * @param notificationSender          Autowired, used to send notifications
-     * @param notificationSendTime        Autowired, used to determine when to send the reminder
-     *                                    notification
+     * @param notificationSender          Autowired, used to send notifications notification
+     * @param notificationEventFactory    Autowired, mainly used to allow for easier testing.
+     *                                    Creates new {@link NotificationEvent} objects.
      */
     @Autowired
     public NotificationService(INotificationEventRepository notificationEventRepository,
             IEventRepository eventRepository,
-            ThreadPoolTaskScheduler taskScheduler,
             NotificationSender notificationSender,
-            @Qualifier("day-before") INotificationSendTime notificationSendTime) {
+            NotificationEventFactory notificationEventFactory,
+            NotificationScheduler scheduler) {
+
+        assert notificationEventRepository != null;
+        assert eventRepository != null;
+        assert notificationSender != null;
+
         this.notificationEventRepository = notificationEventRepository;
         this.eventRepository = eventRepository;
-        this.taskScheduler = taskScheduler;
         this.notificationSender = notificationSender;
-        this.notificationSendTime = notificationSendTime;
-
-        // This is used when an event gets updated, to cancel the scheduled notification
-        this.taskScheduler.setRemoveOnCancelPolicy(true);
-    }
-
-    private void scheduleNotification(NotificationEvent event) {
-        // TODO: We will need the future to be able to call `future.cancel(false)` to be able to cancel scheduled
-        //  notifications. Thus, we will need to save it somewhere
-        var future = taskScheduler.schedule(
-                () -> notificationSender.sendUpcoming(event), notificationSendTime.get(event));
+        this.notificationEventFactory = notificationEventFactory;
+        this.scheduler = scheduler;
     }
 
     /**
@@ -73,7 +62,11 @@ public class NotificationService {
      * @param eventId the id of the event about which will be notified
      * @param type    the type of the event
      */
-    public void addEvent(String userId, String eventId, EEventType type) {
+    public void addNotificationEvent(String userId, String eventId, EEventType type) {
+        assert userId != null;
+        assert eventId != null;
+        assert type != null;
+
         Optional<RawEvent> rawEvent = eventRepository.findById(eventId);
 
         if (rawEvent.isEmpty()) {
@@ -84,10 +77,56 @@ public class NotificationService {
             return;
         }
 
-        NotificationEvent event = new NotificationEvent(rawEvent.get(), userId, type);
+        NotificationEvent event = notificationEventFactory.get(rawEvent.get(), userId, type);
 
-        scheduleNotification(event);
-        notificationEventRepository.save(event);
+        try {
+            notificationEventRepository.save(event);
+        } catch (DataIntegrityViolationException e) {
+            LOGGER.error(String.format(
+                    "Tried adding a notification which already exist. This should not happen! EventId: %s, UserId: %s",
+                    eventId, userId));
+            assert false;
+            return; // fail gracefully in production
+        }
+
+        scheduler.schedule(event);
+    }
+
+    /**
+     * Deletes the NotificationEvent based on the given parameters. Also cancels any scheduled
+     * notifications for this event
+     *
+     * @param userId  the id of the user who would have been receiving a notification
+     * @param eventId the id of the event which would have been notified about
+     * @param type    the type of the notification
+     */
+    public void deleteNotificationEvent(String userId, String eventId, EEventType type) {
+        assert userId != null;
+        assert eventId != null;
+        assert type != null;
+
+        Optional<RawEvent> rawEvent = eventRepository.findById(eventId);
+
+        if (rawEvent.isEmpty()) {
+            LOGGER.error(String.format(
+                    "Tried registering an event which is not in the database! EventId: %s",
+                    eventId));
+            assert false;
+            return;
+        }
+
+        Optional<NotificationEvent> event = notificationEventRepository
+                .findNotificationEventsByEventAndUserIdAndType(rawEvent.get(), userId, type);
+
+        if (event.isEmpty()) {
+            LOGGER.error(String.format(
+                    "Tried deleting an event which is not in the database! EventId: %s", eventId));
+            assert false;
+            return;
+        }
+
+        scheduler.cancelScheduled(event.get());
+        notificationEventRepository.delete(event.get());
     }
 
     /**
@@ -97,6 +136,8 @@ public class NotificationService {
      * @param event the event to be updated, must have the same Id as the to be updated event
      */
     public void updateEvent(RawEvent event) {
+        assert event != null;
+
         Optional<RawEvent> oldEventResult = eventRepository.findById(event.getId());
 
         if (oldEventResult.isEmpty()) {
@@ -118,17 +159,17 @@ public class NotificationService {
 
         if (updatedEventsResult.isEmpty()) {
             LOGGER.info(String.format(
-                            "Tried updating the event with id %s, but no notification registered for this event"),
-                    event.getId());
+                    "Tried updating the event with id %s, but no notification registered for this event",
+                    event.getId()));
             return;
         }
 
         Collection<NotificationEvent> updatedEvents = updatedEventsResult.get();
 
-        // TODO: remove old taskScheduler
-
         for (NotificationEvent notificationEvent : updatedEvents) {
-            scheduleNotification(notificationEvent);
+            scheduler.cancelScheduled(notificationEvent);
+            scheduler.schedule(notificationEvent);
+
             notificationSender.sendUpdated(notificationEvent);
         }
     }
@@ -139,7 +180,17 @@ public class NotificationService {
      * @param event the event to be saved
      */
     public void newEvent(RawEvent event) {
-        eventRepository.save(event);
+        assert event != null;
+
+        try {
+            eventRepository.save(event);
+        } catch (DataIntegrityViolationException e) {
+            LOGGER.error(
+                    String.format("Tried saving an event, which is already contained. EventId: %s",
+                            event.getId())
+            );
+            assert false;
+        }
     }
 
     /**
@@ -148,6 +199,16 @@ public class NotificationService {
      * @param event the event to be deleted
      */
     public void deleteEvent(RawEvent event) {
-        eventRepository.delete(event);
+        assert event != null;
+
+        try {
+            eventRepository.delete(event);
+        } catch (DataIntegrityViolationException e) {
+            LOGGER.error(
+                    String.format("Tried deleting an event, which does not exist. EventId: %s",
+                            event.getId())
+            );
+            assert false;
+        }
     }
 }
