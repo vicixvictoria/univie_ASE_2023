@@ -75,16 +75,6 @@ buildEvent:
     paths:
       - implementation/event/target/
 
-buildEventInventory:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/eventInventory && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/eventInventory/target/
-
 buildFeedback:
   stage: build
   tags:
@@ -246,19 +236,6 @@ testEvent:
     paths:
       - implementation/event/target/
 
-testEventInventory:
-  stage: test 
-  needs: 
-    - buildEventInventory
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/eventInventory && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/eventInventory/target/
-
 testFeedback:
   stage: test 
   needs: 
@@ -364,18 +341,18 @@ testTagging:
       - implementation/taggingService/target/ 
 
 
-#deploy:
-#  before_script:
-#    - echo "deploy stage"
-#  image:
-#    name: docker
+deploy:
+  before_script:
+    - echo "deploy stage"
+  image:
+    name: docker
 
-  # services:
-  #   - docker:dind
+   services:
+     - docker:dind
 
-  # stage: deploy
-  # tags:
-  #   - ase-0203
-  # script:
-  #   - cd implementation
-  #   - docker compose up
+   stage: deploy
+   tags:
+     - ase-0203
+   script:
+     - cd implementation
+     - docker compose up -d
