@@ -31,19 +31,43 @@ public class Subscriber {
      * Extracts the relevant information from {@link NotificationContent} and forwards in order to
      * send a notification.
      *
-     * @param notificationContent {@link NotificationContent} content of the to be sent
-     *                            notification
+     * @param notificationContentMessage content and addressed userid of the to be sent
+     *                                   notification
      */
-    public void sendNotification(NotificationContent notificationContent) {
-        LOGGER.info(String.format("Sending a message to %s", notificationContent.userId()));
-        notificationSendService.sendNotification(notificationContent.userId(),
-                notificationContent.message());
+    public void sendNotification(RabbitMQMessage<NotificationContent> notificationContentMessage) {
+        assert notificationContentMessage != null;
+
+        NotificationContent notificationContent = notificationContentMessage.getContent();
+        assert notificationContent != null;
+
+        // only accept a NEW message. Others should fail gracefully and be ignoered.
+        switch (notificationContentMessage.getMessageType()) {
+            case NEW -> {
+                LOGGER.info(String.format("Sending a message to %s", notificationContent.userId()));
+                notificationSendService.sendNotification(notificationContent.userId(),
+                        notificationContent.message());
+            }
+            case DELETE, UPDATE -> {
+                assert false;
+            }
+        }
     }
 
+    /**
+     * Consumer, which receives a network message about a user and converts it and redirects it to
+     * the rest of the application
+     *
+     * @param userMessage the received user message
+     */
     public void userConsumer(RabbitMQMessage<User> userMessage) {
+        assert userMessage != null;
+
         Converter converter = new Converter();
         NotificationUser user = converter.toInternalUser(userMessage.getContent());
+        assert user != null;
+
         LOGGER.info(String.format("Received a user with id %s", user.getId()));
+
         switch (userMessage.getMessageType()) {
             case NEW -> notificationSendService.newUser(user);
             case UPDATE -> notificationSendService.updateUser(user);

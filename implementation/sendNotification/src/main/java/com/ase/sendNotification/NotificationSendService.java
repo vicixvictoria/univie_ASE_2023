@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,7 +47,15 @@ public class NotificationSendService {
     }
 
     public void newUser(NotificationUser user) {
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            LOGGER.error(String.format(
+                    "Tried saving a user which is already saved in the database! UserId: %s",
+                    user.getId()));
+            assert false;
+            return; // fail gracefully
+        }
     }
 
     public void updateUser(NotificationUser user) {
@@ -63,6 +72,14 @@ public class NotificationSendService {
     }
 
     public void deleteUser(NotificationUser user) {
-        userRepository.delete(user);
+        try {
+            userRepository.delete(user);
+        } catch (DataIntegrityViolationException e) {
+            LOGGER.error(String.format(
+                    "Tried deleting a user which does not exist in the database! UserId: %s",
+                    user.getId()));
+            assert false;
+            return;
+        }
     }
 }
