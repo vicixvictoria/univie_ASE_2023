@@ -1,5 +1,7 @@
 package com.ase.notification;
 
+import com.ase.common.EMessageType;
+import com.ase.common.RabbitMQMessage;
 import com.ase.common.sendNotification.NotificationContent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,9 @@ public class Publisher {
      */
     public void publishNotification(String userId, String message) {
         NotificationContent notificationContent = new NotificationContent(userId, message);
-        rabbitTemplate.convertAndSend(sendNotificationExchangeName, "", notificationContent);
+        RabbitMQMessage<NotificationContent> networkMessage =
+                new RabbitMQMessage<>(EMessageType.NEW, notificationContent);
+        rabbitTemplate.convertAndSend(sendNotificationExchangeName, "", networkMessage);
     }
 
 }

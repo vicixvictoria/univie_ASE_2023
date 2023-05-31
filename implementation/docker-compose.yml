@@ -1,3 +1,6 @@
+x-common-variables: &debug-variable
+  DEBUG: "false"
+
 services:
   analyticReport:
     image: analyticreport
@@ -58,6 +61,13 @@ services:
     build: sendNotification
     networks:
       sendNotification-rabbit:
+    environment:
+      <<: *debug-variable
+      NOTIFICATION_SENDER_EMAIL: <email>
+      NOTIFICATION_SENDER_PASSWORD: <password>
+
+    volumes:
+      - ./.persistence/sendNotification:/persistence
 
   rabbitmq:
     image: rabbitmq
