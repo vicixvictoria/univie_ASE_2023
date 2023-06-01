@@ -27,6 +27,7 @@ import {ErrorInterceptor} from "./interceptors/error.interceptor";
 import {fakeBackendProvider} from "./interceptors/fake-backend";
 import {AddEventComponent} from "./addEvents/addEvent.component";
 import {CalendarComponent} from "./calendar/calendar.component";
+import {UpdateEventComponent} from "./updateEvents/updateEvent.component";
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import {CalendarComponent} from "./calendar/calendar.component";
     SearchServiceComponent,
     AlertComponent,
     CalendarComponent,
+    UpdateEventComponent,
 
   ],
   imports: [
@@ -67,7 +69,7 @@ import {CalendarComponent} from "./calendar/calendar.component";
     Location,
 
     // provider used to create fake backend
-    fakeBackendProvider
+    //fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })

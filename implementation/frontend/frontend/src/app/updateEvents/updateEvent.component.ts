@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {EventService} from "../../services/event.service";
 //import { MatTableModule } from '@angular/material';
 import {ActivatedRoute, Router} from "@angular/router";
@@ -7,16 +7,15 @@ import {Event} from "../../dtos/event";
 import {formatDate, Location} from "@angular/common";
 import {AlertService} from "../../services/alert.service";
 import {EventType} from "../../gloabl/eventType";
-import {User} from "../models/user";
 import {AccountService} from "../../services/account.service";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 
 @Component({
-  selector: 'app-addEvent',
-  templateUrl: './addEvent.component.html',
-  styleUrls: ['./addEvent.component.scss']
+  selector: 'app-updateEvent',
+  templateUrl: './updateEvent.component.html',
 })
-export class AddEventComponent implements OnInit {
+export class UpdateEventComponent implements OnInit {
 
   eventForm: FormGroup;
   submitted: boolean = false;
@@ -25,6 +24,7 @@ export class AddEventComponent implements OnInit {
   private validated = false;
   // @ts-ignore
   eventType_: EventType;
+  eventUpdate: string;
 
   // @ts-ignore
   userID: string;
@@ -35,7 +35,12 @@ export class AddEventComponent implements OnInit {
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
-              private location: Location, ) {
+              private location: Location,
+              @Inject(MAT_DIALOG_DATA)
+              private data: any) {
+
+    this.eventUpdate = data.eventID;
+
     this.eventForm = this.formBuilder.group({
       eventName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(255)])],
       date: [formatDate(new Date(), 'yyyy-MM-dd', 'en-US'), Validators.required],
@@ -43,6 +48,7 @@ export class AddEventComponent implements OnInit {
       capacity: [],
       eventType: [],
     });
+
   }
 
   ngOnInit() {
@@ -67,7 +73,7 @@ export class AddEventComponent implements OnInit {
     // @ts-ignore
     this.userID = this.accountService.userValue?.id
 
-    const event: Event = new Event('', this.eventForm.controls.eventName.value,
+    const event: Event = new Event(this.eventUpdate, this.eventForm.controls.eventName.value,
       this.eventForm.controls.date.value,
       this.eventForm.controls.description.value,
       this.eventForm.controls.capacity.value,
@@ -76,13 +82,13 @@ export class AddEventComponent implements OnInit {
     console.log('Event with values: ', event);
 
     this.eventService.createEvent(event).subscribe(a => {
-      this.created = true;
-      this.router.navigate(['/eventInventory']);
-    }, error =>{
-    this.alertService.error("cannot be saved");
+        this.created = true;
+        this.router.navigate(['/eventInventory']);
+      }, error =>{
+        this.alertService.error("cannot be saved");
+      }
+    );
   }
-);
-}
 
 
 
