@@ -3,6 +3,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {EventService} from "../../services/event.service";
 import {Event} from "../../dtos/event";
 import {FormBuilder, FormControl} from "@angular/forms";
+import {SearchServiceService} from "../../services/searchService.service";
 //import { MatTableModule } from '@angular/material';
 
 
@@ -30,6 +31,8 @@ export class SearchServiceComponent implements OnInit {
     private readonly dialog: MatDialog,
     private dialogRef: MatDialogRef<SearchServiceComponent>,
     private formBuilder: FormBuilder,
+    private eventService: EventService,
+    private searchService: SearchServiceService,
   ) {
 
     // @ts-ignore
@@ -42,6 +45,7 @@ export class SearchServiceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadAllEvents();
   }
 
   bookmark(event: Event){
@@ -54,6 +58,76 @@ export class SearchServiceComponent implements OnInit {
 
   feedback(event: Event){
 
+  }
+
+
+  public loadAllEvents() {
+    this.eventService.getAllEvents().subscribe({
+      next: data => {
+        console.log('received events', data);
+        this.events = data;
+
+        console.log(this.events);
+      },
+      error: error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    });
+  }
+
+  public searchByName(){
+    this.eventService.getEventsByName(this.searchForm.controls.eventName.value).subscribe({
+      next: data => {
+        console.log('received events', data);
+        this.events = data;
+
+        console.log(this.events);
+      },
+      error: error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    });
+  }
+
+  public searchByDate(){
+    this.eventService.getEventsByDate(this.searchForm.controls.date.value).subscribe({
+      next: data => {
+        console.log('received events', data);
+        this.events = data;
+
+        console.log(this.events);
+      },
+      error: error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    });
+  }
+
+  public searchByCapacity(){
+    this.eventService.getEventsByCapacity(this.searchForm.controls.capacity.value).subscribe({
+      next: data => {
+        console.log('received events', data);
+        this.events = data;
+        console.log(this.events);
+      },
+      error: error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    });
+  }
+
+  private defaultServiceErrorHandling(error: any) {
+    console.log(error);
+    this.error = true;
+    if (error.status === 0) {
+      // If status is 0, the backend is probably down
+      this.errorMessage = 'The backend seems not to be reachable';
+    } else if (error.error.message === 'No message available') {
+      // If no detailed error message is provided, fall back to the simple error name
+      this.errorMessage = error.error.error;
+    } else {
+      this.errorMessage = error.error.message;
+    }
   }
 
 

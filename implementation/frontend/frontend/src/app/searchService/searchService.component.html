@@ -3,28 +3,42 @@
   <h3 style="font-size: xx-large; font-weight: lighter">Search for Events by different criteria:
   </h3>
 
+  <div [formGroup]="searchForm">
   <form (submit)="$event.preventDefault()">
     <mat-form-field>
-      <mat-label>Event Name</mat-label>
-      <input matInput>
+      <input formControlName="eventName" id="eventName" name="eventName"
+             placeholder="Event Name" type="text" matInput>
     </mat-form-field>
+    <button mat-icon-button color="warn" (click)="searchByName()">
+      <mat-icon>check</mat-icon>
+    </button>
 
     <mat-form-field>
-      <mat-label>Date</mat-label>
-      <input matInput>
+      <input formControlName="date" id="date" name="date" placeholder ="Date" type="date" matInput>
     </mat-form-field>
+    <button mat-icon-button color="warn" (click)="searchByDate()">
+      <mat-icon>check</mat-icon>
+    </button>
+
+    <mat-form-field>
+      <input formControlName="capacity" id="capacity" name="capacity" placeholder ="Capacity" type="number" matInput>
+    </mat-form-field>
+    <button mat-icon-button color="warn" (click)="searchByCapacity()">
+      <mat-icon>check</mat-icon>
+    </button>
   </form>
+    </div>
 
   <table mat-table [dataSource]="events" class="mat-elevation-z8">
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.eventName}} </td>
     </ng-container>
 
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef> Date </th>
-      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.date | date:'dd.MM.YYYY'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="description">
@@ -39,7 +53,7 @@
 
     <ng-container matColumnDef="eventType">
       <th mat-header-cell *matHeaderCellDef> Event Type </th>
-      <td mat-cell *matCellDef="let element"> {{element.eventType}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.type}} </td>
     </ng-container>
 
     <ng-container matColumnDef="action">

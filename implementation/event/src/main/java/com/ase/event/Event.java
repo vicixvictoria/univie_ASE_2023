@@ -1,13 +1,21 @@
 package com.ase.event;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.Date;
+import java.util.UUID;
+import org.hibernate.annotations.NotFound;
 
 @Entity
 public class Event {
 
     @Id
+    @GeneratedValue(
+            strategy = GenerationType.UUID
+    )
     private String eventID;
     private EEventTypes type;
     private int capacity;
@@ -26,26 +34,54 @@ public class Event {
 
     public Event(String eventID, EEventTypes type, int capacity, Date date, String description,
             String organizerID, String eventName) {
-        this.eventID = eventID;
+        this.eventID = UUID.randomUUID().toString();
         this.type = type;
-        this.capacity = capacity;
+        this.capacity = validateCapacity(capacity);
         this.date = date;
-        this.description = description;
-        this.organizerID = organizerID;
-        this.eventName = eventName;
+        this.description = validateDescription(description);
+        this.organizerID = validateOrganizerID(organizerID);
+        this.eventName = validateName(eventName);
     }
 
     public Event(Event event) {
         if (event == null) {
             throw new IllegalArgumentException("Event is null");
         }
-        this.eventID = event.getEventID();
+        this.eventID = UUID.randomUUID().toString();
         this.type = event.getType();
-        this.capacity = event.getCapacity();
+        this.capacity = validateCapacity(event.getCapacity());
         this.date = event.getDate();
-        this.description = event.getDescription();
-        this.organizerID = event.getOrganizerID();
-        this.eventName = event.getEventName();
+        this.description = validateDescription(event.getDescription());
+        this.organizerID = validateOrganizerID(event.getOrganizerID());
+        this.eventName = validateName(event.getEventName());
+    }
+
+    private static String validateOrganizerID(String id) {
+        if (id == null) {
+            throw new IllegalArgumentException("OrganizerID can not be null");
+        }
+        return id;
+    }
+
+    private static String validateDescription(String description) {
+        if (description == null) {
+            description = "";
+        }
+        return description;
+    }
+
+    private static String validateName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Event Name can not be null");
+        }
+        return name;
+    }
+
+    private static int validateCapacity(int capacity) {
+        if (capacity>0 ) {
+            return capacity;
+        }
+        throw new IllegalArgumentException("Capacity can not be zero");
     }
 
     public String getEventID() {

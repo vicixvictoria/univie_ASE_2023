@@ -6,34 +6,20 @@ import {Event} from "../dtos/event";
 import {environment} from "../environments/environment.prod";
 //import {environment} from "../environments/environment";
 
-const baseUri = 'http://localhost:8080/api/v1/events';
+const baseUri = 'http://localhost:8080/api/v1/searchService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventService {
+export class SearchServiceService {
 
   // @ts-ignore
   event1: Observable <Event>;
   constructor(private httpClient: HttpClient) { }
 
-  createEvent(event: Event): Observable<Event> {
-    console.log('Add event', event);
-    return this.httpClient.post<Event>(baseUri, event);
-    //return this.event;
-  }
-
-  updateEvent(event: Event): Observable<Event>{
-    console.log('Update event', event);
-    return this.httpClient.put<Event>(baseUri, event);
-  }
-
-  deleteEvent(id: string): Observable<Event>{
-    return this.httpClient.delete<Event>(baseUri + '/' + id);
-  }
 
   getAllEvents(): Observable<Event[]> {
-    console.log('get all Events from one organizer');
+    console.log('get all Events');
     return this.httpClient.get<Event[]>(baseUri);
   }
 

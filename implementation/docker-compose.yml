@@ -75,7 +75,6 @@ services:
       analyticReport-rabbit:
       attendance-rabbit:
       event-rabbit:
-      eventInventory-rabbit:
       feedback-rabbit:
       login-rabbit:
       maintenance-rabbit:
@@ -91,8 +90,6 @@ networks:
     name: attendance-rabbit
   event-rabbit:
     name: event-rabbit
-  eventInventory-rabbit:
-    name: eventInventory-rabbit
   feedback-rabbit:
     name: feedback-rabbit
   login-rabbit:

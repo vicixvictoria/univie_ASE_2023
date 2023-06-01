@@ -18,6 +18,7 @@ import {AddEventComponent} from "./addEvents/addEvent.component";
 import {CalendarComponent} from "./calendar/calendar.component";
 import {OrganizerGuard} from "./interceptors/organizer.guard";
 import {AttendeeGuard} from "./interceptors/attendee.guard";
+import {UpdateEventComponent} from "./updateEvents/updateEvent.component";
 
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard]},
+  {path: 'updateEvent', component: UpdateEventComponent, canActivate: [AuthGuard]},
 
 
 ];

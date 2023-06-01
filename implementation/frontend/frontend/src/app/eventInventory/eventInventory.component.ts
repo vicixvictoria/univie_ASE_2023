@@ -4,6 +4,7 @@ import {EventService} from "../../services/event.service";
 import {Event} from "../../dtos/event";
 import {AddEventComponent} from "../addEvents/addEvent.component";
 import {Router} from "@angular/router";
+import {UpdateEventComponent} from "../updateEvents/updateEvent.component";
 //import { MatTableModule } from '@angular/material';
 
 
@@ -20,30 +21,81 @@ export class EventInventoryComponent implements OnInit {
 
   eventForm: FormGroup;
 
-  event: Event | undefined;
+  // @ts-ignore
+  event: Event;
   event1: Event | undefined;
+
   // @ts-ignore
   events: Event[];
   displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'action'];
-
 
 
   constructor(
     private router: Router,
     private readonly dialog: MatDialog,
     private dialogRef: MatDialogRef<EventInventoryComponent>,
+    private eventService: EventService,
   ) {
   }
 
   ngOnInit(): void {
+    this.loadAllEvents();
   }
 
 
-  deleteEvent(event: Event){
+  deleteEvent(eventID: string){
+    if (confirm('Event ' + eventID + '"wirklich löschen?')) {
+      // @ts-ignore
+      this.eventService.deleteEvent(eventID).subscribe({
+        next: () => {
+          console.log("Deleting Event " + eventID)
+          this.router.navigate(['eventInventory']);
+        }
+        ,
+        error: error => {
+          this.defaultServiceErrorHandling(error);
+        }
+      });
+    }
   }
 
   updateEvent(event: Event){
+    const dialog = this.dialog.open(UpdateEventComponent, {
+      data: {
+        eventID: event.eventID
+      },
+      width: '1500px'});
+    dialog.afterClosed().subscribe(() => {
+      this.loadAllEvents()
+    });
+  }
 
+  public loadAllEvents() {
+    this.eventService.getAllEvents().subscribe({
+      next: data => {
+        console.log('received events', data);
+        this.events = data;
+
+        console.log(this.events);
+      },
+      error: error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    });
+  }
+
+  public loadAllEventsByOrganizerID(id: number) {
+    this.eventService.getAllEventsByOrganizerID(id).subscribe({
+      next: data => {
+        console.log('received events', data);
+        this.events = data;
+
+        console.log(this.events);
+      },
+      error: error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    });
   }
 
   private defaultServiceErrorHandling(error: any) {

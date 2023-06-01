@@ -1,5 +1,5 @@
 <div class="card mb-3">
-  <h1 class="card-header bg-primary text-white">New Event </h1>
+  <h1 class="card-header bg-primary text-white">Update Event </h1>
 
   <div class="card-body">
     <form (ngSubmit)="submit()" [formGroup]="eventForm" class="form">
@@ -12,17 +12,17 @@
       </div>
 
       <div class="form-group">
-          <label for="inputDate">Date*</label>
-          <input [ngClass]="getValidatingClass('date')" aria-describedby="dateHelp" class="form-control"
-                 formControlName="date" id="inputDate" name="date" pattern="\d{4}-\d{2}-\d{2}"
-                 placeholder="YYYY-MM-DD" required type="date">
+        <label for="inputDate">Date*</label>
+        <input [ngClass]="getValidatingClass('date')" aria-describedby="dateHelp" class="form-control"
+               formControlName="date" id="inputDate" name="date" pattern="\d{4}-\d{2}-\d{2}"
+               placeholder="YYYY-MM-DD" required type="date">
       </div>
-        <div class="form-group">
-          <label for="inputDescription">Description</label>
-          <input [ngClass]="getValidatingClass('description')" aria-describedby="descriptionHelp" class="form-control"
-                 formControlName="description" id="inputDescription" name="description"
-                 placeholder="Description" type="text">
-        </div>
+      <div class="form-group">
+        <label for="inputDescription">Description</label>
+        <input [ngClass]="getValidatingClass('description')" aria-describedby="descriptionHelp" class="form-control"
+               formControlName="description" id="inputDescription" name="description"
+               placeholder="Description" type="text">
+      </div>
 
 
       <div class="form-group">
@@ -47,11 +47,7 @@
 
       <button class="btn btn-primary" (click)="goBack()" type="button">Back</button>
       <button class="btn btn-success float-right" type="submit">
-        Create</button>
+        Update</button>
     </form>
   </div>
 </div>
-
-
-
-
