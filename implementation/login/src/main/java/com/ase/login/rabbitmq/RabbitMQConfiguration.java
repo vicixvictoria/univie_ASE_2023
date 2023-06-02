@@ -1,4 +1,4 @@
-package com.ase.login;
+package com.ase.login.rabbitmq;
 
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.beans.factory.annotation.Value;
