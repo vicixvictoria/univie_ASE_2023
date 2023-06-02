@@ -1,5 +1,8 @@
 package com.ase.login.data;
 
+/**
+ * Holds the role a user can be assigned.
+ */
 public enum ERole {
     ATTENDEE("attendee"), ORGANIZER("organizer"), ADMIN("admin");
 

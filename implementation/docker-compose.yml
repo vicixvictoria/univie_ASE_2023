@@ -1,5 +1,7 @@
-x-common-variables: &debug-variable
+x-common-variables: &common-variables
   DEBUG: "false"
+  RABBITMQ-HOST: "rabbitmq"
+
 
 services:
   analyticReport:
@@ -31,6 +33,12 @@ services:
     build: login
     networks:
       login-rabbit:
+    environment:
+      <<: *common-variables
+      JWT-SECRET: "top-secret"
+      JWT-EXPIRATION-TIME: "900000"
+    volumes:
+      - ./.persistence/login:/persistence
 
   maintenance:
     image: maintenance
@@ -62,10 +70,9 @@ services:
     networks:
       sendNotification-rabbit:
     environment:
-      <<: *debug-variable
+      <<: *common-variables
       NOTIFICATION_SENDER_EMAIL: <email>
       NOTIFICATION_SENDER_PASSWORD: <password>
-
     volumes:
       - ./.persistence/sendNotification:/persistence
 

@@ -1,28 +1,92 @@
 package com.ase.login.data;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import java.util.Objects;
 import java.util.UUID;
 
-public class MyUser extends MyUserData {
+/**
+ * The main data class of this Microservice, holding information about a specific user. This class
+ * is annotated with JPA annotations and is thu persisted inside a database
+ */
+@Entity
+public class MyUser implements IUserUnmodifiable {
 
-    private final String id;
+    @Id
+    private String id;
+    @Column(unique = true)
+    private String email;
+    private String password;
+    private ERole role;
+
+    public MyUser() {
+    }
 
     public MyUser(String id, String email, String password, ERole role) {
-        super(email, password, role);
-
         this.id = id;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public MyUser(String email, String password, ERole role) {
-        super(email, password, role);
-        this.id = UUID.randomUUID().toString();
+        this(UUID.randomUUID().toString(), email, password, role);
     }
 
-    public MyUser(MyUserData data) {
-        super(data.getEmail(), data.getPassword(), data.getRole());
-        this.id = UUID.randomUUID().toString();
+    public MyUser(IUserData userData) {
+        this(userData.getEmail(), userData.getPassword(), userData.getRole());
     }
 
+    @Override
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public ERole getRole() {
+        return role;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(ERole role) {
+        this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MyUser myUser)) {
+            return false;
+        }
+        return getId().equals(myUser.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }
