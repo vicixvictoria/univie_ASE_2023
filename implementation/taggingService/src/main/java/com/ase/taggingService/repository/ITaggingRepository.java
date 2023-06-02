@@ -13,6 +13,7 @@ public interface ITaggingRepository extends JpaRepository<TaggingEvent, String> 
     @Transactional
     void deleteByEventIdAndUserId(String eventId, String userId);
 
+    @Transactional
     TaggingEvent getTaggingEventByEventIdAndUserId(String eventId, String userId);
 
     @Transactional

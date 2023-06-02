@@ -9,29 +9,33 @@ public class UserCalendar {
 
     private Calendar calender;
 
-    private List<Date> registeredEvents;
-    private List<Date> bookmarkedEvents;
+    private List<CalendarEvent> registeredEvents;
+    private List<CalendarEvent> bookmarkedEvents;
 
-    public UserCalendar(List<Date> registeredEvents,
-            List<Date> bookmarkedEvents) {
+    public UserCalendar(){
+
+    }
+
+    public UserCalendar(List<CalendarEvent> registeredEvents,
+            List<CalendarEvent> bookmarkedEvents) {
         this.calender = Calendar.getInstance();
         this.registeredEvents = registeredEvents;
         this.bookmarkedEvents = bookmarkedEvents;
     }
 
-    public List<Date> getRegisteredEvents() {
+    public List<CalendarEvent> getRegisteredEvents() {
         return registeredEvents;
     }
 
-    public void setRegisteredEvents(List<Date> registeredEvents) {
+    public void setRegisteredEvents(List<CalendarEvent> registeredEvents) {
         this.registeredEvents = registeredEvents;
     }
 
-    public List<Date> getBookmarkedEvents() {
+    public List<CalendarEvent> getBookmarkedEvents() {
         return bookmarkedEvents;
     }
 
-    public void setBookmarkedEvents(List<Date> bookmarkedEvents) {
+    public void setBookmarkedEvents(List<CalendarEvent> bookmarkedEvents) {
         this.bookmarkedEvents = bookmarkedEvents;
     }
 

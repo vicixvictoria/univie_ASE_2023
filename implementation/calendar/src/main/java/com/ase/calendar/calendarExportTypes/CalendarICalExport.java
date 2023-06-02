@@ -2,8 +2,10 @@ package com.ase.calendar.calendarExportTypes;
 
 
 import com.ase.calendar.ACalendarExportType;
+import com.ase.calendar.CalendarEvent;
 import com.ase.calendar.UserCalendar;
 import java.util.Date;
+import java.util.List;
 
 public class CalendarICalExport extends ACalendarExportType {
 
@@ -18,20 +20,22 @@ public class CalendarICalExport extends ACalendarExportType {
      */
     @Override
     public String convert() {
-        String ICalBeginTag = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:Even_App\nMETHOD:PUBLISH\n";
+        String ICalBeginTag = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:Event_App\nMETHOD:PUBLISH\n";
 
         StringBuilder ICalRegistered = new StringBuilder();
-        for (Date registeredEvent : this.calender.getRegisteredEvents()) {
+
+        for (CalendarEvent registeredEvent : this.calender.getRegisteredEvents()) {
             ICalRegistered.append(String.format(
-                    "BEGIN:VEVENT\nUID:%s\nLOCATION:%s\nSUMMARY:%s\nDESCRIPTION:REGISTERED%s\nCLASS:PUBLIC\nDTSTART:%s\nDTEND:%s\nDTSTAMP:%s\nEND:VEVENT\n",
-                    "1", "2", "3", "4", "5", "6", "7"));
+                    "BEGIN:VEVENT\nSUMMARY:%s\nDESCRIPTION:REGISTERED%s\nCLASS:PUBLIC\nDTSTAMP:%s\nEND:VEVENT\n",
+                     registeredEvent.getEventName(), registeredEvent.getDescription(), registeredEvent.getEventDate()));
+
         }
 
         StringBuilder ICalBookmarked = new StringBuilder();
-        for (Date bookmarkedEvent : this.calender.getBookmarkedEvents()) {
+        for (CalendarEvent bookmarkedEvent : this.calender.getBookmarkedEvents()) {
             ICalBookmarked.append(String.format(
-                    "BEGIN:VEVENT\nUID:%s\nLOCATION:%s\nSUMMARY:%s\nDESCRIPTION:BOOKMARKED%s\nCLASS:PUBLIC\nDTSTART:%s\nDTEND:%s\nDTSTAMP:%s\nEND:VEVENT\n",
-                    "1", "2", "3", "4", "5", "6", "7"));
+                    "BEGIN:VEVENT\nSUMMARY:%s\nDESCRIPTION:BOOKMARKED%s\nCLASS:PUBLIC\nDTSTAMP:%s\nEND:VEVENT\n",
+                    bookmarkedEvent.getEventName(), bookmarkedEvent.getDescription(), bookmarkedEvent.getEventDate()));
         }
 
         String ICalEndTag = "END:VCALENDAR";

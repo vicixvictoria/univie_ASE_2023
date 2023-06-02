@@ -4,6 +4,8 @@ import com.ase.common.taggingEvent.ETags;
 import com.ase.taggingService.repository.ITaggingRepository;
 import jakarta.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,13 @@ public class TaggingService {
             MethodHandles.lookup().lookupClass());
 
     private final ITaggingRepository repository;
+    private final Publisher publisher;
+
 
     @Autowired
-    public TaggingService(ITaggingRepository repository) {
+    public TaggingService(ITaggingRepository repository, Publisher publisher) {
         this.repository = repository;
+        this.publisher = publisher;
     }
 
 
@@ -35,7 +40,7 @@ public class TaggingService {
      * @param userId, eventId, etags
      * @return TaggingEvent
      */
-    public TaggingEvent addNewTaggingEvent(String userId, String eventId, ETags eTags) {
+    public TaggingEvent addNewTaggingEvent(String userId, String eventId, List<ETags> eTags) {
         LOGGER.debug("add New TaggingEvent");
         if (repository.existsByEventIdAndUserId(eventId,
                 userId)) { //in case Event already exists in database
@@ -46,11 +51,17 @@ public class TaggingService {
             TaggingEvent newTaggingEvent = new TaggingEvent(taggingEvent);
             newTaggingEvent.addEventTag(eTags);
             repository.save(newTaggingEvent);
+            List<ETags> tags = new ArrayList<>();
+            tags.addAll(eTags);
+            publisher.updateTaggingEvent(eventId, userId, tags);
             return newTaggingEvent;
-        } else {   //in case new TaggingEvent must be created in DB
+        } else {     //in case new TaggingEvent must be created in DB
             LOGGER.debug("Create new TaggingEvent");
             TaggingEvent newTaggingEvent = new TaggingEvent(userId, eventId, eTags);
             repository.save(newTaggingEvent);
+            List<ETags> tags = new ArrayList<>();
+            tags.addAll(eTags);
+            publisher.newTaggingEvent(eventId,userId, tags);
             return newTaggingEvent;
         }
     }
@@ -62,17 +73,19 @@ public class TaggingService {
      * @return TaggingEvent
      */
     @Transactional
-    public TaggingEvent removeTag(String userId, String eventId, ETags eTags) {
+    public TaggingEvent removeTag(String userId, String eventId, List<ETags> eTags) {
         LOGGER.debug("Remove Tag from TaggingEvent");
         TaggingEvent changedTaggingEvent = repository.getTaggingEventByEventIdAndUserId(eventId,
                 userId);
-        if (changedTaggingEvent.getEventTags() == null) {  //removes DB entry not longer needed
+        if (changedTaggingEvent.getEventTags().size() == 1) {  //removes DB entry not longer needed
             LOGGER.debug("TaggingEvent deleted from Database");
             repository.deleteAllByEventIdAndUserId(eventId, userId);
             return null;
         } else {
-            changedTaggingEvent.removeEventTag(eTags);
+            ETags tag = eTags.get(0);
+            changedTaggingEvent.removeEventTag(tag);
             repository.save(changedTaggingEvent);
+            publisher.updateTaggingEvent(changedTaggingEvent.getEventId(), changedTaggingEvent.getUserId(), changedTaggingEvent.getEventTags());
             return changedTaggingEvent;
         }
     }
