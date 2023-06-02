@@ -4,6 +4,7 @@ import com.ase.common.EMessageType;
 import com.ase.common.RabbitMQMessage;
 import com.ase.common.taggingEvent.ETags;
 import com.ase.common.taggingEvent.TaggingEventMessage;
+import java.util.List;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,7 @@ public class Publisher {
     /**
      * publishes if new bookmarked event is created
      */
-    public void newTaggingEvent(String eventId, String userId, ETags eventTag) {
+    public void newTaggingEvent(String eventId, String userId, List<ETags> eventTag) {
         TaggingEventMessage taggingMessage = new TaggingEventMessage(userId, eventId, eventTag);
         RabbitMQMessage<TaggingEventMessage> taggingMessageRabbitMQMessage = new RabbitMQMessage<>(
                 EMessageType.UPDATE, taggingMessage);
@@ -46,7 +47,7 @@ public class Publisher {
     /**
      * publishes if taggingEvent is updated/new tag is added
      */
-    public void updateTaggingEvent(String eventId, String userId, ETags eventTag) {
+    public void updateTaggingEvent(String eventId, String userId, List<ETags> eventTag) {
         TaggingEventMessage taggingMessage = new TaggingEventMessage(userId, eventId, eventTag);
         RabbitMQMessage<TaggingEventMessage> taggingMessageRabbitMQMessage = new RabbitMQMessage<>(
                 EMessageType.UPDATE, taggingMessage);

@@ -1,16 +1,14 @@
 package com.ase.calendar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import org.apache.catalina.User;
-import org.hibernate.sql.exec.spi.StandardEntityInstanceResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.Assert;
 
 @SpringBootTest
 class CalendarApplicationTests {
@@ -18,20 +16,21 @@ class CalendarApplicationTests {
     CalendarController controller;
     UserCalendar calendar;
     @BeforeEach
-    void testCreateCalendar() {
+    void testCreateCalendar() throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         Date registeredEventDate1= new Date(2323223232L);
         Date registeredEventDate2 = new Date(2323223233L);
 
-        List<Date>registeredEvents = new ArrayList<>();
-        registeredEvents.add(registeredEventDate1);
-        registeredEvents.add(registeredEventDate2);
+        List<CalendarEvent>registeredEvents = new ArrayList<>();
+        registeredEvents.add(new CalendarEvent("TestEvent1", format.parse("16.06.2023 19:00"),"Es ist toll hier"));
+        registeredEvents.add(new CalendarEvent("TestEvent1", format.parse("16.06.2023 19:00"),"Es ist toll hier"));
 
         Date bookmarkedEventDate1= new Date(2323223232L);
         Date bookmarkedEventDate2 = new Date(2323223233L);
 
-        List<Date>bookmarkedEvents = new ArrayList<>();
-        bookmarkedEvents.add(bookmarkedEventDate1);
-        bookmarkedEvents.add(bookmarkedEventDate2);
+        List<CalendarEvent>bookmarkedEvents = new ArrayList<>();
+        bookmarkedEvents.add(new CalendarEvent("TestEvent1", format.parse("16.06.2023 19:00"),"Es ist toll hier"));
+        bookmarkedEvents.add(new CalendarEvent("TestEvent1", format.parse("16.06.2023 19:00"),"Es ist toll hier"));
 
         UserCalendar created_calendar= new UserCalendar(registeredEvents, bookmarkedEvents);
         this.calendar = created_calendar;
@@ -51,31 +50,54 @@ class CalendarApplicationTests {
     }
 
     @Test
-    void testCalendarControllerExportJSON() throws Exception {
-        this.controller = new CalendarController();
-        UserCalendar userCalendarController = controller.setCalender(this.calendar);
-        String jsonCalendar = controller.calenderExport(EExportType.JSON,userCalendarController);
-        System.out.println(jsonCalendar);
-        Assertions.assertNotNull(jsonCalendar);
+    void testExporterJSON() throws Exception {
+        ExportCalendar exportCalendar = new ExportCalendar(EExportType.JSON);
+        List<CalendarEvent>registeredEventsMock = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        registeredEventsMock.add(new CalendarEvent("TestEvent1", format.parse("16.06.2023 19:00"),"Es ist toll hier"));
+
+        List<CalendarEvent>bookmarkedEventMock = new ArrayList<>();
+        bookmarkedEventMock.add(new CalendarEvent("BookmarkTest1", format.parse("17.09.2023 18:00"),"Fun"));
+
+
+        UserCalendar userCalendar = new UserCalendar(registeredEventsMock, bookmarkedEventMock);
+        ACalendarExportType calender = exportCalendar.createExportCalender(EExportType.JSON, userCalendar);
+        String JSON = calender.convert();
+        Assertions.assertNotNull(JSON);
     }
 
     @Test
-    void testCalendarControllerExportXML() throws Exception {
-        this.controller = new CalendarController();
-        UserCalendar userCalendarController = controller.setCalender(this.calendar);
-        String xmlCalendar = controller.calenderExport(EExportType.XML,userCalendarController);
-        System.out.println(xmlCalendar);
-        Assertions.assertNotNull(xmlCalendar);
+    void testExporterXML() throws Exception {
+        ExportCalendar exportCalendar = new ExportCalendar(EExportType.XML);
+        List<CalendarEvent>registeredEventsMock = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        registeredEventsMock.add(new CalendarEvent("TestEvent1", format.parse("16.06.2023 19:00"),"Es ist toll hier"));
+
+        List<CalendarEvent>bookmarkedEventMock = new ArrayList<>();
+        bookmarkedEventMock.add(new CalendarEvent("BookmarkTest1", format.parse("17.09.2023 18:00"),"Fun"));
+
+
+        UserCalendar userCalendar = new UserCalendar(registeredEventsMock, bookmarkedEventMock);
+        ACalendarExportType calender = exportCalendar.createExportCalender(EExportType.XML, userCalendar);
+        String XML =calender.convert();
+        Assertions.assertNotNull(XML);
     }
 
     @Test
-    void testCalendarControllerExportICal() throws Exception {
-        this.controller = new CalendarController();
-        UserCalendar userCalendarController = controller.setCalender(this.calendar);
-        String iCalCalendar = controller.calenderExport(EExportType.ICal,userCalendarController);
-        System.out.println(iCalCalendar);
-        Assertions.assertNotNull(iCalCalendar);
-    }
+    void testExporterICal() throws Exception {
+        ExportCalendar exportCalendar = new ExportCalendar(EExportType.ICal);
+        List<CalendarEvent>registeredEventsMock = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        registeredEventsMock.add(new CalendarEvent("TestEvent1", format.parse("16.06.2023 19:00"),"Es ist toll hier"));
 
+        List<CalendarEvent>bookmarkedEventMock = new ArrayList<>();
+        bookmarkedEventMock.add(new CalendarEvent("BookmarkTest1", format.parse("17.09.2023 18:00"),"Fun"));
+
+
+        UserCalendar userCalendar = new UserCalendar(registeredEventsMock, bookmarkedEventMock);
+        ACalendarExportType calender = exportCalendar.createExportCalender(EExportType.ICal, userCalendar);
+        String ICAL = calender.convert();
+        Assertions.assertNotNull(ICAL);
+    }
 
 }

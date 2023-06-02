@@ -35,6 +35,17 @@ public class TaggingEvent {
         this.taggingEventId = UUID.randomUUID().toString().replace("-", "");
     }
 
+    public TaggingEvent(String userId, String eventId, List<ETags>eTags) {
+        LOGGER.debug("TaggingEvent Entity created userId: {}, eventId: {}, eventTags: {}", userId,
+                eventId, eventTags);
+        this.eventId = eventId;
+        if (eventTags != null) {
+            this.eventTags.addAll(eTags);
+        }
+        this.userId = userId;
+        this.taggingEventId = UUID.randomUUID().toString().replace("-", "");
+    }
+
     public TaggingEvent(TaggingEvent taggingEvent) {
         LOGGER.debug("TaggingEvent Entity created");
         this.eventId = taggingEvent.getEventId();
@@ -47,8 +58,8 @@ public class TaggingEvent {
         LOGGER.debug("TaggingEvent Entity created");
     }
 
-    public void addEventTag(ETags tags) {
-        this.eventTags.add(tags);
+    public void addEventTag(List<ETags>tags) {
+        this.eventTags.addAll(tags);
     }
 
     public String getTaggingEventId() {

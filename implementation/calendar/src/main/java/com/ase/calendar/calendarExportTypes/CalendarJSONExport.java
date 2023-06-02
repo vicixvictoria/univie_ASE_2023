@@ -19,12 +19,11 @@ public class CalendarJSONExport extends ACalendarExportType {
     @Override
     public String convert() {
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = "";
         try {
-            json = objectMapper.writeValueAsString(calender);
+            return objectMapper.writeValueAsString(calender);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        return json;
+        return "";
     }
 }

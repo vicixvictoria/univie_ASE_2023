@@ -16,6 +16,19 @@ services:
     networks:
       attendance-rabbit:
 
+  bookmarkService:
+    image: bookmarkservice
+    build: bookmarkService
+    networks:
+      bookmarkService-calendar:
+      bookmarkService-rabbit:
+
+  calendar:
+    image: calendar
+    build: calendar
+    networks:
+      bookmarkService-calendar:
+
   event:
     image: event
     build: event
@@ -64,6 +77,12 @@ services:
     networks:
       searchServiceEvent-rabbit:
 
+  taggingService:
+    image: taggingservice
+    build: taggingService
+    networks:
+      taggingService-rabbit:
+
   sendNotification:
     image: sendnotification
     build: sendNotification
@@ -81,6 +100,7 @@ services:
     networks:
       analyticReport-rabbit:
       attendance-rabbit:
+      bookmarkService-rabbit:
       event-rabbit:
       feedback-rabbit:
       login-rabbit:
@@ -95,6 +115,7 @@ networks:
     name: analyticReport-rabbit
   attendance-rabbit:
     name: attendance-rabbit
+  bookmarkService-rabbit:
   event-rabbit:
     name: event-rabbit
   feedback-rabbit:
@@ -111,3 +132,6 @@ networks:
     name: searchServiceEvent-rabbit
   sendNotification-rabbit:
     name: sendNotification-rabbit
+  taggingService-rabbit:
+  bookmarkService-calendar:
+

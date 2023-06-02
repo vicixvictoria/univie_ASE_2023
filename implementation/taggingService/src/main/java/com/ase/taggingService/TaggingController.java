@@ -2,9 +2,13 @@ package com.ase.taggingService;
 
 import com.ase.common.taggingEvent.ETags;
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +26,7 @@ public class TaggingController {
 
     private final TaggingService taggingService;
 
+
     @Autowired
     public TaggingController(TaggingService taggingService) {
         this.taggingService = taggingService;
@@ -31,7 +36,9 @@ public class TaggingController {
     public TaggingEvent addEventTag(@PathVariable String eventId, @PathVariable String userId,
             @PathVariable ETags addEventTag) {
         LOGGER.info("POST api/v1/tag/add/{}/{}/{}", eventId, userId, addEventTag);
-        return taggingService.addNewTaggingEvent(userId, eventId, addEventTag);
+        List<ETags>tag = new ArrayList<>();
+        tag.add(addEventTag);
+        return taggingService.addNewTaggingEvent(userId, eventId, tag);
     }
 
     @GetMapping("/event/{eventId}/{userId}") //returns event with tags
@@ -44,12 +51,19 @@ public class TaggingController {
     public TaggingEvent removeEventTag(@PathVariable String eventId, @PathVariable String userId,
             @PathVariable ETags eventTag) {
         LOGGER.info("DELETE api/v1/tag/removeTag/{}/{}/{}", eventId, userId, eventTag);
-        return taggingService.removeTag(userId, eventId, eventTag);
+        List<ETags>eTags = new ArrayList<>();
+        eTags.add(eventTag);
+        return taggingService.removeTag(userId, eventId, eTags);
     }
 
     @DeleteMapping("/removeEvent/{eventId}/{userId}")
     public void removeTaggingEvent(@PathVariable String eventId, @PathVariable String userId) {
         LOGGER.info("DELETE api/v1/tag/removeEvent/{}/{}", eventId, userId);
         taggingService.removeTaggingEvent(userId, eventId);
+    }
+
+    @GetMapping("/healthCheck")
+    public ResponseEntity<String> healthCheck(){
+        return ResponseEntity.status(HttpStatus.OK).body("Success");
     }
 }
