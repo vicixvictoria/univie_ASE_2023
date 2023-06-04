@@ -32,26 +32,28 @@ public class BookmarkController {
 
     @PostMapping("/add/{eventId}/{attendeeId}")
     public BookmarkEvent bookmarkEvent(@PathVariable String eventId,
-            @PathVariable String attendeeId) {
+            @PathVariable String attendeeId) throws Exception {
         LOGGER.info("POST api/v1/bookmark/add/{}/{}/", eventId, attendeeId);
         return service.addBookmarkEvent(eventId, attendeeId);
     }
 
     @DeleteMapping("/unbookmarkEvent/{eventId}/{attendeeId}")
-    public void unbookmarkEvent(@PathVariable String eventId, @PathVariable String attendeeId) {
+    public void unbookmarkEvent(@PathVariable String eventId, @PathVariable String attendeeId)
+            throws Exception {
         LOGGER.info("DELETE /unbookmarkEvent/{}/{}", eventId, attendeeId);
         service.deleteBookmarkEvent(eventId, attendeeId);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("bookmarkedEvents/{attendee}")   //all bookmarked events per attendee
-    public List<BookmarkEvent> getBookmarkedEventuser(@PathVariable String attendee) {
+    public List<BookmarkEvent> getBookmarkedEventuser(@PathVariable String attendee)
+            throws Exception {
         LOGGER.info("GET /bookmarkedEvents/{}", attendee);
         return service.getBookmarkedEventsForUser(attendee);
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("bookmarkedEventIds/{attendee}")   //all bookmarked events per attendee
-    public List<String>getBookmarkEventIdUser(@PathVariable String attendee){
+    public List<String>getBookmarkEventIdUser(@PathVariable String attendee) throws Exception {
         LOGGER.info("GET /bookmarkedEvents/{}", attendee);
         List<BookmarkEvent>events = service.getBookmarkedEventsForUser(attendee);
         List<String>eventStrings = new ArrayList<>();

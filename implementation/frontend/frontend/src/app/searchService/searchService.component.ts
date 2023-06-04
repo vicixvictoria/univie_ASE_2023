@@ -4,6 +4,10 @@ import {EventService} from "../../services/event.service";
 import {Event} from "../../dtos/event";
 import {FormBuilder, FormControl} from "@angular/forms";
 import {SearchServiceService} from "../../services/searchService.service";
+import {BookmarkService} from "../../services/bookmark.service";
+import {User} from "../models/user";
+
+
 //import { MatTableModule } from '@angular/material';
 
 
@@ -33,6 +37,8 @@ export class SearchServiceComponent implements OnInit {
     private formBuilder: FormBuilder,
     private eventService: EventService,
     private searchService: SearchServiceService,
+    private bookmarkService: BookmarkService,
+    private user: User,
   ) {
 
     // @ts-ignore
@@ -49,8 +55,13 @@ export class SearchServiceComponent implements OnInit {
   }
 
   bookmark(event: Event){
-
+    this.bookmarkService.bookmarkEvent(event, this.user);
   }
+
+  unbookmark(event: Event){
+    this.bookmarkService.unbookmarkEvent(event, this.user);
+  }
+
 
   register(event: Event){
 

@@ -53,7 +53,12 @@ public class TaggingService {
             repository.save(newTaggingEvent);
             List<ETags> tags = new ArrayList<>();
             tags.addAll(eTags);
-            publisher.updateTaggingEvent(eventId, userId, tags);
+            try {
+                publisher.updateTaggingEvent(eventId, userId, tags);
+            } catch (Exception e){
+                LOGGER.error("Failed to connect with publisher");
+                return newTaggingEvent;
+            }
             return newTaggingEvent;
         } else {     //in case new TaggingEvent must be created in DB
             LOGGER.debug("Create new TaggingEvent");
@@ -61,7 +66,12 @@ public class TaggingService {
             repository.save(newTaggingEvent);
             List<ETags> tags = new ArrayList<>();
             tags.addAll(eTags);
-            publisher.newTaggingEvent(eventId,userId, tags);
+            try {
+                publisher.newTaggingEvent(eventId, userId, tags);
+            }catch (Exception e){
+                LOGGER.error("Failed to connect with publisher");
+                return newTaggingEvent;
+            }
             return newTaggingEvent;
         }
     }
@@ -85,7 +95,13 @@ public class TaggingService {
             ETags tag = eTags.get(0);
             changedTaggingEvent.removeEventTag(tag);
             repository.save(changedTaggingEvent);
-            publisher.updateTaggingEvent(changedTaggingEvent.getEventId(), changedTaggingEvent.getUserId(), changedTaggingEvent.getEventTags());
+            try {
+                publisher.updateTaggingEvent(changedTaggingEvent.getEventId(),
+                        changedTaggingEvent.getUserId(), changedTaggingEvent.getEventTags());
+            } catch (Exception e){
+                LOGGER.error("Failed to connect with publisher");
+                return changedTaggingEvent;
+            }
             return changedTaggingEvent;
         }
     }

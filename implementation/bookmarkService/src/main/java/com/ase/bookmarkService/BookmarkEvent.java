@@ -1,6 +1,8 @@
 package com.ase.bookmarkService;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.lang.invoke.MethodHandles;
 import java.util.UUID;
@@ -14,6 +16,9 @@ public class BookmarkEvent {
             MethodHandles.lookup().lookupClass());
 
     @Id
+    @GeneratedValue(
+            strategy = GenerationType.UUID
+    )
     private String BookmarkEventID;
     private String eventID;
     private String attendeeID;
@@ -44,9 +49,7 @@ public class BookmarkEvent {
 
     public BookmarkEvent() {
         LOGGER.debug("BookmarkEvent Entity created with random UUID");
-        //this.BookmarkEventID = UUID.randomUUID().toString().replace("-", "");
     }
-
 
     public String getEvent() {
         return this.eventID;

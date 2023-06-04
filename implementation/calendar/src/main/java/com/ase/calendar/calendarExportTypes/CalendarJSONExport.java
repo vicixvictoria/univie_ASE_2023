@@ -22,8 +22,7 @@ public class CalendarJSONExport extends ACalendarExportType {
         try {
             return objectMapper.writeValueAsString(calender);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            return "";
         }
-        return "";
     }
 }

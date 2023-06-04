@@ -34,15 +34,23 @@ public class BookmarkService {
      * @param eventId, attendeeId as strings
      * @return BookmarkEvent
      */
-    public BookmarkEvent addBookmarkEvent(String eventId, String attendeeId) {
+    public BookmarkEvent addBookmarkEvent(String eventId, String attendeeId) throws Exception {
         LOGGER.debug("Adding new Bookmark Event in Database");
         BookmarkEvent bookmarkEvent = new BookmarkEvent(eventId, attendeeId);
         try {
             repository.save(bookmarkEvent);
-            publisher.newBookmarkEvent(eventId, attendeeId);
         } catch (EntityNotFoundException e) {
             LOGGER.error("Failed to add new BookmarkEvent", e.getMessage());
-            return null;
+            throw new Exception("Failed to add new BookmarkEvent", e);
+        } catch (Exception e){
+            LOGGER.error("Exception occurred while saving new BookmarkEvent", e.getMessage());
+            throw new Exception("Failed to add new BookmarkEvent", e);
+        }
+        try {
+            publisher.newBookmarkEvent(eventId, attendeeId);
+        } catch (Exception e){
+            LOGGER.error("Failed to connect with publisher");
+            return bookmarkEvent;
         }
         return bookmarkEvent;
     }
@@ -54,13 +62,21 @@ public class BookmarkService {
      * @return void
      */
     @Transactional
-    public void deleteBookmarkEvent(String eventId, String attendeeId) {
+    public void deleteBookmarkEvent(String eventId, String attendeeId) throws Exception {
         LOGGER.debug("Delete Bookmark Event");
         try {
             repository.deleteBookmarkEventsByAttendeeIDAndEventID(attendeeId, eventId);
-            publisher.deleteBookmarkEvent(eventId, attendeeId);
         } catch (EntityNotFoundException e) {
             LOGGER.error("Entity BookmarkEvent not found", e.getMessage());
+            throw new Exception("Failed to delete BookmarkEvent", e);
+        } catch (Exception e){
+            LOGGER.error("Exception occurred while deleting BookmarkEvent", e.getMessage());
+            throw new Exception("Failed to delete BookmarkEvent", e);
+        }
+        try {
+            publisher.deleteBookmarkEvent(eventId, attendeeId);
+        } catch (Exception e){
+            LOGGER.error("Failed to connect with publisher");
         }
     }
 
@@ -70,16 +86,15 @@ public class BookmarkService {
      * @param attendeeId
      * @return List
      */
-    public List<BookmarkEvent> getBookmarkedEventsForUser(String attendeeId) {
+    public List<BookmarkEvent> getBookmarkedEventsForUser(String attendeeId) throws Exception {
         LOGGER.debug("get BookmarkedEvent for User");
         List<BookmarkEvent> eventList = new ArrayList<>();
         try {
             eventList = repository.getAllByAttendeeID(attendeeId);
-            return eventList;
         } catch (EntityNotFoundException e) {
             LOGGER.error("Entity BookmarkEvent not found", e.getMessage());
+            throw new Exception("Failed to delete BookmarkEvent", e);
         }
-        LOGGER.warn("no BookmarkedEvents found by attendeeId");
         return eventList;
     }
 }

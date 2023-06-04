@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component} from "@angular/core";
 import { Location } from '@angular/common';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
@@ -20,19 +20,22 @@ export class CalendarComponent {
   }
 
   exportXML(){
+    console.log("export XML")
     if (this.user != null) {
       this.calendarService.exportXML(this.user);
     }
   }
 
   exportJSON(){
+    console.log("export JSON")
     if (this.user != null) {
       this.calendarService.exportJSON(this.user)
     }
   }
 
   exportICAL(){
-      if (this.user != null) {
+    console.log("export ICal")
+    if (this.user != null) {
         this.calendarService.exportICAL(this.user);
       }
   }
