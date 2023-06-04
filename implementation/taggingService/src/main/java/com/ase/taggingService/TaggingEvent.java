@@ -2,6 +2,8 @@ package com.ase.taggingService;
 
 import com.ase.common.taggingEvent.ETags;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -17,6 +19,9 @@ public class TaggingEvent {
             MethodHandles.lookup().lookupClass());
 
     @Id
+    @GeneratedValue(
+            strategy = GenerationType.UUID
+    )
     private String taggingEventId;
 
     private String userId;

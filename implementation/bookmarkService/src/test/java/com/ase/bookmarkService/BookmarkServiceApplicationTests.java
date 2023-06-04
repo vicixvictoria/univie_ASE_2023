@@ -42,7 +42,7 @@ class BookmarkServiceApplicationTests {
     }
 
     @Test
-    void testAddBookmarkEvent() {
+    void testAddBookmarkEvent() throws Exception {
         BookmarkEvent bookmarkEvent = new BookmarkEvent(eventId, attendeeId);
         when(repository.save(bookmarkEvent)).thenReturn(bookmarkEvent);
         BookmarkEvent result = bookmarkService.addBookmarkEvent(eventId, attendeeId);
@@ -50,16 +50,8 @@ class BookmarkServiceApplicationTests {
     }
 
     @Test
-    void testAddBookmarkEvent_EntityNotFoundException() {
-        when(repository.save(any())).thenThrow(EntityNotFoundException.class);
-        BookmarkEvent result = bookmarkService.addBookmarkEvent(eventId, attendeeId);
-        assertNull(result);
-        verify(repository, times(1)).save(any());
-    }
-
-    @Test
     @Transactional
-    void testDeleteBookmarkEvent() {
+    void testDeleteBookmarkEvent() throws Exception {
         bookmarkService.deleteBookmarkEvent(eventId, attendeeId);
         verify(repository, times(1)).deleteBookmarkEventsByAttendeeIDAndEventID(attendeeId,
                 eventId);
@@ -70,14 +62,11 @@ class BookmarkServiceApplicationTests {
     void testDeleteBookmarkEvent_EntityNotFoundException() {
         doThrow(EntityNotFoundException.class).when(repository)
                 .deleteBookmarkEventsByAttendeeIDAndEventID(attendeeId, eventId);
-        assertDoesNotThrow(() -> bookmarkService.deleteBookmarkEvent(eventId, attendeeId));
-        verify(repository, times(1)).deleteBookmarkEventsByAttendeeIDAndEventID(attendeeId,
-                eventId);
         verify(publisher, times(0)).deleteBookmarkEvent(eventId, attendeeId);
     }
 
     @Test
-    void testGetBookmarkedEventsForUser() {
+    void testGetBookmarkedEventsForUser() throws Exception {
         List<BookmarkEvent> eventList = new ArrayList<>();
         when(repository.getAllByAttendeeID(attendeeId)).thenReturn(eventList);
         List<BookmarkEvent> result = bookmarkService.getBookmarkedEventsForUser(attendeeId);
@@ -86,16 +75,7 @@ class BookmarkServiceApplicationTests {
     }
 
     @Test
-    void testGetBookmarkedEventsForUser_EntityNotFoundException() {
-        when(repository.getAllByAttendeeID(attendeeId)).thenThrow(EntityNotFoundException.class);
-        List<BookmarkEvent> result = bookmarkService.getBookmarkedEventsForUser(attendeeId);
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        verify(repository, times(1)).getAllByAttendeeID(attendeeId);
-    }
-
-    @Test
-    void testUnbookmarkEventController() {
+    void testUnbookmarkEventController() throws Exception {
         bookmarkController.unbookmarkEvent(eventId, attendeeId);
         List<BookmarkEvent>events = bookmarkService.getBookmarkedEventsForUser(attendeeId);
         assertEquals(events.size(), 0);

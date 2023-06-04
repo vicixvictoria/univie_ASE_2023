@@ -22,14 +22,14 @@ export class TaggingService {
 
   tagEvent(event: Event, user: User, tag: EventType) {
     console.log('tag Event with')
-    return this.httpClient.post(baseUri + 'add/' + event.id + '/' + user.id, null).subscribe(response => {
+    return this.httpClient.post(baseUri + 'add/' + event.eventID + '/' + user.id, null).subscribe(response => {
       return response;
     });
   }
 
   untagEvent(event: Event, user: User, tag: EventType) {
     console.log('remove tag from Event')
-    this.httpClient.put<TaggingEvent>(baseUri + 'removeTag/' + event.id + '/' + user.id+'/'+tag, null).subscribe(response => {
+    this.httpClient.put<TaggingEvent>(baseUri + 'removeTag/' + event.eventID + '/' + user.id+'/'+tag, null).subscribe(response => {
       return response;
     });
 
@@ -37,7 +37,7 @@ export class TaggingService {
 
   getTagsForUserAndEvent(user: User, event: Event) {
     console.log('Request all tagging Events for User')
-    const url = baseUri + 'event/' + event.id+ '/'+user.id;
+    const url = baseUri + 'event/' + event.eventID+ '/'+user.id;
     return this.httpClient.get<TaggingEvent>(url);
   }
 

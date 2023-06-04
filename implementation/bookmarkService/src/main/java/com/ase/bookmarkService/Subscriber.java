@@ -19,7 +19,8 @@ public class Subscriber {
     /**
      * triggers service based on selected method
      */
-    public void bookmarkEventConsumer(RabbitMQMessage<BookmarkEventMessage> bookmarkEventMessage) {
+    public void bookmarkEventConsumer(RabbitMQMessage<BookmarkEventMessage> bookmarkEventMessage)
+            throws Exception {
         switch (bookmarkEventMessage.getMessageType()) {
             case UPDATE -> service.addBookmarkEvent(bookmarkEventMessage.getContent().userId(),
                     bookmarkEventMessage.getContent().eventId());

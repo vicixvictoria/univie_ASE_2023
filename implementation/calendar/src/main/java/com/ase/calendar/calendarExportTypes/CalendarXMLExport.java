@@ -3,9 +3,7 @@ package com.ase.calendar.calendarExportTypes;
 import com.ase.calendar.ACalendarExportType;
 import com.ase.calendar.CalendarEvent;
 import com.ase.calendar.UserCalendar;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.XML;
 
 public class CalendarXMLExport extends ACalendarExportType {
 
@@ -38,12 +36,5 @@ public class CalendarXMLExport extends ACalendarExportType {
         String xmlFooter = "</bookmarkedEvents>\n</root>\n</xs:schema>\n";
         return xmlHeader+eventsXML+ xmlFooter;
 
-        /*try {
-            xml = XML.toString(objectMapper.writeValueAsString(calender));
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return xml;*/
     }
 }

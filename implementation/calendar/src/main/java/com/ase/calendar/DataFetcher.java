@@ -1,11 +1,14 @@
 package com.ase.calendar;
 
 import com.ase.common.event.Event;
+import java.lang.invoke.MethodHandles;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 public class DataFetcher {
@@ -14,47 +17,69 @@ public class DataFetcher {
      * class gets data from EventService and BookmarkService
      */
 
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
+
     public static List<CalendarEvent> requestBookmarkedEvents(String userId) {
-        String BookmarkServiceURL = "http://bookmark:8080/api/v1/bookmark/bookmarkedEventIds/";
+        String BookmarkServiceURL = "http://bookmarkservice:8080/api/v1/bookmark/bookmarkedEventIds/";
 
+        List<CalendarEvent> bookmarkedEvents = new ArrayList<>();
         String requestUrl = BookmarkServiceURL + userId;
+        LOGGER.debug("requesting bookmark event data");
         RestTemplate restTemplate = new RestTemplate();
-        List idResponse = restTemplate.getForObject(requestUrl,
-                List.class);  // get eventids for user
-
-        List<CalendarEvent> bookmarkedEvents = new ArrayList<>(); //refactor to Event with from common service!!!
-
-        for (int i = 0; i < Objects.requireNonNull(idResponse).size(); i++) {
-            String eventId = idResponse.get(i).toString();
-            String eventUrl = "http://localhost:8082/api/v1/events/event/" + eventId;
-            Event event = restTemplate.getForObject(eventUrl, Event.class);
-            if (event != null) {
-                bookmarkedEvents.add(
-                        new CalendarEvent(event.eventName(), event.date(), event.description()));
+        try {
+            List idResponse = restTemplate.getForObject(requestUrl,
+                    List.class);  // get eventids for user
+            for (int i = 0; i < Objects.requireNonNull(idResponse).size(); i++) {
+                String eventId = idResponse.get(i).toString();
+                try {
+                    String eventUrl = "http://event:8080/api/v1/events/event/" + eventId;
+                    Event event = restTemplate.getForObject(eventUrl, Event.class);
+                    if (event != null) {
+                        bookmarkedEvents.add(new CalendarEvent(event.eventName(), event.date(),
+                                event.description()));
+                    }
+                } catch (Exception e) {
+                    LOGGER.error("Did not fetch from events");
+                    return Collections.emptyList();
+                }
             }
+        } catch (Exception e) {
+            LOGGER.error("Did not fetch from bookmarked events");
+            return Collections.emptyList();
         }
         return bookmarkedEvents;
     }
 
-    public static List<CalendarEvent> requestRegisteredEvent(String userId) throws ParseException {
-        //get event for userid
+    public static List<CalendarEvent> requestRegisteredEvent(String userId) {
 
-        /* String eventUrl = "";  //TODO
+        String attendanceUrl = "http://attendance:8080/api/v1/attendeeEventList/" + userId;
         RestTemplate restTemplate = new RestTemplate();
-        List<Event> registeredEventResponse = restTemplate.getForObject(eventUrl, List.class);
-        List<CalendarEvent>registeredEvents = new ArrayList<>();
+        List<CalendarEvent> registeredEvents = new ArrayList<>();
+        try {
 
-        for (int i=0; i<=Objects.requireNonNull(registeredEventResponse).size(); i++){
-            registeredEvents.add(new CalendarEvent(registeredEventResponse.get(i).eventName(), registeredEventResponse.get(i).date()));
+            List<String> registeredEventResponseIds = restTemplate.getForObject(attendanceUrl,
+                    List.class); //TODO change to the user object
+
+            for (int i = 0; i < Objects.requireNonNull(registeredEventResponseIds).size(); i++) {
+                String eventId = registeredEventResponseIds.get(i).toString();
+                try {
+                    String eventUrl = "http://event:8080/api/v1/events/event/" + eventId;
+                    Event event = restTemplate.getForObject(eventUrl, Event.class);
+                    if (event != null) {
+                        registeredEvents.add(new CalendarEvent(event.eventName(), event.date(),
+                                event.description()));
+                    }
+                } catch (Exception e) {
+                    LOGGER.error("Did not fetch from events");
+                    return Collections.emptyList();
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("Did not fetch data from attendance service");
         }
-        return registeredEvents;*/
-
-        //Mock for testing
-        List<CalendarEvent> registeredEventsMock = new ArrayList<>();
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        registeredEventsMock.add(new CalendarEvent("TestEvent1", format.parse("16.06.2023 19:00"),
-                "Es ist toll hier"));
-        return registeredEventsMock;
+        return registeredEvents;
     }
 
 }
