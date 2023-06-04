@@ -5,6 +5,7 @@ import com.ase.common.user.User;
 import com.ase.common.user.UserData;
 import com.ase.common.user.UserLogin;
 import com.ase.login.data.MyUser;
+import com.ase.login.exception.JWTInvalidException;
 import com.ase.login.exception.UserAlreadyExistsException;
 import com.ase.login.exception.UserDetailsException;
 import com.ase.login.exception.UserNotFoundException;
@@ -44,15 +45,22 @@ public class LoginController {
         this.converter = converter;
     }
 
-    @ExceptionHandler({UserDetailsException.class, UserAlreadyExistsException.class})
+    @ExceptionHandler({UserDetailsException.class, UserAlreadyExistsException.class,
+            JWTInvalidException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> userDetailsInvalid() {
-        return new ResponseEntity<>("The requested user was not found!", HttpStatus.NOT_FOUND);
+    public ResponseEntity<User> userDetailsInvalid() {
+        return new ResponseEntity<>(new User(null, null, null), HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/verifyToken")
-    public boolean verifyToken(@RequestBody String token) {
+    @PostMapping(value = "/verifyToken")
+    public Boolean verifyToken(@RequestBody String token) {
         return service.verifyToken(token);
+    }
+
+    @PostMapping(value = "/getByToken")
+    public User getByToken(@RequestBody String token)
+            throws UserNotFoundException, JWTInvalidException {
+        return converter.internalUserToNetworkUser(service.getUserByToken(token));
     }
 
     @PostMapping(value = "/register")

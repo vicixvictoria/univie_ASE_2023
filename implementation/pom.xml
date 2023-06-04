@@ -20,5 +20,6 @@
     <module>searchServiceEvents</module>
     <module>sendNotification</module>
     <module>taggingService</module>
+    <module>api-gateway</module>
   </modules>
 </project>

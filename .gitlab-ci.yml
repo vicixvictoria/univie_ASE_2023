@@ -15,6 +15,16 @@ before_script:
 #  - mvn install:install file -Dfile=target/common-1.0-SNAPSHOT.jar -DgroupId=com.ase -DartifactId=common -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
   - cd ../../
 
+buildAPIGateway:
+  stage: build
+  tags:
+    - ase-0203
+  script:
+    - cd implementation/api-gateway && mvn package -Dmaven.test.skip
+  artifacts:
+    paths:
+      - implementation/api-gateway/target/
+
 buildAnalyticReport:
   stage: build
   tags:
@@ -156,6 +166,19 @@ buildTagging:
     paths:
       - implementation/bookmarkService/target/  
 
+testAPIGateway:
+  stage: test
+  image: maven:3.8.5-openjdk-17
+  needs:
+    - buildAPIGateway
+  tags:
+    - ase-0203
+  script:
+    - cd implementation/analyticReport && mvn package -Dmaven.test.skip
+    - mvn test
+  artifacts:
+    paths:
+      - implementation/api-gateway/target/
 
 testAnalyticReport:
   stage: test 
