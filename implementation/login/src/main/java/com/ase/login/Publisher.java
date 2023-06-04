@@ -17,15 +17,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class Publisher {
 
+    private final Converter converter;
+    private final RabbitTemplate rabbitTemplate;
     @Value("${user.exchange}")
     private String userExchange;
 
-    private final Converter converter = new Converter();
-    private final RabbitTemplate rabbitTemplate;
-
     @Autowired
-    public Publisher(RabbitTemplate rabbitTemplate) {
+    public Publisher(RabbitTemplate rabbitTemplate, Converter converter) {
         this.rabbitTemplate = rabbitTemplate;
+        this.converter = converter;
     }
 
     private RabbitMQMessage<User> getUserMessage(MyUser user,

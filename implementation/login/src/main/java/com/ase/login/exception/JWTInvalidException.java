@@ -1,6 +1,7 @@
 package com.ase.login.exception;
 
-public class JWTInvalidException extends Exception{
+public class JWTInvalidException extends Exception {
+
     public JWTInvalidException() {
         super();
     }

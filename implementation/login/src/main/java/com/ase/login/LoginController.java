@@ -34,13 +34,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/login")
 public class LoginController {
 
-    private final Converter converter = new Converter();
+    private final Converter converter;
 
     private final LoginService service;
 
     @Autowired
-    public LoginController(LoginService service) {
+    public LoginController(LoginService service, Converter converter) {
         this.service = service;
+        this.converter = converter;
     }
 
     @ExceptionHandler({UserDetailsException.class, UserAlreadyExistsException.class})

@@ -43,9 +43,17 @@ public class MyUser implements IUserUnmodifiable {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -53,21 +61,13 @@ public class MyUser implements IUserUnmodifiable {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public ERole getRole() {
         return role;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void setRole(ERole role) {
