@@ -19,12 +19,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class LoginServiceTests {
 
     private IMyUserRepository userRepository;
     private Publisher publisher;
     private JWTHelper jwtHelper;
+    private PasswordEncoder passwordEncoder;
+    private final String encodedPassword = "encoded-password";
 
     private LoginService loginService;
 
@@ -33,8 +36,10 @@ public class LoginServiceTests {
         userRepository = Mockito.mock(IMyUserRepository.class);
         publisher = Mockito.mock(Publisher.class);
         jwtHelper = Mockito.mock(JWTHelper.class);
+        passwordEncoder = Mockito.mock(PasswordEncoder.class);
+        when(passwordEncoder.encode(any())).thenReturn(encodedPassword);
 
-        loginService = new LoginService(userRepository, publisher, jwtHelper);
+        loginService = new LoginService(userRepository, publisher, jwtHelper, passwordEncoder);
     }
 
     private IUserData getMockUserData() {
@@ -55,6 +60,7 @@ public class LoginServiceTests {
     @Test
     public void LoginService_addUser_validCall() {
         IUserData userData = getMockUserData();
+
         try {
             loginService.addUser(userData);
         } catch (UserAlreadyExistsException e) {
@@ -64,13 +70,13 @@ public class LoginServiceTests {
         Mockito.verify(userRepository, times(1))
                 .save(ArgumentMatchers.argThat(
                         ele -> ele.getEmail().equals(userData.getEmail()) &&
-                                ele.getPassword().equals(userData.getPassword()) &&
+                                ele.getPassword().equals(encodedPassword) &&
                                 ele.getRole().equals(userData.getRole())));
 
         Mockito.verify(publisher, Mockito.times(1))
                 .newUserCreated(ArgumentMatchers.argThat(
                         ele -> ele.getEmail().equals(userData.getEmail()) &&
-                                ele.getPassword().equals(userData.getPassword()) &&
+                                ele.getPassword().equals(encodedPassword) &&
                                 ele.getRole().equals(userData.getRole())));
     }
 
@@ -133,7 +139,7 @@ public class LoginServiceTests {
         }
 
         Mockito.verify(dbUser, Mockito.times(1)).setEmail(updateData.getEmail());
-        Mockito.verify(dbUser, Mockito.times(1)).setPassword(updateData.getPassword());
+        Mockito.verify(dbUser, Mockito.times(1)).setPassword(encodedPassword);
 
         Mockito.verify(publisher, Mockito.times(1)).userUpdated(dbUser);
     }
@@ -235,9 +241,10 @@ public class LoginServiceTests {
 
         MyUser dbUser = Mockito.mock(MyUser.class);
         when(dbUser.getEmail()).thenReturn(email);
-        when(dbUser.getPassword()).thenReturn(password);
+        when(dbUser.getPassword()).thenReturn(encodedPassword);
 
         when(userRepository.findMyUserByEmail(email)).thenReturn(Optional.of(dbUser));
+        when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
 
         try {
             loginService.login(email, password);

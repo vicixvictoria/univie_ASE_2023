@@ -7,8 +7,12 @@ import com.ase.login.exception.UserAlreadyExistsException;
 import com.ase.login.exception.UserDetailsException;
 import com.ase.login.exception.UserNotFoundException;
 import com.ase.login.repository.IMyUserRepository;
+import java.lang.invoke.MethodHandles;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,18 +24,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LoginService {
+    private final static Logger LOGGER = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
 
     private final IMyUserRepository myUserRepository;
     private final Publisher publisher;
     private final JWTHelper jwtHelper;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public LoginService(IMyUserRepository myUserRepository, Publisher publisher,
-            JWTHelper jwtHelper) {
+            JWTHelper jwtHelper, PasswordEncoder passwordEncoder) {
         this.myUserRepository = myUserRepository;
         this.publisher = publisher;
         this.jwtHelper = jwtHelper;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
     /**
      * Adds a user into the system, with the given user data.
@@ -46,7 +55,10 @@ public class LoginService {
             throw new UserAlreadyExistsException();
         }
 
-        MyUser newUser = new MyUser(newUserData); //TODO: MAYBE ADD SOME FACTORY FOR THIS?
+        // TODO: MAYBE ADD SOME FACTORY FOR THIS?
+        MyUser newUser = new MyUser(newUserData.getEmail(),
+                passwordEncoder.encode(newUserData.getPassword()),
+                newUserData.getRole());
 
         myUserRepository.save(newUser);
         publisher.newUserCreated(newUser);
@@ -99,7 +111,7 @@ public class LoginService {
         }
 
         dbUser.setEmail(updatedUserData.getEmail());
-        dbUser.setPassword(updatedUserData.getPassword());
+        dbUser.setPassword(passwordEncoder.encode(updatedUserData.getPassword()));
 
         publisher.userUpdated(dbUser);
     }
@@ -137,6 +149,8 @@ public class LoginService {
      * @throws UserDetailsException if the given email was not found in the system
      */
     public JWTResponse login(String email, String password) throws UserDetailsException {
+        LOGGER.debug(String.format("Received login request for: %s;%s", email, password));
+
         Optional<MyUser> queryResult = myUserRepository.findMyUserByEmail(email);
 
         if (queryResult.isEmpty()) {
@@ -146,9 +160,9 @@ public class LoginService {
 
         MyUser user = queryResult.get();
 
-        if (!user.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new PasswordIncorrectException(
-                    "The given password did not match with the stored password!");
+                    "The given password did not match with the stored password!" + password + " " + user.getPassword());
         }
 
         return jwtHelper.generateJWTResponse(user);

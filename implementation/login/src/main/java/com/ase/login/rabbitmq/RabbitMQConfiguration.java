@@ -6,8 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Spring configuration class, responsible for setting up RabbitMQ.
- * It sets up:
+ * Spring configuration class, responsible for setting up RabbitMQ. It sets up:
  * <ul>
  *     <li>The exchange {@code user.exchange} to which new users will be published</li>
  * </ul>

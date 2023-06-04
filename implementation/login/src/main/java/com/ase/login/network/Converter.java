@@ -6,10 +6,14 @@ import com.ase.login.data.ERole;
 import com.ase.login.data.IUserData;
 import com.ase.login.data.MyUser;
 import com.ase.login.data.UserData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 /**
  * Responsible for converting between common objects and internal objects
  */
+@Component
 public class Converter {
 
     public EUserRole internalUserRoleToNetworkUserRole(ERole role) {
@@ -44,5 +48,4 @@ public class Converter {
                 internalUserRoleToNetworkUserRole(jwtResponse.user().getRole()),
                 jwtResponse.jwt());
     }
-
 }
