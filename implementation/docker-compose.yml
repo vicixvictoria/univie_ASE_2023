@@ -9,12 +9,14 @@ services:
     build: analyticReport
     networks:
       analyticReport-rabbit:
+      analyticReport-apigateway:
 
   attendance:
     image: attendance
     build: attendance
     networks:
       attendance-rabbit:
+      attendance-apigateway:
 
   bookmarkService:
     image: bookmarkservice
@@ -34,18 +36,21 @@ services:
     build: event
     networks:
       event-rabbit:
+      event-apigateway:
 
   feedback:
     image: feedback
     build: feedback
     networks:
       feedback-rabbit:
+      feedback-apigateway:
 
   login:
     image: login
     build: login
     networks:
       login-rabbit:
+      login-apigateway:
     environment:
       <<: *common-variables
       JWT-SECRET: "top-secret"
@@ -58,24 +63,28 @@ services:
     build: maintenance
     networks:
       maintenance-rabbit:
+      maintenance-apigateway:
 
   notification:
     image: notification
     build: notification
     networks:
       notification-rabbit:
+      notification-apigateway:
 
   recommender:
     image: recommender
     build: recommender
     networks:
       recommender-rabbit:
+      recommender-apigateway:
 
   searchServiceEvents:
     image: searchserviceevents
     build: searchServiceEvents
     networks:
       searchServiceEvent-rabbit:
+      searchServiceEvent-apigateway:
 
   taggingService:
     image: taggingservice
@@ -88,12 +97,53 @@ services:
     build: sendNotification
     networks:
       sendNotification-rabbit:
+      sendNotification-apigateway:
     environment:
       <<: *common-variables
       NOTIFICATION_SENDER_EMAIL: <email>
       NOTIFICATION_SENDER_PASSWORD: <password>
     volumes:
       - ./.persistence/sendNotification:/persistence
+
+  frontend:
+    image: frontend
+    build: frontend/frontend
+    networks:
+      frontend-apigateway:
+    ports:
+      - 4200:4200
+
+  apigateway:
+    image: api-gateway
+    build: api-gateway
+    environment:
+      <<: *common-variables
+      ANALYTIC_REPORT: analyticreport
+      ATTENDANCE: attendance
+      BOOKMARK_SERVICE: bookmarkservice
+      CALENDAR: calendar
+      EVENT: event
+      FEEDBACK: feedback
+      LOGIN: login
+      MAINTENANCE: maintenance
+      NOTIFICATION: notification
+      RECOMMENDER: recommender
+      SERCH_SERVICE_EVENTS: searchserviceevents
+      TAGGING_SERVICE: taggingservice
+      
+
+    networks:
+      analyticReport-apigateway:
+      attendance-apigateway:
+      event-apigateway:
+      feedback-apigateway:
+      login-apigateway:
+      maintenance-apigateway:
+      notification-apigateway:
+      recommender-apigateway:
+      searchServiceEvent-apigateway:
+      sendNotification-apigateway:
+      frontend-apigateway:
 
   rabbitmq:
     image: rabbitmq
@@ -112,26 +162,28 @@ services:
 
 networks:
   analyticReport-rabbit:
-    name: analyticReport-rabbit
   attendance-rabbit:
-    name: attendance-rabbit
   bookmarkService-rabbit:
   event-rabbit:
-    name: event-rabbit
   feedback-rabbit:
-    name: feedback-rabbit
   login-rabbit:
-    name: login-rabbit
   maintenance-rabbit:
-    name: maintenance-rabbit
   notification-rabbit:
-    name: notification-rabbit
   recommender-rabbit:
-    name: recommender-rabbit
   searchServiceEvent-rabbit:
-    name: searchServiceEvent-rabbit
   sendNotification-rabbit:
-    name: sendNotification-rabbit
   taggingService-rabbit:
+
   bookmarkService-calendar:
 
+  analyticReport-apigateway:
+  attendance-apigateway:
+  event-apigateway:
+  feedback-apigateway:
+  login-apigateway:
+  maintenance-apigateway:
+  notification-apigateway:
+  recommender-apigateway:
+  searchServiceEvent-apigateway:
+  sendNotification-apigateway:
+  frontend-apigateway:

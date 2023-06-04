@@ -2,6 +2,7 @@ package com.ase.login;
 
 import com.ase.login.data.IUserData;
 import com.ase.login.data.MyUser;
+import com.ase.login.exception.JWTInvalidException;
 import com.ase.login.exception.PasswordIncorrectException;
 import com.ase.login.exception.UserAlreadyExistsException;
 import com.ase.login.exception.UserDetailsException;
@@ -152,5 +153,15 @@ public class LoginService {
         }
 
         return jwtHelper.generateJWTResponse(user);
+    }
+
+    public MyUser getUserByToken(String token) throws JWTInvalidException, UserNotFoundException {
+        String userId = jwtHelper.extractId(token);
+        Optional<MyUser> queryResult = myUserRepository.findById(userId);
+
+        if (queryResult.isEmpty()) {
+            throw new UserNotFoundException("Could not find the owner of the JWT");
+        }
+        return queryResult.get();
     }
 }
