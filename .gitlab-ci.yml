@@ -7,7 +7,7 @@ image: maven:3.8.5-openjdk-17
 
 default:
   artifacts:
-    expire_in: 7 days
+    expire_in: 1 hour
 
 before_script:
   - cd implementation/common 
@@ -176,9 +176,6 @@ testAPIGateway:
   script:
     - cd implementation/analyticReport && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/api-gateway/target/
 
 testAnalyticReport:
   stage: test 
@@ -190,9 +187,6 @@ testAnalyticReport:
   script:
     - cd implementation/analyticReport && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-    - implementation/analyticReport/target/
 
 testAttendance:
   stage: test 
@@ -203,9 +197,6 @@ testAttendance:
   script:
     - cd implementation/attendance && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-    - implementation/attendance/target/
 
 testBookmarkService:
   stage: test 
@@ -216,9 +207,6 @@ testBookmarkService:
   script:
     - cd implementation/bookmarkService && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/bookmarkService/target/
 
 testCalendar:
   stage: test 
@@ -229,9 +217,6 @@ testCalendar:
   script:
     - cd implementation/calendar && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/calendar/target/
 
 testCommon:
   stage: test 
@@ -242,9 +227,6 @@ testCommon:
   script:
     - cd implementation/common && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/common/target/
 
 testEvent:
   stage: test 
@@ -255,9 +237,6 @@ testEvent:
   script:
     - cd implementation/event && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/event/target/
 
 testFeedback:
   stage: test 
@@ -268,9 +247,6 @@ testFeedback:
   script:
     - cd implementation/feedback && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/feedback/target/
 
 testLogin:
   stage: test 
@@ -281,9 +257,6 @@ testLogin:
   script:
     - cd implementation/login && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/login/target/
 
 testMaintenance:
   stage: test 
@@ -294,9 +267,6 @@ testMaintenance:
   script:
     - cd implementation/maintenance && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/maintenance/target/
 
 testNotification:
    stage: test 
@@ -307,9 +277,6 @@ testNotification:
    script:
      - cd implementation/notification && mvn package -Dmaven.test.skip
      - mvn test
-   artifacts:
-     paths:
-       - implementation/notification/target/
 
 testRecommender:
   stage: test 
@@ -320,9 +287,6 @@ testRecommender:
   script:
     - cd implementation/recommender && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/recommender/target/
 
 testSearchServiceEvents:
   stage: test 
@@ -333,9 +297,6 @@ testSearchServiceEvents:
   script:
     - cd implementation/searchServiceEvents && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/searchServiceEvents/target/
 
 testSendNotification:
   stage: test 
@@ -346,9 +307,6 @@ testSendNotification:
   script:
     - cd implementation/sendNotification && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/sendNotification/target/
 
 testTagging:
   stage: test 
@@ -359,9 +317,6 @@ testTagging:
   script:
     - cd implementation/taggingService && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/taggingService/target/ 
 
 
 deploy:
