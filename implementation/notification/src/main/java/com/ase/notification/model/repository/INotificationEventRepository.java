@@ -13,6 +13,6 @@ public interface INotificationEventRepository extends JpaRepository<Notification
     Optional<Collection<NotificationEvent>> findNotificationEventsByEvent(
             IUnmodifiableRawEvent event);
 
-    Optional<NotificationEvent> findNotificationEventsByEventAndUserIdAndType(RawEvent event,
+    Optional<NotificationEvent> findNotificationEventsByEventAndUserIdAndType(IUnmodifiableRawEvent event,
             String userId, EEventType type);
 }

@@ -25,13 +25,13 @@ public class NotificationEvent {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "eventId", unique = true)
+    @JoinColumn(name = "eventId")
     private RawEvent event;
 
-    @Column(unique = true)
+    @Column
     private String userId; // only save a userId here, we don't need the entire user object
 
-    @Column(unique = true)
+    @Column
     private EEventType type;
 
     public NotificationEvent() {
@@ -71,7 +71,7 @@ public class NotificationEvent {
         return userId;
     }
 
-    public void setUserId(String eventId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
