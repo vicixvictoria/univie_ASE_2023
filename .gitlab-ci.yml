@@ -129,7 +129,7 @@ testAPIGateway:
   tags:
     - ase-0203
   script:
-    - cd implementation/analyticReport && mvn package -Dmaven.test.skip
+    - cd implementation/api-gateway && mvn package -Dmaven.test.skip
     - mvn test
   artifacts:
     paths:
