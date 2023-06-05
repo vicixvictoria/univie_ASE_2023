@@ -85,7 +85,7 @@ public class LoginController {
         service.deleteUser(userId);
     }
 
-    @GetMapping(value = "/login")
+    @PostMapping(value = "/login")
     public JWTResponse login(@RequestBody UserLogin login) throws UserDetailsException {
         return converter.internalJWTResponseToNetworkJWTResponse(
                 service.login(login.email(), login.password()));
