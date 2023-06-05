@@ -3,7 +3,7 @@ package com.ase.sendNotification;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.ase.sendNotification.mailsender.AMailSender;
+import com.ase.sendNotification.mailsender.MailSender;
 import com.ase.sendNotification.model.NotificationUser;
 import com.ase.sendNotification.repository.IUserRepository;
 import java.util.Optional;
@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 
 public class NotificationSendServiceTest {
 
-    private AMailSender mailSender;
+    private MailSender mailSender;
     private IUserRepository userRepository;
     private NotificationUser notificationUser;
     private final String storedId = "storedId";
@@ -24,7 +24,7 @@ public class NotificationSendServiceTest {
 
     @BeforeEach
     public void setNotificationSendService() {
-        mailSender = Mockito.mock(AMailSender.class);
+        mailSender = Mockito.mock(MailSender.class);
         userRepository = Mockito.mock(IUserRepository.class);
         notificationUser = Mockito.mock(NotificationUser.class);
         when(notificationUser.getEmail()).thenReturn(storedEmail);

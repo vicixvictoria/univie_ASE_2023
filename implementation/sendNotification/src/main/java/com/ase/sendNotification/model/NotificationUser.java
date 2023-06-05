@@ -2,6 +2,7 @@ package com.ase.sendNotification.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class NotificationUser {
@@ -32,5 +33,21 @@ public class NotificationUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof NotificationUser that)) {
+            return false;
+        }
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

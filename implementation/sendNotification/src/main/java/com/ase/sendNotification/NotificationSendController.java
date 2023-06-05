@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/sendNotification")
 public class NotificationSendController {
 
-    @GetMapping(name = "/healthcheck")
+    @GetMapping(value = "/healthcheck")
     public ResponseEntity<Void> healthcheck() {
         return ResponseEntity.ok().build();
     }
