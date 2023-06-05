@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
 
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.accountService.login(this.formVals.username.value, this.formVals.password.value)
+    this.accountService.login(this.formVals.email.value, this.formVals.password.value)
     .pipe(first())
     .subscribe({
       next: () => {

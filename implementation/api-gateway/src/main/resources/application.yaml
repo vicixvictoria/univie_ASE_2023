@@ -1,5 +1,20 @@
 debug: ${DEBUG:true}
 
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - UPDATE
+              - DELETE
+
+
 config:
   user-token-endpoint: http://${LOGIN:localhost}:8080/api/v1/login/getByToken
   endpoints:
@@ -13,4 +28,4 @@ config:
       authorize: false
       gateway-path-base: /api/v1/login
 server:
-  port: 8081
+  port: 8080

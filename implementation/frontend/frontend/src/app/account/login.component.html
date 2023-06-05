@@ -4,9 +4,9 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label class="form-label">Username (E-Mail)</label>
-        <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && formVals.username.errors }" />
-        <div *ngIf="submitted && formVals.username.errors" class="invalid-feedback">
-          <div *ngIf="formVals.username.errors.required">Username is required</div>
+        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && formVals.email.errors }" />
+        <div *ngIf="submitted && formVals.email.errors" class="invalid-feedback">
+          <div *ngIf="formVals.email.errors.required">Username is required</div>
         </div>
       </div>
       <div class="mb-3">

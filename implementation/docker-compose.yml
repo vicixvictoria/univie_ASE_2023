@@ -130,7 +130,8 @@ services:
       RECOMMENDER: recommender
       SERCH_SERVICE_EVENTS: searchserviceevents
       TAGGING_SERVICE: taggingservice
-      
+    ports:
+      - 8080:8080
 
     networks:
       analyticReport-apigateway:
