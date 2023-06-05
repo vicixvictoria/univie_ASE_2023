@@ -1,6 +1,6 @@
 package com.ase.sendNotification;
 
-import com.ase.sendNotification.mailsender.AMailSender;
+import com.ase.sendNotification.mailsender.MailSender;
 import com.ase.sendNotification.model.NotificationUser;
 import com.ase.sendNotification.repository.IUserRepository;
 import java.lang.invoke.MethodHandles;
@@ -18,11 +18,11 @@ public class NotificationSendService {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
 
-    private final AMailSender mailSender;
+    private final MailSender mailSender;
     private final IUserRepository userRepository;
 
     @Autowired
-    public NotificationSendService(@Qualifier("google") AMailSender mailSender,
+    public NotificationSendService(MailSender mailSender,
             IUserRepository userRepository) {
         this.mailSender = mailSender;
         this.userRepository = userRepository;
