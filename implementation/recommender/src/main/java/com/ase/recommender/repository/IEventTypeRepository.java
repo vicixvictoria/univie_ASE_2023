@@ -1,12 +1,20 @@
 package com.ase.recommender.repository;
 
 import com.ase.recommender.data.EventType;
-import java.util.ArrayList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.ase.common.event.*;
 
+/**
+ * The repository interface for EventType entities.
+ */
 @Repository
 public interface IEventTypeRepository extends JpaRepository<EventType, String> {
+
+    /**
+     * Retrieves the EventType entity by the specified event ID.
+     *
+     * @param eventID The ID of the event.
+     * @return The EventType entity associated with the event ID.
+     */
     EventType getByEventID(String eventID);
 }
