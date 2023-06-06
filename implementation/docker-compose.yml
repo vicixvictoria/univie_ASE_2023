@@ -112,13 +112,13 @@ services:
     volumes:
       - ./_persistence/sendNotification:/persistence
 
-  #frontend:
-    #image: frontend
-    #build: frontend/frontend
-    #networks:
-      #frontend-apigateway:
-    #ports:
-     # - 4200:4200
+  frontend:
+    image: frontend
+    build: frontend/frontend
+    networks:
+      frontend-apigateway:
+    ports:
+      - 4200:4200
 
   apigateway:
     image: api-gateway
