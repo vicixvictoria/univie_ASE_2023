@@ -39,7 +39,7 @@ export class EventService {
 
   getEventsByName(name: string): Observable<Event[]> {
     console.log('get all Events with this name' + name);
-    return this.httpClient.get<Event[]>(baseUri + '/' + name);
+    return this.httpClient.get<Event[]>(baseUri+ '/' + name);
   }
 
   getEventsByDate(date: Date): Observable<Event[]> {
@@ -52,7 +52,12 @@ export class EventService {
     return this.httpClient.get<Event[]>(baseUri + '/' + capacity);
   }
 
-  getAllEventsByOrganizerID(id:number): Observable<Event[]> {
+  getEventsByDes(des: string): Observable<Event[]> {
+    console.log('get all Events with this desc' + des);
+    return this.httpClient.get<Event[]>(baseUri + '/' + des);
+  }
+
+  getAllEventsByOrganizerID(id:string): Observable<Event[]> {
     console.log('get all Events from one organizer');
     return this.httpClient.get<Event[]>(baseUri+ '/organizer' + id);
 

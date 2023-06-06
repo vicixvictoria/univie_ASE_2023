@@ -1,5 +1,9 @@
-package com.ase.event;
+package com.ase.event.Service;
 
+import com.ase.event.Data.EEventTypes;
+import com.ase.event.Data.Event;
+import com.ase.event.Repository.IEventRepository;
+import com.ase.event.Publisher;
 import jakarta.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.util.Date;
@@ -15,6 +19,7 @@ public class EventService {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
     private final IEventRepository iEventRepository;
+
 
     private final Publisher publisher;
 
@@ -42,6 +47,10 @@ public class EventService {
      */
     public List<Event> getAllEventsByorganizerID(String id) {
         LOGGER.debug("getAll Events by organizerID {}", id);
+        if (id == null){
+            LOGGER.error("OrganizerID is empty");
+            throw new RuntimeException("OrganizerID is not correct");
+        }
         return iEventRepository.findAllByorganizerID(id);
     }
 
@@ -53,6 +62,10 @@ public class EventService {
      */
     public Event getEventsByID(String id) {
         LOGGER.debug("getAll Events by eventID {}", id);
+        if (id == null){
+            LOGGER.error("ID is empty");
+            throw new RuntimeException("ID is not correct");
+        }
         return iEventRepository.findEventByeventID(id);
     }
 
@@ -62,8 +75,12 @@ public class EventService {
      * @param date
      * @return List of events with the same date
      */
-    public List<Event> getEventByDate(Date date) {
+    public List<Event> getEventsByDate(Date date) {
         LOGGER.debug("getAll Events by Date {}", date);
+        if (date == null){
+            LOGGER.error("Date is empty");
+            throw new RuntimeException("Date is not correct");
+        }
         return iEventRepository.findByDate(date);
     }
 
@@ -73,9 +90,24 @@ public class EventService {
      * @param capacity
      * @return List of events with the same capacity
      */
-    public List<Event> getEventByCapacity(int capacity) {
+    public List<Event> getEventsByCapacity(int capacity) {
         LOGGER.debug("getAll Events by capacity {}", capacity);
         return iEventRepository.findByCapacity(capacity);
+    }
+
+    /**
+     * This method is called to get a List of all events with the same capacity
+     *
+     * @param name
+     * @return List of events with the same capacity
+     */
+    public List<Event> getEventsByName(String name) {
+        LOGGER.debug("getAll Events by name {}", name);
+        if (name == null){
+            LOGGER.error("Name is empty");
+            throw new RuntimeException("Name is not correct");
+        }
+        return iEventRepository.findByEventName(name);
     }
 
     /**
@@ -84,9 +116,28 @@ public class EventService {
      * @param type
      * @return List of events with the same type
      */
-    public List<Event> getEventByType(EEventTypes type) {
+    public List<Event> getEventsByType(EEventTypes type) {
         LOGGER.debug("getAll Events by type {}", type);
+        if (type == null){
+            LOGGER.error("Type is empty");
+            throw new RuntimeException("Type is not correct");
+        }
         return iEventRepository.findByType(type);
+    }
+
+    /**
+     * This method is called to get a List of all events with the same description
+     *
+     * @param des
+     * @return List of events with the same type
+     */
+    public List<Event> getEventsByDescription(String des) {
+        LOGGER.debug("getAll Events by description {}", des);
+        if (des == null){
+            LOGGER.error("Description is empty");
+            throw new RuntimeException("Description is not correct");
+        }
+        return iEventRepository.findByDescription(des);
     }
 
     /**
@@ -99,6 +150,11 @@ public class EventService {
     @Transactional
     public Event createEvent(Event event) {
         LOGGER.debug("create and save new event {}", event);
+        //eventValidator.validateNewEvent(event);
+        if (event == null || event.getEventName() == null || event.getCapacity()<1){
+            LOGGER.error("Event is not correct. Either its empty, or it has no name, or the Capacity is below 1, or there is no date.");
+            throw new RuntimeException("Event not correct");
+        }
         Event newEvent =  iEventRepository.save(event);
         publisher.newEvent(event);
         return newEvent;
@@ -114,6 +170,10 @@ public class EventService {
     @Transactional
     public Event updateEvent(Event event) {
         LOGGER.debug("update event {}", event);
+        if (event == null || event.getEventName() == null || event.getCapacity()<1|| event.getDate() == null){
+            LOGGER.error("Event is not correct. Either its empty, or it has no name, or the Capacity is below 1, or there is no date.");
+            throw new RuntimeException("Event not correct");
+        }
         Event event1 = iEventRepository.findEventByeventID(event.getEventID());
         Event updatedEvent = iEventRepository.save(event);
         publisher.updateEvent(updatedEvent);
@@ -127,6 +187,10 @@ public class EventService {
      */
     public void deleteEvent(String eventID) {
         LOGGER.debug("delete event {}", getEventsByID(eventID));
+        if(eventID == null){
+            LOGGER.error("EventID is empty");
+            throw new RuntimeException("EventID not correct");
+        }
         Event deletedEvent = iEventRepository.findEventByeventID(eventID);
         iEventRepository.deleteById(eventID);
         publisher.deleteEvent(deletedEvent);

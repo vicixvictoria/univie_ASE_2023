@@ -9,22 +9,29 @@
       <input formControlName="eventName" id="eventName" name="eventName"
              placeholder="Event Name" type="text" matInput>
     </mat-form-field>
-    <button mat-icon-button color="warn" (click)="searchByName()">
-      <mat-icon>check</mat-icon>
+    <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByName()">
+      <mat-icon>go</mat-icon>
     </button>
 
     <mat-form-field>
       <input formControlName="date" id="date" name="date" placeholder ="Date" type="date" matInput>
     </mat-form-field>
-    <button mat-icon-button color="warn" (click)="searchByDate()">
-      <mat-icon>check</mat-icon>
+    <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByDate()">
+      <mat-icon>go</mat-icon>
     </button>
 
     <mat-form-field>
       <input formControlName="capacity" id="capacity" name="capacity" placeholder ="Capacity" type="number" matInput>
     </mat-form-field>
-    <button mat-icon-button color="warn" (click)="searchByCapacity()">
-      <mat-icon>check</mat-icon>
+    <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByCapacity()">
+      <mat-icon>go</mat-icon>
+    </button>
+
+    <mat-form-field>
+      <input formControlName="description" id="description" name="description" placeholder ="description" type="string" matInput>
+    </mat-form-field>
+    <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByDes()">
+      <mat-icon>go</mat-icon>
     </button>
   </form>
     </div>

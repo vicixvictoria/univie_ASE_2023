@@ -37,6 +37,9 @@ services:
     networks:
       event-rabbit:
       event-apigateway:
+    volumes:
+      - ./.persistence/event:/persistence
+
 
   feedback:
     image: feedback
@@ -85,6 +88,8 @@ services:
     networks:
       searchServiceEvent-rabbit:
       searchServiceEvent-apigateway:
+    volumes:
+      - ./.persistence/searchService:/persistence
 
   taggingService:
     image: taggingservice

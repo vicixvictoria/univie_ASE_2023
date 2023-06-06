@@ -1,4 +1,4 @@
-package com.ase.event.rabbitMQ.helper;
+package com.ase.searchServiceEvents.Network.Helper;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -36,5 +36,4 @@ public class RabbitMQConfigurationHelper<Subscriber> {
         container.setMessageListener(adapter);
         return container;
     }
-
 }

@@ -29,13 +29,18 @@ export class SearchServiceService {
   }
 
   getEventsByDate(date: Date): Observable<Event[]> {
-    console.log('get all Events with this name' + date);
+    console.log('get all Events with this date' + date);
     return this.httpClient.get<Event[]>(baseUri + '/' + date);
   }
 
   getEventsByCapacity(capacity: number): Observable<Event[]> {
-    console.log('get all Events with this name' + capacity);
+    console.log('get all Events with this capacity' + capacity);
     return this.httpClient.get<Event[]>(baseUri + '/' + capacity);
+  }
+
+  getEventsByDes(des: string): Observable<Event[]> {
+    console.log('get all Events with this desc' + des);
+    return this.httpClient.get<Event[]>(baseUri + '/' + des);
   }
 
   getAllEventsByOrganizerID(id:number): Observable<Event[]> {

@@ -14,7 +14,7 @@ public class RabbitMQEventConfiguration {
 
     @Bean(name = "event-exchange")
     public FanoutExchange exchange() {
-        return helper.getExchange(exchangeName);
-    }
+        return helper.getExchange(exchangeName);}
+
 
 }

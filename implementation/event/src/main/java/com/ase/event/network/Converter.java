@@ -1,8 +1,8 @@
 package com.ase.event.network;
 
 import com.ase.common.event.EEventType;
-import com.ase.event.EEventTypes;
-import com.ase.event.Event;
+import com.ase.event.Data.EEventTypes;
+import com.ase.event.Data.Event;
 
 public class Converter {
 
