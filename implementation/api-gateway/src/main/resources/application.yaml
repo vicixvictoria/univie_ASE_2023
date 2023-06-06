@@ -27,6 +27,30 @@ config:
         - /register
       authorize: false
       gateway-path-base: /api/v1/login
+    calendar:
+      endpoint: http://${CALENDAR:localhost}:8080
+      path-base: /api/v1/calendar
+      paths:
+        - /export
+      gateway-path-base: /api/v1/calendar
+    bookmark:
+      endpoint: http://${BOOKMARK_SERVICE:localhost}:8080
+      path-base: /api/v1/bookmark
+      paths:
+        - /add
+        - /unbookmarkEvent
+        - /bookmarkedEvents
+        - /bookmarkedEventIds
+      gateway-path-base: /api/v1/bookmark
+    tagging:
+      endpoint: http://${TAGGING_SERVICE:localhost}:8080
+      path-base: /api/v1/tag
+      paths:
+        - /add
+        - /event
+        - /removeTag
+        - /removeEvent
+      gateway-path-base: /api/v1/tag
 
 server:
   port: 8080

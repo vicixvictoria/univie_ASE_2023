@@ -8,7 +8,7 @@ public class RabbitMQConfigurationPublisher {
 
     private final RabbitMQConfigurationHelper<Object> helper = new RabbitMQConfigurationHelper<>();
 
-    @Value("${bookmakrEvent_exchange}")
+    @Value("${bookmarkEvent_exchange}")
     private String exchangeName;
 
     /**
