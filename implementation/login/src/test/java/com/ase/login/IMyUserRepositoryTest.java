@@ -1,8 +1,8 @@
 package com.ase.login;
 
-import com.ase.login.data.ERole;
-import com.ase.login.data.MyUser;
-import com.ase.login.repository.IMyUserRepository;
+import com.ase.login.domain.ERole;
+import com.ase.login.domain.MyUser;
+import com.ase.login.dataAccess.IMyUserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;

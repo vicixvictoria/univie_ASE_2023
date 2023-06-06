@@ -7,6 +7,8 @@ import com.ase.common.RabbitMQMessage;
 import com.ase.common.sendNotification.NotificationContent;
 import com.ase.common.user.EUserRole;
 import com.ase.common.user.User;
+import com.ase.sendNotification.business.NotificationSendService;
+import com.ase.sendNotification.integration.Subscriber;
 import java.io.Serializable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

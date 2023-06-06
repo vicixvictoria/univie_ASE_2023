@@ -3,9 +3,10 @@ package com.ase.sendNotification;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.ase.sendNotification.mailsender.MailSender;
-import com.ase.sendNotification.model.NotificationUser;
-import com.ase.sendNotification.repository.IUserRepository;
+import com.ase.sendNotification.business.NotificationSendService;
+import com.ase.sendNotification.business.mailsender.MailSender;
+import com.ase.sendNotification.domain.NotificationUser;
+import com.ase.sendNotification.dataAccess.IUserRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
