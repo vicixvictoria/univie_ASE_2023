@@ -1,8 +1,10 @@
 package com.ase.apigateway;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 
+@CrossOrigin(origins = "http://localhost:4200")
 public class Endpoint {
 
     private String endpoint;
