@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Publisher {
 
-    @Value("${bookmakrEvent_exchange}")
+    @Value("${bookmarkEvent_exchange}")
     private String exchangeName;
 
     private final RabbitTemplate rabbitTemplate;

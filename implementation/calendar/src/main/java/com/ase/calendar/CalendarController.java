@@ -21,7 +21,6 @@ public class CalendarController {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("export/{userId}/{calenderType}")
     public String calenderExport(@PathVariable String userId, @PathVariable EExportType calenderType) throws Exception {
         LOGGER.info("GET api/v1/calendar/export/{}/{}/", userId, calenderType);
@@ -33,7 +32,6 @@ public class CalendarController {
         return calender.convert();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/calendarMapping")
     public UserCalendar setCalender(@RequestBody UserCalendar userCalendar) {
         LOGGER.info("POST api/v1/calendar/calendarMapping");

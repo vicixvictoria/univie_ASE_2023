@@ -21,7 +21,7 @@ public class RabbitMQConfiguration implements IRabbitMQConfiguration<Subscriber>
     @Value("${bookmarkEvent.frontend.queue}")
     private String queueName;
     @Value("${bookmarkEvent.frontend_exchange}")
-    private String exchangeName; //sachen aus properties
+    private String exchangeName; // injection from properties
 
     /**
      * Queue for frontend exchange, for adding and deleting bookmarkEvents
