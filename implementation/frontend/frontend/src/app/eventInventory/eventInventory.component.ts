@@ -24,6 +24,8 @@ export class EventInventoryComponent implements OnInit {
   // @ts-ignore
   event: Event;
   event1: Event | undefined;
+  // @ts-ignore
+  userID : string
 
   // @ts-ignore
   events: Event[];
@@ -39,7 +41,10 @@ export class EventInventoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadAllEvents();
+    // @ts-ignore
+    //this.userID = this.accountService.userValue?.id
+     this.loadAllEvents();
+    //this.loadAllEventsByOrganizerID(this.userID);
   }
 
 
@@ -84,7 +89,7 @@ export class EventInventoryComponent implements OnInit {
     });
   }
 
-  public loadAllEventsByOrganizerID(id: number) {
+  public loadAllEventsByOrganizerID(id: string) {
     this.eventService.getAllEventsByOrganizerID(id).subscribe({
       next: data => {
         console.log('received events', data);

@@ -69,7 +69,7 @@ import {UpdateEventComponent} from "./updateEvents/updateEvent.component";
     Location,
 
     // provider used to create fake backend
-    //fakeBackendProvider
+    fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })

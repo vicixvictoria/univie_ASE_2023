@@ -27,5 +27,6 @@ config:
         - /register
       authorize: false
       gateway-path-base: /api/v1/login
+
 server:
   port: 8080

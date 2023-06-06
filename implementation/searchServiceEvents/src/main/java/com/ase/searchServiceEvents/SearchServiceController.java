@@ -1,6 +1,9 @@
 package com.ase.searchServiceEvents;
 
+import com.ase.searchServiceEvents.Service.SearchServiceService;
+import com.ase.searchServiceEvents.event.EventList;
 import java.lang.invoke.MethodHandles;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -9,9 +12,18 @@ import com.ase.searchServiceEvents.event.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,43 +33,66 @@ public class SearchServiceController {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
 
-    //private final EventService eventService;
-    // private final EventInventoryService eventInventoryService;
+    private final SearchServiceService searchServiceService;
 
     @Autowired
-    public SearchServiceController() {
+    public SearchServiceController(SearchServiceService searchServiceService) {
+        this.searchServiceService = searchServiceService;
     }
 
-    //TODO: Events über Service ansprechen nicht Endpoint
-
-    @GetMapping(value = "/getEvents")
-    public List<Event> getAllEvents() {
-        LOGGER.info("GET api/v1/events");
-        return null;
+    @GetMapping()
+    public Collection<Event> getAllEvents() {
+        LOGGER.info("GET api/v1/searchService");
+        return searchServiceService.getAll();
     }
 
-    @GetMapping("/{organizerID}")
-    public List<Event> getEventsByOrganizerID(@PathVariable String organizerID) {
-        LOGGER.info("GET api/v1/events");
-        return null;
+    @GetMapping(value = "/organizer/{organizerID}")
+    public Collection<Event> getEventsByOrganizerID(@PathVariable String organizerID) {
+        LOGGER.info("GET api/v1/events/{}", organizerID);
+        return searchServiceService.getAllEventsByorganizerID(organizerID);
     }
 
-    @GetMapping("/{date}")
-    public List<Event> getEventsByDate(@PathVariable Date date) {
-        LOGGER.info("GET api/v1/eventsby {}", date);
-        return null;
+
+    @GetMapping("/event/{eventID}")
+    public Event getEventsByID(@PathVariable String eventID) {
+        LOGGER.info("GET api/v1/searchService/{}", eventID);
+        return searchServiceService.getEventsByID(eventID);
     }
 
-    @GetMapping("/type")
-    public List<Event> getEventsByType(@PathVariable EEventTypes type) {
-        LOGGER.info("GET api/v1/eventsby {}", type);
-        return null;
+    @GetMapping(value = "/capacity/{capacity}")
+    public Collection<Event> getEventsByCapacity(@PathVariable int capacity) {
+        LOGGER.info("GET api/v1/searchService/capacity/{}", capacity);
+        return searchServiceService.getEventsByCapacity(capacity);
     }
 
-    @GetMapping("/capacity")
-    public List<Event> getEventsByCapacity(@PathVariable int capacity) {
-        LOGGER.info("GET api/v1/eventsby {}", capacity);
-        return null;
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/eventName/{eventName}")
+    public Collection<Event> getEventsByEventName(@PathVariable String eventName) {
+        LOGGER.info("GET api/v1/searchService/eventName/{}", eventName);
+        return searchServiceService.getEventsByName(eventName);
+    }
+
+    @GetMapping(value = "/description/{description}")
+    public Collection<Event> getEventsByDescription(@PathVariable String description) {
+        LOGGER.info("GET api/v1/searchService/description/{}", description);
+        return searchServiceService.getEventsByName(description);
+    }
+
+    @GetMapping(value = "/date/{date}")
+    public Collection<Event> getEventsByDate(@PathVariable Date date) {
+        LOGGER.info("GET api/v1/searchService/date/{}", date);
+        return searchServiceService.getEventsByDate(date);
+    }
+
+    @GetMapping(value = "/type/{type}")
+    public Collection<Event> getEventsByType(@PathVariable EEventTypes type) {
+        LOGGER.info("GET api/v1/searchService/type/{}", type);
+        return searchServiceService.getEventsByType(type);
+    }
+
+    @GetMapping("/healthcheck")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.status(HttpStatus.OK).body("Success");
     }
 
 }

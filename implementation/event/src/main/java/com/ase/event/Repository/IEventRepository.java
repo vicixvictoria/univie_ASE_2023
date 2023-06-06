@@ -1,5 +1,7 @@
-package com.ase.event;
+package com.ase.event.Repository;
 
+import com.ase.event.Data.EEventTypes;
+import com.ase.event.Data.Event;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +21,10 @@ public interface IEventRepository extends JpaRepository<Event, String> {
     List<Event> findByCapacity(int capacity);
 
     List<Event> findByDate(Date date);
+
+    List<Event> findByDescription(String des);
+
+    List<Event> findByEventName(String name);
 
 
 }

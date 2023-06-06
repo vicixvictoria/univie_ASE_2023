@@ -1,11 +1,15 @@
-package com.ase.event;
-
+package com.ase.event.Controller;
+import com.ase.event.Data.EEventTypes;
+import com.ase.event.Data.Event;
+import com.ase.event.Service.EventService;
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +22,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(path = "api/v1/events")
 public class EventController {
 
@@ -55,7 +59,7 @@ public class EventController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
     public Event createEvent(@RequestBody Event event) {
-        LOGGER.info("POST api/v1/events: {} ", event.getType());
+        LOGGER.info("POST api/v1/events: {} ", event.getEventName());
         eventService.createEvent(event);
         return event;
     }
@@ -75,5 +79,41 @@ public class EventController {
         eventService.deleteEvent(eventID);
     }
 
+    @GetMapping(value = "/capacity/{capacity}")
+    public Collection<Event> getEventsByCapacity(@PathVariable int capacity) {
+        LOGGER.info("GET api/v1/events/capacity/{}", capacity);
+        return eventService.getEventsByCapacity(capacity);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/eventName/{eventName}")
+    public Collection<Event> getEventsByEventName(@PathVariable String eventName) {
+        LOGGER.info("GET api/v1/events/eventName/{}", eventName);
+        return eventService.getEventsByName(eventName);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(value = "/description/{description}")
+    public Collection<Event> getEventsByDescription(@PathVariable String description) {
+        LOGGER.info("GET api/v1/events/description/{}", description);
+        return eventService.getEventsByName(description);
+    }
+
+    @GetMapping(value = "/date/{date}")
+    public Collection<Event> getEventsByDate(@PathVariable Date date) {
+        LOGGER.info("GET api/v1/events/date/{}", date);
+        return eventService.getEventsByDate(date);
+    }
+
+    @GetMapping(value = "/type/{type}")
+    public Collection<Event> getEventsByType(@PathVariable EEventTypes type) {
+        LOGGER.info("GET api/v1/events/type/{}", type);
+        return eventService.getEventsByType(type);
+    }
+
+    @GetMapping("/healthcheck")
+    public ResponseEntity<String> healthCheck(){
+        return ResponseEntity.status(HttpStatus.OK).body("Success");
+    }
 
 }

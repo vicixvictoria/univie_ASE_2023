@@ -47,6 +47,9 @@ export class SearchServiceComponent implements OnInit {
     this.searchForm  = this.formBuilder.group({
       eventName: new FormControl(this.event.eventName, [
         /* Validators.required, Validators.minLength(1), Validators.maxLength(64)*/]),
+      capacity: new FormControl(this.event.capacity, []),
+      date: new FormControl(this.event.date, []),
+      description: new FormControl(this.event.description, []),
     });
   }
 
@@ -116,6 +119,19 @@ export class SearchServiceComponent implements OnInit {
 
   public searchByCapacity(){
     this.eventService.getEventsByCapacity(this.searchForm.controls.capacity.value).subscribe({
+      next: data => {
+        console.log('received events', data);
+        this.events = data;
+        console.log(this.events);
+      },
+      error: error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    });
+  }
+
+  public searchByDes(){
+    this.eventService.getEventsByDes(this.searchForm.controls.capacity.value).subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
