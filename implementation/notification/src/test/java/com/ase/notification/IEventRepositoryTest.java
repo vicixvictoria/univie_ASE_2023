@@ -1,7 +1,7 @@
 package com.ase.notification;
 
-import com.ase.notification.model.data.RawEvent;
-import com.ase.notification.model.repository.IEventRepository;
+import com.ase.notification.domain.RawEvent;
+import com.ase.notification.dataAccess.IEventRepository;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;

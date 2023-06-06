@@ -1,9 +1,9 @@
 package com.ase.notification;
 
-import com.ase.notification.rabbitMQConfiguration.RabbitMQBookmarkedConfiguration;
-import com.ase.notification.rabbitMQConfiguration.RabbitMQEventConfiguration;
-import com.ase.notification.rabbitMQConfiguration.RabbitMQRegisteredConfiguration;
-import com.ase.notification.rabbitMQConfiguration.RabbitMQSendNotificationConfiguration;
+import com.ase.notification.integration.rabbitMQConfiguration.RabbitMQBookmarkedConfiguration;
+import com.ase.notification.integration.rabbitMQConfiguration.RabbitMQEventConfiguration;
+import com.ase.notification.integration.rabbitMQConfiguration.RabbitMQRegisteredConfiguration;
+import com.ase.notification.integration.rabbitMQConfiguration.RabbitMQSendNotificationConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

@@ -2,15 +2,15 @@ package com.ase.notification.notification;
 
 import static org.mockito.Mockito.when;
 
-import com.ase.notification.model.NotificationScheduler;
-import com.ase.notification.model.NotificationSender;
-import com.ase.notification.model.NotificationService;
-import com.ase.notification.model.data.EEventType;
-import com.ase.notification.model.data.NotificationEvent;
-import com.ase.notification.model.data.NotificationEventFactory;
-import com.ase.notification.model.data.RawEvent;
-import com.ase.notification.model.repository.IEventRepository;
-import com.ase.notification.model.repository.INotificationEventRepository;
+import com.ase.notification.business.NotificationScheduler;
+import com.ase.notification.business.NotificationSender;
+import com.ase.notification.business.NotificationService;
+import com.ase.notification.domain.EEventType;
+import com.ase.notification.domain.NotificationEvent;
+import com.ase.notification.domain.NotificationEventFactory;
+import com.ase.notification.domain.RawEvent;
+import com.ase.notification.dataAccess.IEventRepository;
+import com.ase.notification.dataAccess.INotificationEventRepository;
 import java.util.Collection;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;

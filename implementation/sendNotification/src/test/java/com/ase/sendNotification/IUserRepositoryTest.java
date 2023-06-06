@@ -1,9 +1,9 @@
 package com.ase.sendNotification;
 
-import com.ase.sendNotification.model.NotificationUser;
-import com.ase.sendNotification.rabbitmq.RabbitMQSendNotificationConfiguration;
-import com.ase.sendNotification.rabbitmq.RabbitMQUserConfiguration;
-import com.ase.sendNotification.repository.IUserRepository;
+import com.ase.sendNotification.domain.NotificationUser;
+import com.ase.sendNotification.integration.RabbitMQSendNotificationConfiguration;
+import com.ase.sendNotification.integration.RabbitMQUserConfiguration;
+import com.ase.sendNotification.dataAccess.IUserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +16,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.UncategorizedDataAccessException;
 

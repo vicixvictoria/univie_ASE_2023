@@ -2,8 +2,10 @@ package com.ase.login;
 
 import static org.mockito.Mockito.when;
 
-import com.ase.login.data.ERole;
-import com.ase.login.data.IUserUnmodifiable;
+import com.ase.login.dataAccess.JWTHelper;
+import com.ase.login.dataAccess.JWTResponse;
+import com.ase.login.domain.ERole;
+import com.ase.login.domain.IUserUnmodifiable;
 import com.ase.login.exception.JWTInvalidException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
