@@ -1,7 +1,7 @@
-package com.ase.searchServiceEvents.Service;
-import com.ase.searchServiceEvents.Repository.ISearchServiceRepository;
-import com.ase.searchServiceEvents.event.EEventTypes;
-import com.ase.searchServiceEvents.event.Event;
+package com.ase.searchServiceEvents.business;
+import com.ase.searchServiceEvents.repository.ISearchServiceRepository;
+import com.ase.searchServiceEvents.domain.EEventTypes;
+import com.ase.searchServiceEvents.domain.Event;
 import jakarta.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.util.Date;

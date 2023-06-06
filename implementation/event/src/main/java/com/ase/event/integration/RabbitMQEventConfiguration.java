@@ -1,6 +1,6 @@
-package com.ase.event.rabbitMQ;
+package com.ase.event.integration;
 
-import com.ase.event.rabbitMQ.helper.RabbitMQConfigurationHelper;
+import com.ase.event.integration.helper.RabbitMQConfigurationHelper;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

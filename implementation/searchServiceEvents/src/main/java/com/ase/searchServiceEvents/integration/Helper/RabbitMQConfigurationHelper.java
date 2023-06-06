@@ -1,4 +1,4 @@
-package com.ase.searchServiceEvents.Network.Helper;
+package com.ase.searchServiceEvents.integration.Helper;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

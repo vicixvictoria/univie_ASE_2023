@@ -1,4 +1,4 @@
-package com.ase.event.rabbitMQ.helper;
+package com.ase.event.integration.helper;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

@@ -1,6 +1,6 @@
-package com.ase.searchServiceEvents.Network;
+package com.ase.searchServiceEvents.integration;
 
-import com.ase.searchServiceEvents.Service.SearchServiceService;
+import com.ase.searchServiceEvents.business.SearchServiceService;
 import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,7 @@ public class Subscriber {
         assert eventContent != null;*/
 
         Converter converter = new Converter();
-        com.ase.searchServiceEvents.event.Event event1 = converter.toEvent(eventMessage.getContent());
+        com.ase.searchServiceEvents.domain.Event event1 = converter.toEvent(eventMessage.getContent());
         LOGGER.info(String.format("Received a event with id %s", event1.getEventID()));
 
         switch (eventMessage.getMessageType()) {

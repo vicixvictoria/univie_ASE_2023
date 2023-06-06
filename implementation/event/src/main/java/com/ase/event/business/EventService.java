@@ -1,7 +1,7 @@
-package com.ase.event.Service;
+package com.ase.event.business;
 
-import com.ase.event.Data.EEventTypes;
-import com.ase.event.Data.Event;
+import com.ase.event.domain.EEventTypes;
+import com.ase.event.domain.Event;
 import com.ase.event.Repository.IEventRepository;
 import com.ase.event.Publisher;
 import jakarta.transaction.Transactional;

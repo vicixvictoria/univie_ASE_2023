@@ -27,6 +27,26 @@ config:
         - /register
       authorize: false
       gateway-path-base: /api/v1/login
+    event:
+      endpoint: http://${EVENT:localhost}:8080
+      path-base: /api/v1/events
+      paths:
+        -
+        - /healthcheck
+      gateway-path-base: /api/v1/events
+    searchservice:
+      endpoint: http://${SERCH_SERVICE_EVENTS:localhost}:8080
+      path-base: /api/v1/searchService
+      paths:
+        -
+        - /healthcheck
+        - /organizer
+        - /event
+        - /capacity
+        - /eventName
+        - /description
+        - /date
+      gateway-path-base: /api/v1/searchService
 
 server:
   port: 8080

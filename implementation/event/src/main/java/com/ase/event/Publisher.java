@@ -2,8 +2,8 @@ package com.ase.event;
 
 import com.ase.common.EMessageType;
 import com.ase.common.RabbitMQMessage;
-import com.ase.event.Data.Event;
-import com.ase.event.network.Converter;
+import com.ase.event.domain.Event;
+import com.ase.event.integration.network.Converter;
 import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

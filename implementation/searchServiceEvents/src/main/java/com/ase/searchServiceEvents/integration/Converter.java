@@ -1,8 +1,8 @@
-package com.ase.searchServiceEvents.Network;
+package com.ase.searchServiceEvents.integration;
 
 import com.ase.common.event.EEventType;
 import com.ase.common.event.Event;
-import com.ase.searchServiceEvents.event.EEventTypes;
+import com.ase.searchServiceEvents.domain.EEventTypes;
 
 public class Converter {
 
@@ -14,8 +14,8 @@ public class Converter {
         };
     }
 
-    public com.ase.searchServiceEvents.event.Event toEvent(Event event){
-        return new com.ase.searchServiceEvents.event.Event(event.eventID(),getLocalEventType(event.type()),event.capacity(), event.date(), event.description(), event.organizerID(), event.eventName());
+    public com.ase.searchServiceEvents.domain.Event toEvent(Event event){
+        return new com.ase.searchServiceEvents.domain.Event(event.eventID(),getLocalEventType(event.type()),event.capacity(), event.date(), event.description(), event.organizerID(), event.eventName());
     }
 
 }

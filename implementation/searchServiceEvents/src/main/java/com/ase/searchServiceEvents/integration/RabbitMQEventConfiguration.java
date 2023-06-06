@@ -1,7 +1,7 @@
-package com.ase.searchServiceEvents.Network;
+package com.ase.searchServiceEvents.integration;
 
-import com.ase.searchServiceEvents.Network.Helper.IRabbitMQConfiguration;
-import com.ase.searchServiceEvents.Network.Helper.RabbitMQConfigurationHelper;
+import com.ase.searchServiceEvents.integration.Helper.IRabbitMQConfiguration;
+import com.ase.searchServiceEvents.integration.Helper.RabbitMQConfigurationHelper;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;

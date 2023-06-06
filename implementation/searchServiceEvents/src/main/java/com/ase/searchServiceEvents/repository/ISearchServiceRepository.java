@@ -1,7 +1,7 @@
-package com.ase.searchServiceEvents.Repository;
+package com.ase.searchServiceEvents.repository;
 
-import com.ase.searchServiceEvents.event.EEventTypes;
-import com.ase.searchServiceEvents.event.Event;
+import com.ase.searchServiceEvents.domain.EEventTypes;
+import com.ase.searchServiceEvents.domain.Event;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

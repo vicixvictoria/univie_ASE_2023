@@ -1,10 +1,8 @@
 package com.ase.event;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.ase.common.RabbitMQMessage;
-import com.ase.event.Data.EEventTypes;
-import com.ase.event.Data.Event;
+import com.ase.event.domain.EEventTypes;
+import com.ase.event.domain.Event;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

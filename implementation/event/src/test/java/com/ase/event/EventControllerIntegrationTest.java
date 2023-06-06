@@ -1,8 +1,8 @@
 package com.ase.event;
-import com.ase.event.Controller.EventController;
-import com.ase.event.Data.EEventTypes;
-import com.ase.event.Data.Event;
-import com.ase.event.Service.EventService;
+import com.ase.event.presentation.EventController;
+import com.ase.event.domain.EEventTypes;
+import com.ase.event.domain.Event;
+import com.ase.event.business.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

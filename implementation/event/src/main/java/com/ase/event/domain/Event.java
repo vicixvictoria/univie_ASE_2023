@@ -1,4 +1,4 @@
-package com.ase.event.Data;
+package com.ase.event.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

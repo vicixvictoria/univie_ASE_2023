@@ -1,7 +1,7 @@
-package com.ase.event.Controller;
-import com.ase.event.Data.EEventTypes;
-import com.ase.event.Data.Event;
-import com.ase.event.Service.EventService;
+package com.ase.event.presentation;
+import com.ase.event.domain.EEventTypes;
+import com.ase.event.domain.Event;
+import com.ase.event.business.EventService;
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
 import java.util.Date;

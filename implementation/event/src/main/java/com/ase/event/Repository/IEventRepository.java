@@ -1,7 +1,7 @@
 package com.ase.event.Repository;
 
-import com.ase.event.Data.EEventTypes;
-import com.ase.event.Data.Event;
+import com.ase.event.domain.EEventTypes;
+import com.ase.event.domain.Event;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

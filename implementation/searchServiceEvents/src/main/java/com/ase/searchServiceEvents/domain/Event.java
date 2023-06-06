@@ -1,4 +1,4 @@
-package com.ase.searchServiceEvents.event;
+package com.ase.searchServiceEvents.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,4 +1,4 @@
-package com.ase.event.Data;
+package com.ase.event.domain;
 
 public enum EEventTypes {
     FOOD, ENTERTAINMENT, HEALTH
