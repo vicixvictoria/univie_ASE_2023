@@ -71,6 +71,10 @@ services:
     networks:
       notification-rabbit:
       notification-apigateway:
+    environment:
+      <<: *common-variables
+    volumes:
+      - ./.persistence/notification:/persistence
 
   recommender:
     image: recommender
