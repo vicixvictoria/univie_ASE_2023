@@ -1,11 +1,11 @@
 package com.ase.notification;
 
-import com.ase.notification.model.data.EEventType;
-import com.ase.notification.model.data.IUnmodifiableRawEvent;
-import com.ase.notification.model.data.NotificationEvent;
-import com.ase.notification.model.data.RawEvent;
-import com.ase.notification.model.repository.IEventRepository;
-import com.ase.notification.model.repository.INotificationEventRepository;
+import com.ase.notification.domain.EEventType;
+import com.ase.notification.domain.IUnmodifiableRawEvent;
+import com.ase.notification.domain.NotificationEvent;
+import com.ase.notification.domain.RawEvent;
+import com.ase.notification.dataAccess.IEventRepository;
+import com.ase.notification.dataAccess.INotificationEventRepository;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;

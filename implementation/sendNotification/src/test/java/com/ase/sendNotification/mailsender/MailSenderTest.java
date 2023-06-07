@@ -1,7 +1,8 @@
 package com.ase.sendNotification.mailsender;
 
-import com.ase.sendNotification.rabbitmq.RabbitMQSendNotificationConfiguration;
-import com.ase.sendNotification.rabbitmq.RabbitMQUserConfiguration;
+import com.ase.sendNotification.business.mailsender.MailSender;
+import com.ase.sendNotification.integration.RabbitMQSendNotificationConfiguration;
+import com.ase.sendNotification.integration.RabbitMQUserConfiguration;
 import com.icegreen.greenmail.configuration.GreenMailConfiguration;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;

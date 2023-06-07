@@ -2,6 +2,15 @@ x-common-variables: &common-variables
   DEBUG: "false"
   RABBITMQ-HOST: "rabbitmq"
 
+x-rabbitmq-exchanges: &rabbitmq-exchanges
+  ATTENDANCE-EXCHANGE: "attendance-exchange"
+  BOOKMARK-EXCHANGE: "bookmark-exchange"
+  FEEDBACK-EXCHANGE: "feedback-exchange"
+  EVENT-EXCHANGE: "event-exchange"
+  USER-EXCHANGE: "user-exchange"
+  SEND-NOTIFICATION-EXCHANGE: "sendnotification-exchange"
+  TAGGING-EXCHANGE: "tagging-exchange"
+
 
 services:
   analyticReport:
@@ -57,7 +66,7 @@ services:
       login-rabbit:
       login-apigateway:
     environment:
-      <<: *common-variables
+      <<: [*common-variables, *rabbitmq-exchanges]
       JWT-SECRET: "top-secret"
       JWT-EXPIRATION-TIME: "900000"
     volumes:
@@ -76,6 +85,10 @@ services:
     networks:
       notification-rabbit:
       notification-apigateway:
+    environment:
+      <<: [*common-variables, *rabbitmq-exchanges]
+    volumes:
+      - ./.persistence/notification:/persistence
 
   recommender:
     image: recommender
@@ -108,7 +121,7 @@ services:
       sendNotification-rabbit:
       sendNotification-apigateway:
     environment:
-      <<: *common-variables
+      <<: [*common-variables, *rabbitmq-exchanges]
       NOTIFICATION_SENDER_EMAIL: <email>
       NOTIFICATION_SENDER_PASSWORD: <password>
     volumes:

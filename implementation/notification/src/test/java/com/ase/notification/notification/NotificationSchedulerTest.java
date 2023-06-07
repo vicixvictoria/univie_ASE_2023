@@ -2,10 +2,10 @@ package com.ase.notification.notification;
 
 import static org.mockito.Mockito.when;
 
-import com.ase.notification.model.NotificationScheduler;
-import com.ase.notification.model.NotificationSender;
-import com.ase.notification.model.data.NotificationEvent;
-import com.ase.notification.model.notificationsendtime.INotificationSendTime;
+import com.ase.notification.business.NotificationScheduler;
+import com.ase.notification.business.NotificationSender;
+import com.ase.notification.domain.NotificationEvent;
+import com.ase.notification.business.notificationsendtime.INotificationSendTime;
 import java.time.Instant;
 import java.util.concurrent.ScheduledFuture;
 import org.junit.jupiter.api.Assertions;

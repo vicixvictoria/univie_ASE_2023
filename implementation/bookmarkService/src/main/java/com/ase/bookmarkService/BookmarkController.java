@@ -44,14 +44,12 @@ public class BookmarkController {
         service.deleteBookmarkEvent(eventId, attendeeId);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("bookmarkedEvents/{attendee}")   //all bookmarked events per attendee
     public List<BookmarkEvent> getBookmarkedEventuser(@PathVariable String attendee)
             throws Exception {
         LOGGER.info("GET /bookmarkedEvents/{}", attendee);
         return service.getBookmarkedEventsForUser(attendee);
     }
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("bookmarkedEventIds/{attendee}")   //all bookmarked events per attendee
     public List<String>getBookmarkEventIdUser(@PathVariable String attendee) throws Exception {
         LOGGER.info("GET /bookmarkedEvents/{}", attendee);

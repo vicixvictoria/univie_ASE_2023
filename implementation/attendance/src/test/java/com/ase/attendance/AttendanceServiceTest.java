@@ -1,54 +1,109 @@
 package com.ase.attendance;
 
 import com.ase.attendance.data.Attendees;
+import com.ase.attendance.data.EventCapacity;
 import com.ase.attendance.network.Publisher;
 import com.ase.attendance.repository.IAttendanceRepository;
-import java.util.ArrayList;
+import com.ase.common.attendance.AttendeeEventList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import java.util.Arrays;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-
+/**
+ * The AttendanceServiceTest class contains unit tests for AttendanceService.
+ */
 public class AttendanceServiceTest {
 
-    private AttendanceService attendanceService;
+    @InjectMocks
+    private AttendanceService service;
+
+    @Mock
     private IAttendanceRepository repository;
+
+    @Mock
     private Publisher publisher;
-    private Attendees attendees;
 
     @BeforeEach
-    public void setup() {
-        // Mock dependencies
-        repository = Mockito.mock(IAttendanceRepository.class);
-        publisher = Mockito.mock(Publisher.class);
-        attendees = Mockito.mock(Attendees.class);
-
-        // Create AttendanceService with mocked dependencies
-        attendanceService = new AttendanceService(repository, publisher);
-
-        // Stub methods of Attendees
-        Mockito.when(attendees.getAttendees()).thenReturn(new ArrayList<>());
-
-        // Stub methods of IAttendanceRepository
-        Mockito.when(repository.getByEventID(any(String.class))).thenReturn(attendees);
-        Mockito.when(repository.save(any(Attendees.class))).thenReturn(attendees); // If save returns Attendees
-        Mockito.doNothing().when(repository).delete(any(Attendees.class));
+    public void init() {
+        MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Tests the register method of AttendanceService.
+     */
     @Test
-    void testAttendanceMethod() {
-        // given
-        String eventId = "event1";
+    public void testRegister() {
+        Attendees attendees = new Attendees("event1", 50);
+        when(repository.getByEventID("event1")).thenReturn(attendees);
+        assertEquals(1, service.register("user1", "event1"));
+        verify(publisher).newAttendee("user1", "event1");
+    }
 
-        // when
-        int attendeeCount = attendanceService.attendance(eventId);
+    /**
+     * Tests the deregister method of AttendanceService.
+     */
+    @Test
+    public void testDeregister() {
+        Attendees attendees = new Attendees("event1", 50);
+        attendees.addAttendee("user1");
+        when(repository.getByEventID("event1")).thenReturn(attendees);
+        assertEquals(0, service.deregister("user1", "event1"));
+        verify(publisher).deleteAttendee("user1", "event1");
+    }
 
-        // then
-        assertEquals(0, attendeeCount);
-        Mockito.verify(repository, Mockito.times(1)).getByEventID(eventId);
+    /**
+     * Tests the newCapacity method of AttendanceService.
+     */
+    @Test
+    public void testNewCapacity() {
+        EventCapacity capacity = new EventCapacity("event1", 50);
+        service.newCapacity(capacity);
+        verify(repository).save(any(Attendees.class));
+    }
+
+    /**
+     * Tests the deleteCapacity method of AttendanceService.
+     */
+    @Test
+    public void testDeleteCapacity() {
+        EventCapacity capacity = new EventCapacity("event1", 50);
+        Attendees attendees = new Attendees("event1", 50);
+        when(repository.getByEventID("event1")).thenReturn(attendees);
+        service.deleteCapacity(capacity);
+        verify(repository).delete(attendees);
+    }
+
+    /**
+     * Tests the attendance method of AttendanceService.
+     */
+    @Test
+    public void testAttendance() {
+        Attendees attendees = new Attendees("event1", 50);
+        attendees.addAttendee("user1");
+        when(repository.getByEventID("event1")).thenReturn(attendees);
+        assertEquals(1, service.attendance("event1"));
+    }
+
+    /**
+     * Tests the getEventList method of AttendanceService.
+     */
+    @Test
+    public void testGetEventList() {
+        Attendees attendees1 = new Attendees("event1", 50);
+        attendees1.addAttendee("user1");
+        Attendees attendees2 = new Attendees("event2", 50);
+        attendees2.addAttendee("user2");
+        List<Attendees> allAttendees = Arrays.asList(attendees1, attendees2);
+        when(repository.findAll()).thenReturn(allAttendees);
+        AttendeeEventList eventList = service.getEventList("user1");
+        assertEquals("user1", eventList.getUserID());
+        assertEquals(1, eventList.getEventIDs().size());
+        assertEquals("event1", eventList.getEventIDs().get(0));
     }
 }
-
