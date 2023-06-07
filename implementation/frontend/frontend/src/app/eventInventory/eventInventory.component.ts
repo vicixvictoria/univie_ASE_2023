@@ -7,7 +7,11 @@ import {Router} from "@angular/router";
 import {UpdateEventComponent} from "../updateEvents/updateEvent.component";
 import {AccountService} from "../../services/account.service";
 //import { MatTableModule } from '@angular/material';
+import {AttendanceService} from "../../services/attendance.service";
 
+interface EventWithAttendees extends Event{
+  attendees?: number;
+}
 
 @Component({
   selector: 'app-eventInventory',
@@ -27,7 +31,7 @@ export class EventInventoryComponent implements OnInit {
 
   // @ts-ignore
   events: Event[];
-  displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'action'];
+  displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'attendees', 'action'];
 
 
   constructor(
@@ -36,6 +40,7 @@ export class EventInventoryComponent implements OnInit {
     private dialogRef: MatDialogRef<EventInventoryComponent>,
     private eventService: EventService,
     private accountService: AccountService,
+    private attendanceService: AttendanceService,
 
   ) {
   }
@@ -45,6 +50,7 @@ export class EventInventoryComponent implements OnInit {
     this.userID = this.getuserValue().id
     // this.loadAllEvents();
     this.loadAllEventsByOrganizerID(this.userID);
+    this.loadAttendance();
 
   }
 
@@ -100,6 +106,30 @@ export class EventInventoryComponent implements OnInit {
         this.events = data;
 
         console.log(this.events);
+      },
+      error: error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    });
+  }
+
+  public loadAttendance() {
+    this.eventService.getAllEvents().subscribe({
+      next: data => {
+        console.log('received events', data);
+        this.events = data;
+
+        // Calculate the attendees count for each event
+        this.events.forEach((event: EventWithAttendees) => {
+          this.attendanceService.getAttendance(event.eventID).subscribe({
+            next: count => {
+              event.attendees = count;
+            },
+            error: error => {
+              this.defaultServiceErrorHandling(error);
+            }
+          });
+        });
       },
       error: error => {
         this.defaultServiceErrorHandling(error);

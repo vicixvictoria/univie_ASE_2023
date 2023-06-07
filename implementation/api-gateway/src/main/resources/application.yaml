@@ -72,5 +72,16 @@ config:
         - /date
       gateway-path-base: /api/v1/searchService
 
+    attendance:
+        endpoint: http://${attendance:localhost}:8080
+        path-base: /api/v1/attendance
+        paths:
+          - /register
+          - /deregister
+          - /attendance
+          - /attendeeEventList
+        authorize: false
+        gateway-path-base: /api/v1/attendance
+
 server:
   port: 8080
