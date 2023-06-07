@@ -32,7 +32,7 @@ public class Event {
 
     public Event(String eventID, EEventTypes type, int capacity, Date date, String description,
             String organizerID, String eventName) {
-        this.eventID = UUID.randomUUID().toString();
+        this.eventID = eventID;
         this.type = type;
         this.capacity = validateCapacity(capacity);
         this.date = date;
@@ -45,7 +45,7 @@ public class Event {
         if (event == null) {
             throw new IllegalArgumentException("Event is null");
         }
-        this.eventID = UUID.randomUUID().toString();
+        //this.eventID = UUID.randomUUID().toString();
         this.type = event.getType();
         this.capacity = validateCapacity(event.getCapacity());
         this.date = event.getDate();

@@ -50,7 +50,7 @@ export class EventInventoryComponent implements OnInit {
     this.userID = this.getuserValue().id
     // this.loadAllEvents();
     this.loadAllEventsByOrganizerID(this.userID);
-    this.loadAttendance();
+    //this.loadAttendance();
 
   }
 
@@ -59,7 +59,8 @@ export class EventInventoryComponent implements OnInit {
   }
 
   deleteEvent(eventID: string){
-    if (confirm('Event ' + eventID + '"wirklich löschen?')) {
+    if (confirm('Event ' + eventID + 'wirklich löschen?')) {
+      console.log
       // @ts-ignore
       this.eventService.deleteEvent(eventID).subscribe({
         next: () => {

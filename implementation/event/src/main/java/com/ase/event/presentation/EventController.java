@@ -5,6 +5,7 @@ import com.ase.event.business.EventService;
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class EventController {
     @GetMapping(value = "/organizer/{organizerID}")
     public Collection<Event> getEventsByOrganizerID(@PathVariable String organizerID) {
         LOGGER.info("GET api/v1/events/{}", organizerID);
+        //List<Event> events = eventService.getAllEventsByorganizerID(organizerID);
         return eventService.getAllEventsByorganizerID(organizerID);
     }
 

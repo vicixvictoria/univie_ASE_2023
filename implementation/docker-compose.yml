@@ -44,6 +44,8 @@ services:
 #    networks:
 #      attendance-rabbit:
 #      attendance-apigateway:
+#    volumes:
+#      - ./_persistence/attendance:/persistence
 
   bookmarkService:
     image: bookmarkservice

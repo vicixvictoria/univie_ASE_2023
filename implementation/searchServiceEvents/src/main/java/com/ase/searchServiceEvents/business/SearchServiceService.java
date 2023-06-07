@@ -32,7 +32,8 @@ public class SearchServiceService {
      */
     public List<Event> getAll() {
         LOGGER.debug("getAll Events");
-        return iSearchServiceRepository.findAll();
+        List<Event> events = iSearchServiceRepository.findAll();
+        return events;
     }
 
     /**
