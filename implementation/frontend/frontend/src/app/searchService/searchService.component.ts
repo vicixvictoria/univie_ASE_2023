@@ -89,7 +89,7 @@ export class SearchServiceComponent implements OnInit {
    * @param event - The event to register for.
    */
   register(event: Event) {
-    this.attendanceService.register(this.user, event).subscribe(() => {
+    this.attendanceService.register(this.userID, event).subscribe(() => {
       this.attendeeEventList.push(event.eventID);
     });
   }
@@ -100,7 +100,7 @@ export class SearchServiceComponent implements OnInit {
    * @param event - The event to deregister from.
    */
   deregister(event: Event) {
-    this.attendanceService.deregister(this.user, event).subscribe(() => {
+    this.attendanceService.deregister(this.userID, event).subscribe(() => {
       const index = this.attendeeEventList.indexOf(event.eventID);
       if (index > -1) {
         this.attendeeEventList.splice(index, 1);
@@ -122,7 +122,7 @@ export class SearchServiceComponent implements OnInit {
    * Load the list of event IDs for the current user from the server.
    */
   loadAttendeeEventList(): void {
-    this.attendanceService.getAttendeeEventList(this.user).subscribe(
+    this.attendanceService.getAttendeeEventList(this.userID).subscribe(
       (attendeeEventList: AttendeeEventList) => {
         this.attendeeEventList = attendeeEventList.eventIDs;
       },
@@ -141,10 +141,6 @@ export class SearchServiceComponent implements OnInit {
     dialog.afterClosed().subscribe(() => {
       this.loadAllEvents()
     });
-  }
-
-  register(event: Event){
-
   }
 
   feedback(event: Event){
