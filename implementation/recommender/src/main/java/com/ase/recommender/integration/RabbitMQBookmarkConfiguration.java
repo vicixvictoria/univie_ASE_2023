@@ -3,6 +3,8 @@ package com.ase.recommender.integration;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +66,20 @@ public class RabbitMQBookmarkConfiguration {
      */
     @Bean(name = "bookmarked-callback")
     public MessageListenerAdapter messageListenerAdapter(Subscriber subscriber) {
-        return configurationHelper.getListenerAdapter(subscriber, "registerNotificationBookmarked");
+        return configurationHelper.getListenerAdapter(subscriber, "bookmarkEventConsumer");
+    }
+
+    /**
+     * Creates and configures the event listener container for registered callbacks.
+     *
+     * @param connectionFactory The connection factory to use for creating connections.
+     * @param adapter The message listener adapter for handling messages.
+     * @return The configured event listener container.
+     */
+    @Bean(name = "registered-callback-binding")
+    public SimpleMessageListenerContainer eventListenerContainer(
+            ConnectionFactory connectionFactory,
+            @Qualifier("bookmarked-callback") MessageListenerAdapter adapter) {
+        return configurationHelper.getEventListenerContainer(connectionFactory, adapter, queueName);
     }
 }

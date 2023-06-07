@@ -38,14 +38,14 @@ services:
     environment:
       <<: *endpoint-variables
 
-#  attendance:
-#    image: attendance
-#    build: attendance
-#    networks:
-#      attendance-rabbit:
-#      attendance-apigateway:
-#    volumes:
-#      - ./_persistence/attendance:/persistence
+  attendance:
+    image: attendance
+    build: attendance
+    environment:
+      <<: *common-variables
+    networks:
+      attendance-rabbit:
+      attendance-apigateway:
 
   bookmarkService:
     image: bookmarkservice

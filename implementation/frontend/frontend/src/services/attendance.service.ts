@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {BehaviorSubject, Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Event} from "../dtos/event";
 import {User} from "../app/models/user";
 import {AttendeeEventList} from "../dtos/attendeeEventList";
+import {AccountService} from "./account.service";
 
 const baseUri = 'http://localhost:8080/api/v1/attendance';
 
@@ -15,7 +16,28 @@ const baseUri = 'http://localhost:8080/api/v1/attendance';
 })
 export class AttendanceService {
 
-  constructor(private httpClient: HttpClient) { }
+  private userSubject: BehaviorSubject<User | null>;
+  public user: Observable<User | null>;
+
+  /**
+   * Constructs a new instance of the class.
+   * @param httpClient The HTTP client used for making HTTP requests.
+   * @param accountService The account service used for managing user accounts.
+   */
+  constructor(private httpClient: HttpClient, private accountService: AccountService) {
+    this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+    this.user = this.userSubject.asObservable();
+  }
+
+  /**
+   * Gets the current user value from the account service.
+   * @returns The current user value.
+   */
+  public getUserValue() {
+    return this.accountService.userValue;
+  }
+
+  private headers = new HttpHeaders({"Authorization":"Bearer " + this.getUserValue()?.jwt});
 
   /**
    * Register a user for an event.
@@ -25,7 +47,7 @@ export class AttendanceService {
    */
   register(id: String, event: Event): Observable<number> {
     const url = `${baseUri}/register/${id}/${event.eventID}`;
-    return this.httpClient.post<number>(url, {});
+    return this.httpClient.post<number>(url, {}, { headers: this.headers });
   }
 
   /**
@@ -36,7 +58,7 @@ export class AttendanceService {
    */
   deregister(id: String, event: Event): Observable<number> {
     const url = `${baseUri}/deregister/${id}/${event.eventID}`;
-    return this.httpClient.post<number>(url, {});
+    return this.httpClient.post<number>(url, {}, { headers: this.headers });
   }
 
   /**
@@ -46,7 +68,7 @@ export class AttendanceService {
    */
   getAttendeeEventList(id: String): Observable<AttendeeEventList> {
     const url = `${baseUri}/attendeeEventList/${id}`;
-    return this.httpClient.get<AttendeeEventList>(url);
+    return this.httpClient.get<AttendeeEventList>(url, { headers: this.headers });
   }
 
   /**
@@ -56,6 +78,6 @@ export class AttendanceService {
    */
   getAttendance(eventID: string): Observable<number> {
     const url = `${baseUri}/attendance/${eventID}`;
-    return this.httpClient.get<number>(url);
+    return this.httpClient.get<number>(url, { headers: this.headers });
   }
 }

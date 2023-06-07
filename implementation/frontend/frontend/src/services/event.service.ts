@@ -33,8 +33,8 @@ export class EventService {
   private headers = new HttpHeaders({"Authorization":"Bearer " + this.getuserValue()?.jwt});
 
   createEvent(event: Event): Observable<Event> {
-    console.log('Add event', event);
-    return this.httpClient.post<Event>(baseUri, event, {headers: this.headers});
+      console.log('Add event', event);
+      return this.httpClient.post<Event>(baseUri, event, {headers: this.headers});
     //return this.event;
   }
 
