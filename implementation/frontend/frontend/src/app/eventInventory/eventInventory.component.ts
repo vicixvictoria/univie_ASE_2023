@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {EventService} from "../../services/event.service";
+import {AttendanceService} from "../../services/attendance.service";
 import {Event} from "../../dtos/event";
 import {AddEventComponent} from "../addEvents/addEvent.component";
 import {Router} from "@angular/router";
 import {UpdateEventComponent} from "../updateEvents/updateEvent.component";
 //import { MatTableModule } from '@angular/material';
 
+interface EventWithAttendees extends Event {
+  attendees?: number;
+}
 
 @Component({
   selector: 'app-eventInventory',
@@ -37,6 +41,7 @@ export class EventInventoryComponent implements OnInit {
     private readonly dialog: MatDialog,
     private dialogRef: MatDialogRef<EventInventoryComponent>,
     private eventService: EventService,
+    private attendanceService: AttendanceService,
   ) {
   }
 
@@ -117,4 +122,30 @@ export class EventInventoryComponent implements OnInit {
     }
   }
 
+  /**
+   * Load the attendance count for each event.
+   */
+  public loadAttendance() {
+    this.eventService.getAllEvents().subscribe({
+      next: data => {
+        console.log('received events', data);
+        this.events = data;
+
+        // Calculate the attendees count for each event
+        this.events.forEach((event: EventWithAttendees) => {
+          this.attendanceService.getAttendance(event.eventID).subscribe({
+            next: count => {
+              event.attendees = count;
+            },
+            error: error => {
+              this.defaultServiceErrorHandling(error);
+            }
+          });
+        });
+      },
+      error: error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    });
+  }
 }

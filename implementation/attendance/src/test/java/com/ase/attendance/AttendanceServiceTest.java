@@ -1,9 +1,10 @@
 package com.ase.attendance;
 
-import com.ase.attendance.data.Attendees;
-import com.ase.attendance.data.EventCapacity;
-import com.ase.attendance.network.Publisher;
-import com.ase.attendance.repository.IAttendanceRepository;
+import com.ase.attendance.business.AttendanceService;
+import com.ase.attendance.domain.Attendees;
+import com.ase.attendance.domain.EventCapacity;
+import com.ase.attendance.integration.Publisher;
+import com.ase.attendance.dataAccess.IAttendanceRepository;
 import com.ase.common.attendance.AttendeeEventList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -102,8 +103,8 @@ public class AttendanceServiceTest {
         List<Attendees> allAttendees = Arrays.asList(attendees1, attendees2);
         when(repository.findAll()).thenReturn(allAttendees);
         AttendeeEventList eventList = service.getEventList("user1");
-        assertEquals("user1", eventList.getUserID());
-        assertEquals(1, eventList.getEventIDs().size());
-        assertEquals("event1", eventList.getEventIDs().get(0));
+        assertEquals("user1", eventList.userID());
+        assertEquals(1, eventList.eventIDs().size());
+        assertEquals("event1", eventList.eventIDs().get(0));
     }
 }

@@ -5,7 +5,9 @@ import {Event} from "../../dtos/event";
 import {FormBuilder, FormControl} from "@angular/forms";
 import {SearchServiceService} from "../../services/searchService.service";
 import {BookmarkService} from "../../services/bookmark.service";
+import {AttendanceService} from "../../services/attendance.service";
 import {User} from "../models/user";
+import {AttendeeEventList} from "../../dtos/attendeeEventList";
 
 
 //import { MatTableModule } from '@angular/material';
@@ -29,7 +31,7 @@ export class SearchServiceComponent implements OnInit {
   events: Event[];
   displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'action'];
 
-
+  attendeeEventList: string[] = [];
 
   constructor(
     private readonly dialog: MatDialog,
@@ -38,6 +40,7 @@ export class SearchServiceComponent implements OnInit {
     private eventService: EventService,
     private searchService: SearchServiceService,
     private bookmarkService: BookmarkService,
+    private attendanceService: AttendanceService,
     private user: User,
   ) {
 
@@ -51,10 +54,13 @@ export class SearchServiceComponent implements OnInit {
       date: new FormControl(this.event.date, []),
       description: new FormControl(this.event.description, []),
     });
+
+    this.attendanceService = attendanceService;
   }
 
   ngOnInit(): void {
     this.loadAllEvents();
+    this.loadAttendeeEventList(); // Load attendee's event list on initialization
   }
 
   bookmark(event: Event){
@@ -65,15 +71,58 @@ export class SearchServiceComponent implements OnInit {
     this.bookmarkService.unbookmarkEvent(event, this.user);
   }
 
+  /**
+   * Register the current user for an event.
+   *
+   * @param event - The event to register for.
+   */
+  register(event: Event) {
+    this.attendanceService.register(this.user, event).subscribe(() => {
+      this.attendeeEventList.push(event.eventID);
+    });
+  }
 
-  register(event: Event){
+  /**
+   * Deregister the current user from an event.
+   *
+   * @param event - The event to deregister from.
+   */
+  deregister(event: Event) {
+    this.attendanceService.deregister(this.user, event).subscribe(() => {
+      const index = this.attendeeEventList.indexOf(event.eventID);
+      if (index > -1) {
+        this.attendeeEventList.splice(index, 1);
+      }
+    });
+  }
 
+  /**
+   * Check if the current user is registered for an event.
+   *
+   * @param event - The event to check registration for.
+   * @return true if the user is registered for the event, false otherwise.
+   */
+  isRegistered(event: Event): boolean {
+    return this.attendeeEventList.includes(event.eventID);
+  }
+
+  /**
+   * Load the list of event IDs for the current user from the server.
+   */
+  loadAttendeeEventList(): void {
+    this.attendanceService.getAttendeeEventList(this.user).subscribe(
+      (attendeeEventList: AttendeeEventList) => {
+        this.attendeeEventList = attendeeEventList.eventIDs;
+      },
+      (error: any) => {
+        this.defaultServiceErrorHandling(error);
+      }
+    );
   }
 
   feedback(event: Event){
 
   }
-
 
   public loadAllEvents() {
     this.eventService.getAllEvents().subscribe({
@@ -156,6 +205,4 @@ export class SearchServiceComponent implements OnInit {
       this.errorMessage = error.error.message;
     }
   }
-
-
 }

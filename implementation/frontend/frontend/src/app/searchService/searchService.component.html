@@ -80,8 +80,12 @@
           </mat-select>
         </mat-form-field>
 
-        <button mat-icon-button color="warn" (click)="register(element)">
+        <button mat-icon-button color="warn" *ngIf="!isRegistered(element)" (click)="register(element)">
           <mat-icon>register</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" *ngIf="isRegistered(element)" (click)="deregister(element)">
+          <mat-icon>deregister</mat-icon>
         </button>
 
         <button mat-icon-button color="warn" (click)="feedback(element)">
