@@ -11,6 +11,20 @@ x-rabbitmq-exchanges: &rabbitmq-exchanges
   SEND-NOTIFICATION-EXCHANGE: "sendnotification-exchange"
   TAGGING-EXCHANGE: "tagging-exchange"
 
+x-endpoint-variable: &endpoint-variables
+  ANALYTICREPORT-ENDPOINT: "http://analyticReport:8080"
+  ATTENDANCE-ENDPOINT: "http://attendance:8080"
+  BOOKMARK-ENDPOINT: "http://bookmark:8080"
+  CALENDAR-ENDPOINT: "http://calendar:8080"
+  EVENT-ENDPOINT: "http://event:8080"
+  FEEDBACK-ENDPOINT: "http://feedback:8080"
+  LOGIN-ENDPOINT: "http://login:8080"
+  MAINTENANCE-ENDPOINT: "http://maintenance:8080"
+  NOTIFICATION-ENDPOINT: "http://notification:8080"
+  RECOMMENDER-ENDPOINT: "http://recommender:8080"
+  SEARCHSERVICEEVENT-ENDPOINT: "http://searchserviceevent:8080"
+  SENDNOTIFICATION-ENDPOINT: "http://sendnotification:8080"
+  TAGGINGSERVICE-ENDPOINT: "http://taggingservice:8080"
 
 services:
   analyticReport:
@@ -21,6 +35,8 @@ services:
     networks:
       analyticReport-rabbit:
       analyticReport-apigateway:
+    environment:
+      <<: *endpoint-variables
 
 #  attendance:
 #    image: attendance
@@ -37,6 +53,7 @@ services:
     networks:
       bookmarkService-calendar:
       bookmarkService-rabbit:
+
 
   calendar:
     image: calendar
@@ -55,7 +72,7 @@ services:
       event-rabbit:
       event-apigateway:
     environment:
-      <<: *common-variables
+      <<: [*common-variables, *endpoint-variables]
     volumes:
       - ./_persistence/event:/persistence
 
@@ -68,6 +85,12 @@ services:
     networks:
       feedback-rabbit:
       feedback-apigateway:
+    environment:
+      <<: *endpoint-variables
+    volumes:
+      - ./_persistence/feedback:/persistence
+
+
 
   login:
     image: login
@@ -81,6 +104,7 @@ services:
       <<: *common-variables
       JWT-SECRET: "top-secret"
       JWT-EXPIRATION-TIME: "900000"
+
     volumes:
       - ./_persistence/login:/persistence
 
@@ -92,6 +116,8 @@ services:
     networks:
       maintenance-rabbit:
       maintenance-apigateway:
+    environment:
+      <<: *endpoint-variables
 
   notification:
     image: notification
@@ -124,7 +150,7 @@ services:
       searchServiceEvent-rabbit:
       searchServiceEvent-apigateway:
     environment:
-      <<: *common-variables
+      <<: [*common-variables, *endpoint-variables]
     volumes:
       - ./_persistence/searchService:/persistence
 
@@ -165,7 +191,7 @@ services:
       context: .
       dockerfile: api-gateway/Dockerfile
     environment:
-      <<: *common-variables
+      <<: [*common-variables, *endpoint-variables]
       ANALYTIC_REPORT: analyticreport
       ATTENDANCE: attendance
       BOOKMARK_SERVICE: bookmarkservice

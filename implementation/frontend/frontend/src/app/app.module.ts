@@ -29,6 +29,7 @@ import {AddEventComponent} from "./addEvents/addEvent.component";
 import {CalendarComponent} from "./calendar/calendar.component";
 import {UpdateEventComponent} from "./updateEvents/updateEvent.component";
 import {TaggingComponent} from "./tagging/tagging.component";
+import {MaintenanceComponent} from "./maintenance/maintenance.component";
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import {TaggingComponent} from "./tagging/tagging.component";
     CalendarComponent,
     UpdateEventComponent,
     TaggingComponent,
+    MaintenanceComponent,
 
   ],
   imports: [

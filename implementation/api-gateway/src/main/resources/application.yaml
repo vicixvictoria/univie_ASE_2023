@@ -83,5 +83,28 @@ config:
         authorize: false
         gateway-path-base: /api/v1/attendance
 
+    maintenance: 
+      endpoint: http://${MAINTENANCE:localhost}:8080
+      path-base: /api/v1/maintenance
+      paths:
+        - /availability
+      gateway-path-base: /api/v1/maintenance
+
+    analyticReport:
+      endpoint: http://${ANALYTICREPORT:localhost}:8080
+      path-base: /api/v1/analyticReport
+      paths:
+        - /feedback
+        - /event
+      gateway-path-base: /api/v1/analyticReport
+
+    feedback:
+      endpoint: http://${FEEDBACK:localhost}:8080
+      path-base: /api/v1/feedback
+      paths:
+        -
+        - /event
+        - /user
+      gateway-path-base: /api/v1/feedback
 server:
   port: 8080
