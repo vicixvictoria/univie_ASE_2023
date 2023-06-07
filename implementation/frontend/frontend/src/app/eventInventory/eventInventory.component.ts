@@ -33,7 +33,7 @@ export class EventInventoryComponent implements OnInit {
 
   // @ts-ignore
   events: Event[];
-  displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'action'];
+  displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'attendees', 'action'];
 
 
   constructor(
@@ -49,6 +49,7 @@ export class EventInventoryComponent implements OnInit {
     // @ts-ignore
     //this.userID = this.accountService.userValue?.id
      this.loadAllEvents();
+     this.loadAttendance();
     //this.loadAllEventsByOrganizerID(this.userID);
   }
 
