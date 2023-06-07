@@ -180,7 +180,7 @@ class EventServiceUnitTests {
         // Assert
         assertEquals(savedEvent, result);
         verify(mockEventRepository).save(event);
-        verify(mockPublisher).newEvent(event);
+        verify(mockPublisher).newEvent(result);
     }
 
     @Test

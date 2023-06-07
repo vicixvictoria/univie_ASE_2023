@@ -71,7 +71,6 @@ config:
         - /description
         - /date
       gateway-path-base: /api/v1/searchService
-    
 
 server:
   port: 8080

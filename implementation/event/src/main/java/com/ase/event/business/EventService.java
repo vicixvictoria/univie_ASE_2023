@@ -156,7 +156,7 @@ public class EventService {
             throw new RuntimeException("Event not correct");
         }
         Event newEvent =  iEventRepository.save(event);
-        publisher.newEvent(event);
+        publisher.newEvent(newEvent);
         return newEvent;
     }
 
