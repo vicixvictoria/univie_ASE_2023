@@ -3,6 +3,8 @@ package com.ase.attendance.integration;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,6 +65,20 @@ public class RabbitMQEventConfiguration  {
      */
     @Bean(name = "event-callback")
     public MessageListenerAdapter messageListenerAdapter(Subscriber subscriber) {
-        return configurationHelper.getListenerAdapter(subscriber, "eventConsumer");
+        return configurationHelper.getListenerAdapter(subscriber, "capacityConsumer");
+    }
+
+    /**
+     * Creates and configures the event listener container for registered callbacks.
+     *
+     * @param connectionFactory The connection factory to use for creating connections.
+     * @param adapter The message listener adapter for handling messages.
+     * @return The configured event listener container.
+     */
+    @Bean(name = "registered-callback-binding")
+    public SimpleMessageListenerContainer eventListenerContainer(
+            ConnectionFactory connectionFactory,
+            @Qualifier("event-callback") MessageListenerAdapter adapter) {
+        return configurationHelper.getEventListenerContainer(connectionFactory, adapter, queueName);
     }
 }

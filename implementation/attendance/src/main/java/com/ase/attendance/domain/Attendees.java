@@ -5,6 +5,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Attendees class represents the attendees of an event.
@@ -17,7 +18,7 @@ public class Attendees {
     private int capacity;
     @ElementCollection
     @CollectionTable(name="listOfAttendeeIDs")
-    private ArrayList <String> attendees;
+    private List<String> attendees;
 
     /**
      * Default constructor for the Attendees class.
@@ -90,7 +91,7 @@ public class Attendees {
      *
      * @return The list of attendee IDs.
      */
-    public ArrayList<String> getAttendees() {
+    public List<String> getAttendees() {
         return attendees;
     }
 }

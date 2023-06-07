@@ -4,6 +4,8 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 
 /**
@@ -51,5 +53,24 @@ public class RabbitMQConfigurationHelper {
      */
     public MessageListenerAdapter getListenerAdapter(Subscriber subscriber, String methodName) {
         return new MessageListenerAdapter(subscriber, methodName);
+    }
+
+    /**
+     * Creates and configures a SimpleMessageListenerContainer for event listeners.
+     *
+     * @param connectionFactory The connection factory to use for creating connections.
+     * @param adapter The message listener adapter for handling messages.
+     * @param queueName The name of the queue to listen to.
+     * @return The configured event listener container.
+     */
+    public SimpleMessageListenerContainer getEventListenerContainer(
+            ConnectionFactory connectionFactory,
+            MessageListenerAdapter adapter,
+            String queueName) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.setQueueNames(queueName);
+        container.setMessageListener(adapter);
+        return container;
     }
 }

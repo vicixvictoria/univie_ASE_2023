@@ -38,10 +38,8 @@ public class Subscriber {
      */
     public void eventTypeConsumer(RabbitMQMessage<Event> eventMessage) {
         LOGGER.info("Received an event message");
-
         Converter converter = new Converter();
         EventType eventType = converter.getEventType(eventMessage.getContent());
-
         switch (eventMessage.getMessageType()) {
             case NEW -> service.addEventType(eventType.getID(), eventType.getEventType());
             case UPDATE -> service.updateEventType(eventType.getID(), eventType.getEventType());
@@ -55,6 +53,7 @@ public class Subscriber {
      * @param bookmarkEventMessage The RabbitMQ message containing the bookmark event.
      */
     public void bookmarkEventConsumer(RabbitMQMessage<BookmarkEventMessage> bookmarkEventMessage) {
+        LOGGER.info("Received an bookmark message");
         switch (bookmarkEventMessage.getMessageType()) {
             case UPDATE -> service.addInterest(bookmarkEventMessage.getContent().userId(),
                     bookmarkEventMessage.getContent().eventId());

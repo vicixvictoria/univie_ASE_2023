@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1")
+@RequestMapping(path = "api/v1/attendance")
 public class AttendanceController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(
@@ -66,11 +66,11 @@ public class AttendanceController {
      * @param eventID the ID of the event.
      * @return the attendance count for the event.
      */
-    @GetMapping("/attendance/{eventID}")
+    @GetMapping("/{eventID}")
     public ResponseEntity<Integer> attendance(@PathVariable String eventID) {
         LOGGER.info("Request: Getting attendance count");
         int result = attendanceService.attendance(eventID);
-        return result >= 0 ? ResponseEntity.ok(result) : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return result >= 0 ? ResponseEntity.ok(result) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
