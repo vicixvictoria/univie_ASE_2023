@@ -56,6 +56,7 @@ config:
       path-base: /api/v1/events
       paths:
         -
+        - /organizer
         - /healthcheck
       gateway-path-base: /api/v1/events
     searchservice:

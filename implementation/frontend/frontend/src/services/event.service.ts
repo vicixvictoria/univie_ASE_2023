@@ -44,7 +44,8 @@ export class EventService {
   }
 
   deleteEvent(id: string): Observable<Event>{
-    return this.httpClient.delete<Event>(baseUri + '/event' + id, {headers: this.headers});
+    console.log('Delete event with id:', id);
+    return this.httpClient.delete<Event>(baseUri + '/' + id, {headers: this.headers});
   }
 
   getAllEvents(): Observable<Event[]> {

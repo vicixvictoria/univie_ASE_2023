@@ -14,7 +14,7 @@ public interface IEventRepository extends JpaRepository<Event, String> {
 
     List<Event> findAllByorganizerID(String organizerID);
 
-    Event findEventByeventID(String id);
+    Event findEventByEventID(String id);
 
     List<Event> findByType(EEventTypes type);
 

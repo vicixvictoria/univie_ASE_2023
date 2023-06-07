@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class EventService {
             LOGGER.error("OrganizerID is empty");
             throw new RuntimeException("OrganizerID is not correct");
         }
-        return iEventRepository.findAllByorganizerID(id);
+        return   iEventRepository.findAllByorganizerID(id);
     }
 
     /**
@@ -66,7 +67,8 @@ public class EventService {
             LOGGER.error("ID is empty");
             throw new RuntimeException("ID is not correct");
         }
-        return iEventRepository.findEventByeventID(id);
+        Event event = iEventRepository.findEventByEventID(id);
+        return event;
     }
 
     /**
@@ -174,7 +176,7 @@ public class EventService {
             LOGGER.error("Event is not correct. Either its empty, or it has no name, or the Capacity is below 1, or there is no date.");
             throw new RuntimeException("Event not correct");
         }
-        Event event1 = iEventRepository.findEventByeventID(event.getEventID());
+        Event event1 = iEventRepository.findEventByEventID(event.getEventID());
         Event updatedEvent = iEventRepository.save(event);
         publisher.updateEvent(updatedEvent);
         return updatedEvent;
@@ -186,14 +188,18 @@ public class EventService {
      * @param eventID
      */
     public void deleteEvent(String eventID) {
-        LOGGER.debug("delete event {}", getEventsByID(eventID));
+        LOGGER.debug("delete event {},{}",eventID, iEventRepository.findById(eventID));
         if(eventID == null){
             LOGGER.error("EventID is empty");
             throw new RuntimeException("EventID not correct");
         }
-        Event deletedEvent = iEventRepository.findEventByeventID(eventID);
-        iEventRepository.deleteById(eventID);
-        publisher.deleteEvent(deletedEvent);
+
+        Optional<Event> deletedEvent = iEventRepository.findById(eventID);
+        if (deletedEvent .isPresent()) {
+            Event deleteEvent = deletedEvent.get();
+            iEventRepository.deleteById(eventID);
+            publisher.deleteEvent(deleteEvent);
+        }
     }
 
 
