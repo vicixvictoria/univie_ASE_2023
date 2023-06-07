@@ -1,11 +1,11 @@
 package com.ase.searchServiceEvents;
 
 
-import com.ase.searchServiceEvents.Network.Subscriber;
-import com.ase.searchServiceEvents.Repository.ISearchServiceRepository;
-import com.ase.searchServiceEvents.Service.SearchServiceService;
-import com.ase.searchServiceEvents.event.EEventTypes;
-import com.ase.searchServiceEvents.event.Event;
+import com.ase.searchServiceEvents.integration.Subscriber;
+import com.ase.searchServiceEvents.dataAccess.ISearchServiceRepository;
+import com.ase.searchServiceEvents.business.SearchServiceService;
+import com.ase.searchServiceEvents.domain.EEventTypes;
+import com.ase.searchServiceEvents.domain.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

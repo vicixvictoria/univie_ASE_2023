@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {EventService} from "../../services/event.service";
-import {AttendanceService} from "../../services/attendance.service";
 import {Event} from "../../dtos/event";
 import {AddEventComponent} from "../addEvents/addEvent.component";
 import {Router} from "@angular/router";
 import {UpdateEventComponent} from "../updateEvents/updateEvent.component";
+import {AccountService} from "../../services/account.service";
 //import { MatTableModule } from '@angular/material';
+import {AttendanceService} from "../../services/attendance.service";
 
-interface EventWithAttendees extends Event {
+interface EventWithAttendees extends Event{
   attendees?: number;
 }
 
@@ -23,11 +24,8 @@ export class EventInventoryComponent implements OnInit {
   errorMessage = '';
   // @ts-ignore
 
-  eventForm: FormGroup;
-
   // @ts-ignore
   event: Event;
-  event1: Event | undefined;
   // @ts-ignore
   userID : string
 
@@ -41,18 +39,24 @@ export class EventInventoryComponent implements OnInit {
     private readonly dialog: MatDialog,
     private dialogRef: MatDialogRef<EventInventoryComponent>,
     private eventService: EventService,
+    private accountService: AccountService,
     private attendanceService: AttendanceService,
+
   ) {
   }
 
   ngOnInit(): void {
     // @ts-ignore
-    //this.userID = this.accountService.userValue?.id
-     this.loadAllEvents();
-     this.loadAttendance();
-    //this.loadAllEventsByOrganizerID(this.userID);
+    this.userID = this.getuserValue().id
+    // this.loadAllEvents();
+    this.loadAllEventsByOrganizerID(this.userID);
+    this.loadAttendance();
+
   }
 
+  public getuserValue() {
+    return this.accountService.userValue;
+  }
 
   deleteEvent(eventID: string){
     if (confirm('Event ' + eventID + '"wirklich löschen?')) {
@@ -109,23 +113,6 @@ export class EventInventoryComponent implements OnInit {
     });
   }
 
-  private defaultServiceErrorHandling(error: any) {
-    console.log(error);
-    this.error = true;
-    if (error.status === 0) {
-      // If status is 0, the backend is probably down
-      this.errorMessage = 'The backend seems not to be reachable';
-    } else if (error.error.message === 'No message available') {
-      // If no detailed error message is provided, fall back to the simple error name
-      this.errorMessage = error.error.error;
-    } else {
-      this.errorMessage = error.error.message;
-    }
-  }
-
-  /**
-   * Load the attendance count for each event.
-   */
   public loadAttendance() {
     this.eventService.getAllEvents().subscribe({
       next: data => {
@@ -149,4 +136,19 @@ export class EventInventoryComponent implements OnInit {
       }
     });
   }
+
+  private defaultServiceErrorHandling(error: any) {
+    console.log(error);
+    this.error = true;
+    if (error.status === 0) {
+      // If status is 0, the backend is probably down
+      this.errorMessage = 'The backend seems not to be reachable';
+    } else if (error.error.message === 'No message available') {
+      // If no detailed error message is provided, fall back to the simple error name
+      this.errorMessage = error.error.error;
+    } else {
+      this.errorMessage = error.error.message;
+    }
+  }
+
 }

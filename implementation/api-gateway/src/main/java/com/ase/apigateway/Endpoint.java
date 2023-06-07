@@ -1,6 +1,7 @@
 package com.ase.apigateway;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 public class Endpoint {

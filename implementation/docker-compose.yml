@@ -46,8 +46,10 @@ services:
     networks:
       event-rabbit:
       event-apigateway:
+    environment:
+      <<: *common-variables
     volumes:
-      - ./.persistence/event:/persistence
+      - ./_persistence/event:/persistence
 
 
   feedback:
@@ -64,11 +66,11 @@ services:
       login-rabbit:
       login-apigateway:
     environment:
-      <<: [*common-variables, *rabbitmq-exchanges]
+      <<: *common-variables
       JWT-SECRET: "top-secret"
       JWT-EXPIRATION-TIME: "900000"
     volumes:
-      - ./.persistence/login:/persistence
+      - ./_persistence/login:/persistence
 
   maintenance:
     image: maintenance
@@ -86,7 +88,7 @@ services:
     environment:
       <<: [*common-variables, *rabbitmq-exchanges]
     volumes:
-      - ./.persistence/notification:/persistence
+      - ./_persistence/notification:/persistence
 
   recommender:
     image: recommender
@@ -101,8 +103,10 @@ services:
     networks:
       searchServiceEvent-rabbit:
       searchServiceEvent-apigateway:
+    environment:
+      <<: *common-variables
     volumes:
-      - ./.persistence/searchService:/persistence
+      - ./_persistence/searchService:/persistence
 
   taggingService:
     image: taggingservice
@@ -121,7 +125,7 @@ services:
       NOTIFICATION_SENDER_EMAIL: <email>
       NOTIFICATION_SENDER_PASSWORD: <password>
     volumes:
-      - ./.persistence/sendNotification:/persistence
+      - ./_persistence/sendNotification:/persistence
 
   frontend:
     image: frontend

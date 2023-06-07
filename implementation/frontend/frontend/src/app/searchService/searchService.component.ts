@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {EventService} from "../../services/event.service";
 import {Event} from "../../dtos/event";
-import {FormBuilder, FormControl} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {SearchServiceService} from "../../services/searchService.service";
 import {BookmarkService} from "../../services/bookmark.service";
-import {AttendanceService} from "../../services/attendance.service";
 import {User} from "../models/user";
+import {AccountService} from "../../services/account.service";
+import {UpdateEventComponent} from "../updateEvents/updateEvent.component";
+import {TaggingComponent} from "../tagging/tagging.component";
+import {formatDate} from "@angular/common";
+import {AttendanceService} from "../../services/attendance.service";
 import {AttendeeEventList} from "../../dtos/attendeeEventList";
-
 
 //import { MatTableModule } from '@angular/material';
 
@@ -16,7 +19,7 @@ import {AttendeeEventList} from "../../dtos/attendeeEventList";
 @Component({
   selector: 'app-searchService',
   templateUrl: './searchService.component.html',
-  styleUrls: ['./searchService.component.css']
+  styleUrls: ['./searchService.component.css'],
 })
 export class SearchServiceComponent implements OnInit {
 
@@ -25,13 +28,17 @@ export class SearchServiceComponent implements OnInit {
   // @ts-ignore
 
   searchForm: FormGroup;
+  private validated = false;
 
   event: Event | undefined;
   // @ts-ignore
   events: Event[];
+  // @ts-ignore
+  userID : string
   displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'action'];
 
   attendeeEventList: string[] = [];
+
 
   constructor(
     private readonly dialog: MatDialog,
@@ -40,19 +47,19 @@ export class SearchServiceComponent implements OnInit {
     private eventService: EventService,
     private searchService: SearchServiceService,
     private bookmarkService: BookmarkService,
-    private attendanceService: AttendanceService,
-    private user: User,
+    private accountService: AccountService,
+    private attendanceService: AttendanceService
+    //private user: User,
   ) {
 
     // @ts-ignore
     this.event = new Event();
 
     this.searchForm  = this.formBuilder.group({
-      eventName: new FormControl(this.event.eventName, [
-        /* Validators.required, Validators.minLength(1), Validators.maxLength(64)*/]),
-      capacity: new FormControl(this.event.capacity, []),
-      date: new FormControl(this.event.date, []),
-      description: new FormControl(this.event.description, []),
+      eventName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(255)])],
+      capacity: [],
+      date: [formatDate(new Date(), 'yyyy-MM-dd', 'en-US'), Validators.required],
+      description: [],
     });
 
     this.attendanceService = attendanceService;
@@ -60,15 +67,20 @@ export class SearchServiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllEvents();
-    this.loadAttendeeEventList(); // Load attendee's event list on initialization
+    // @ts-ignore
+    this.userID = this.getUserValue().id;
+  }
+
+  public getUserValue() {
+    return this.accountService.userValue;
   }
 
   bookmark(event: Event){
-    this.bookmarkService.bookmarkEvent(event, this.user);
+    this.bookmarkService.bookmarkEvent(event, this.userID);
   }
 
   unbookmark(event: Event){
-    this.bookmarkService.unbookmarkEvent(event, this.user);
+    this.bookmarkService.unbookmarkEvent(event, this.userID);
   }
 
   /**
@@ -77,7 +89,7 @@ export class SearchServiceComponent implements OnInit {
    * @param event - The event to register for.
    */
   register(event: Event) {
-    this.attendanceService.register(this.user, event).subscribe(() => {
+    this.attendanceService.register(this.userID, event).subscribe(() => {
       this.attendeeEventList.push(event.eventID);
     });
   }
@@ -88,7 +100,7 @@ export class SearchServiceComponent implements OnInit {
    * @param event - The event to deregister from.
    */
   deregister(event: Event) {
-    this.attendanceService.deregister(this.user, event).subscribe(() => {
+    this.attendanceService.deregister(this.userID, event).subscribe(() => {
       const index = this.attendeeEventList.indexOf(event.eventID);
       if (index > -1) {
         this.attendeeEventList.splice(index, 1);
@@ -110,7 +122,7 @@ export class SearchServiceComponent implements OnInit {
    * Load the list of event IDs for the current user from the server.
    */
   loadAttendeeEventList(): void {
-    this.attendanceService.getAttendeeEventList(this.user).subscribe(
+    this.attendanceService.getAttendeeEventList(this.userID).subscribe(
       (attendeeEventList: AttendeeEventList) => {
         this.attendeeEventList = attendeeEventList.eventIDs;
       },
@@ -120,12 +132,24 @@ export class SearchServiceComponent implements OnInit {
     );
   }
 
+  tag(event: Event){
+    const dialog = this.dialog.open(TaggingComponent, {
+      data: {
+        eventID: event.eventID
+      },
+      width: '1500px'});
+    dialog.afterClosed().subscribe(() => {
+      this.loadAllEvents()
+    });
+  }
+
   feedback(event: Event){
 
   }
 
+
   public loadAllEvents() {
-    this.eventService.getAllEvents().subscribe({
+    this.searchService.getAllEvents().subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -139,7 +163,7 @@ export class SearchServiceComponent implements OnInit {
   }
 
   public searchByName(){
-    this.eventService.getEventsByName(this.searchForm.controls.eventName.value).subscribe({
+    this.searchService.getEventsByName(this.searchForm.controls.eventName.value).subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -153,7 +177,7 @@ export class SearchServiceComponent implements OnInit {
   }
 
   public searchByDate(){
-    this.eventService.getEventsByDate(this.searchForm.controls.date.value).subscribe({
+    this.searchService.getEventsByDate(this.searchForm.controls.date.value).subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -167,7 +191,7 @@ export class SearchServiceComponent implements OnInit {
   }
 
   public searchByCapacity(){
-    this.eventService.getEventsByCapacity(this.searchForm.controls.capacity.value).subscribe({
+    this.searchService.getEventsByCapacity(this.searchForm.controls.capacity.value).subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -180,7 +204,7 @@ export class SearchServiceComponent implements OnInit {
   }
 
   public searchByDes(){
-    this.eventService.getEventsByDes(this.searchForm.controls.capacity.value).subscribe({
+    this.searchService.getEventsByDes(this.searchForm.controls.capacity.value).subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -190,6 +214,17 @@ export class SearchServiceComponent implements OnInit {
         this.defaultServiceErrorHandling(error);
       }
     });
+  }
+
+  getValidatingClass(control: string): object {
+    if (!this.searchForm.controls[control]) {
+      console.warn('cant validate ' + control + ' because its not present.');
+      return {'is-invalid': true};
+    }
+    return {
+      'is-valid': this.validated && !this.searchForm.controls[control].errors,
+      'is-invalid': this.validated && this.searchForm.controls[control].errors
+    };
   }
 
   private defaultServiceErrorHandling(error: any) {
@@ -205,4 +240,6 @@ export class SearchServiceComponent implements OnInit {
       this.errorMessage = error.error.message;
     }
   }
+
+
 }

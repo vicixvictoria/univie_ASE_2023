@@ -23,8 +23,8 @@ export class AttendanceService {
    * @param {Event} event - The event object.
    * @returns {Observable<number>} The new attendance count for the event.
    */
-  register(user: User, event: Event): Observable<number> {
-    const url = `${baseUri}/register/${user.id}/${event.eventID}`;
+  register(id: String, event: Event): Observable<number> {
+    const url = `${baseUri}/register/${id}/${event.eventID}`;
     return this.httpClient.post<number>(url, {});
   }
 
@@ -34,8 +34,8 @@ export class AttendanceService {
    * @param {Event} event - The event object.
    * @returns {Observable<number>} The new attendance count for the event.
    */
-  deregister(user: User, event: Event): Observable<number> {
-    const url = `${baseUri}/deregister/${user.id}/${event.eventID}`;
+  deregister(id: String, event: Event): Observable<number> {
+    const url = `${baseUri}/deregister/${id}/${event.eventID}`;
     return this.httpClient.post<number>(url, {});
   }
 
@@ -44,8 +44,8 @@ export class AttendanceService {
    * @param {User} user - The user object.
    * @returns {Observable<AttendeeEventList>} The list of events that the user is attending.
    */
-  getAttendeeEventList(user: User): Observable<AttendeeEventList> {
-    const url = `${baseUri}/attendeeEventList/${user.id}`;
+  getAttendeeEventList(id: String): Observable<AttendeeEventList> {
+    const url = `${baseUri}/attendeeEventList/${id}`;
     return this.httpClient.get<AttendeeEventList>(url);
   }
 

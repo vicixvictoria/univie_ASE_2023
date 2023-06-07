@@ -1,9 +1,9 @@
 package com.ase.event;
 
-import com.ase.event.Data.EEventTypes;
-import com.ase.event.Data.Event;
-import com.ase.event.Repository.IEventRepository;
-import com.ase.event.Service.EventService;
+import com.ase.event.domain.EEventTypes;
+import com.ase.event.domain.Event;
+import com.ase.event.dataAccess.IEventRepository;
+import com.ase.event.business.EventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -180,7 +180,7 @@ class EventServiceUnitTests {
         // Assert
         assertEquals(savedEvent, result);
         verify(mockEventRepository).save(event);
-        verify(mockPublisher).newEvent(event);
+        verify(mockPublisher).newEvent(result);
     }
 
     @Test
