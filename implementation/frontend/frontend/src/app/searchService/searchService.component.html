@@ -5,34 +5,45 @@
 
   <div [formGroup]="searchForm">
   <form (submit)="$event.preventDefault()">
-    <mat-form-field>
-      <input formControlName="eventName" id="eventName" name="eventName"
-             placeholder="Event Name" type="text" matInput>
-    </mat-form-field>
-    <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByName()">
-      <mat-icon>go</mat-icon>
-    </button>
+    <div class="form-group">
+      <label for="inputEventName">Event Name*</label>
+      <input [ngClass]="getValidatingClass('eventName')" aria-describedby="titleHelp" class="form-control"
+             formControlName="eventName" id="inputEventName" name="eventName"
+             placeholder="Event Name" style="width: 200px" type="text">
+      <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByName()">
+        <mat-icon>go</mat-icon>
+      </button>
+    </div>
 
-    <mat-form-field>
-      <input formControlName="date" id="date" name="date" placeholder ="Date" type="date" matInput>
-    </mat-form-field>
-    <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByDate()">
-      <mat-icon>go</mat-icon>
-    </button>
+    <div class="form-group">
+      <label for="inputDate">Date*</label>
+      <input [ngClass]="getValidatingClass('date')" aria-describedby="dateHelp" class="form-control"
+             formControlName="date" id="inputDate" name="date" pattern="\d{4}-\d{2}-\d{2}"
+             placeholder="YYYY-MM-DD" style="width: 200px" required type="date">
+      <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByDate()">
+        <mat-icon>go</mat-icon>
+      </button>
+    </div>
 
-    <mat-form-field>
-      <input formControlName="capacity" id="capacity" name="capacity" placeholder ="Capacity" type="number" matInput>
-    </mat-form-field>
-    <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByCapacity()">
-      <mat-icon>go</mat-icon>
-    </button>
+    <div class="form-group">
+      <label for="inputDescription">Description</label>
+      <input [ngClass]="getValidatingClass('description')" aria-describedby="descriptionHelp" class="form-control"
+             formControlName="description" id="inputDescription" name="description"
+             placeholder="Description" style="width: 200px" type="text">
+      <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByDes()">
+        <mat-icon>go</mat-icon>
+      </button>
+    </div>
 
-    <mat-form-field>
-      <input formControlName="description" id="description" name="description" placeholder ="description" type="string" matInput>
-    </mat-form-field>
-    <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByDes()">
-      <mat-icon>go</mat-icon>
-    </button>
+    <div class="form-group">
+      <label for="inputCapacity">Capacity*</label>
+      <input [ngClass]="getValidatingClass('capacity')" aria-describedby="capacityHelp" class="form-control"
+             formControlName="capacity" id="inputCapacity" name="capacity"
+             placeholder="Capacity" style="width: 200px" type="number">
+      <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByCapacity()">
+        <mat-icon>go</mat-icon>
+      </button>
+    </div>
   </form>
     </div>
 
@@ -70,15 +81,9 @@
           <mat-icon>bookmark</mat-icon>
         </button>
 
-        <mat-form-field class="input-field" style="margin-right: 5px; width: 375px" appearance="outline">
-          <mat-label>Event Type</mat-label>
-          <mat-select formControlName="eventType" matNativeControl>
-            <mat-option value='FOOD'>Food</mat-option>
-            <mat-option value='HEALTH'>Health</mat-option>
-            <mat-option value='ENTERTAINMENT'>Entertainment</mat-option>
-            <mat-option value='EDUCATION'>Education</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <button mat-icon-button color="warn" (click)="tag(element)">
+          <mat-icon>tagging</mat-icon>
+        </button>
 
         <button mat-icon-button color="warn" (click)="register(element)">
           <mat-icon>register</mat-icon>

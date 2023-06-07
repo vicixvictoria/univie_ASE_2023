@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(path = "api/v1/events")
 public class EventController {
 
@@ -93,7 +92,6 @@ public class EventController {
         return eventService.getEventsByName(eventName);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/description/{description}")
     public Collection<Event> getEventsByDescription(@PathVariable String description) {
         LOGGER.info("GET api/v1/events/description/{}", description);

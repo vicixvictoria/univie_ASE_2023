@@ -10,6 +10,7 @@ import {AccountService} from "./account.service";
 
 const baseUri = 'http://localhost:8080/api/v1/events';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +27,6 @@ export class EventService {
   }
 
   public getuserValue() {
-   // return this.userSubject.value;
     return this.accountService.userValue;
   }
 
@@ -44,39 +44,45 @@ export class EventService {
   }
 
   deleteEvent(id: string): Observable<Event>{
-    return this.httpClient.delete<Event>(baseUri + '/' + id, {headers: this.headers});
+    return this.httpClient.delete<Event>(baseUri + '/event' + id, {headers: this.headers});
   }
 
   getAllEvents(): Observable<Event[]> {
-    console.log('get all Events from one organizer');
+    console.log('get all Events');
     return this.httpClient.get<Event[]>(baseUri, {headers: this.headers});
+  }
+
+  getAllEventsByOrganizerID(organizerID: String): Observable<Event[]> {
+    console.log('get all Events by organizerID');
+    return this.httpClient.get<Event[]>(baseUri + '/organizer/' + organizerID, {headers: this.headers});
   }
 
   getEventsByName(name: string): Observable<Event[]> {
     console.log('get all Events with this name' + name);
-    return this.httpClient.get<Event[]>(baseUri+ '/' + name, {headers: this.headers});
+    return this.httpClient.get<Event[]>(baseUri+ '/name' + name, {headers: this.headers});
   }
 
   getEventsByDate(date: Date): Observable<Event[]> {
     console.log('get all Events with this name' + date);
-    return this.httpClient.get<Event[]>(baseUri + '/' + date, {headers: this.headers});
+    return this.httpClient.get<Event[]>(baseUri + '/date' + date, {headers: this.headers});
   }
 
   getEventsByCapacity(capacity: number): Observable<Event[]> {
     console.log('get all Events with this name' + capacity);
-    return this.httpClient.get<Event[]>(baseUri + '/' + capacity, {headers: this.headers});
+    return this.httpClient.get<Event[]>(baseUri + '/capacity' + capacity, {headers: this.headers});
   }
 
   getEventsByDes(des: string): Observable<Event[]> {
     console.log('get all Events with this desc' + des);
-    return this.httpClient.get<Event[]>(baseUri + '/' + des, {headers: this.headers});
+    return this.httpClient.get<Event[]>(baseUri + '/description' + des, {headers: this.headers});
   }
 
+  /*
   getAllEventsByOrganizerID(id:string): Observable<Event[]> {
-    console.log('get all Events from one organizer');
+    console.log('get all Events from one organizer with id' + id);
     return this.httpClient.get<Event[]>(baseUri+ '/organizer' + id, {headers: this.headers});
 
-  }
+  }*/
 
 
 

@@ -2,7 +2,7 @@ package com.ase.event.business;
 
 import com.ase.event.domain.EEventTypes;
 import com.ase.event.domain.Event;
-import com.ase.event.Repository.IEventRepository;
+import com.ase.event.dataAccess.IEventRepository;
 import com.ase.event.Publisher;
 import jakarta.transaction.Transactional;
 import java.lang.invoke.MethodHandles;

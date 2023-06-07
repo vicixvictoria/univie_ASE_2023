@@ -20,16 +20,16 @@ export class BookmarkService {
   }
 
 
-  bookmarkEvent(event: Event, user: User) {
+  bookmarkEvent(event: Event, id: String) {
     console.log('Add BookmarkEvent')
-    return this.httpClient.post(baseUri + 'add/' + event.eventID + '/' + user.id, null).subscribe(response => {
+    return this.httpClient.post(baseUri + 'add/' + event.eventID + '/' + id, null).subscribe(response => {
       return response;
     });
   }
 
-  unbookmarkEvent(event: Event, user: User) {
+  unbookmarkEvent(event: Event, id: String) {
     console.log('Request all bookmarked Events for User')
-    this.httpClient.delete(baseUri + 'unbookmarkEvent/' + event.eventID + '/' + user.id).subscribe(response => {
+    this.httpClient.delete(baseUri + 'unbookmarkEvent/' + event.eventID + '/' + id).subscribe(response => {
       console.log(response);
     });
   }

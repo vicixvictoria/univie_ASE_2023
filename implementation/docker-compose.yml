@@ -90,6 +90,8 @@ services:
     networks:
       searchServiceEvent-rabbit:
       searchServiceEvent-apigateway:
+    environment:
+      <<: *common-variables
     volumes:
       - ./_persistence/searchService:/persistence
 
@@ -112,13 +114,13 @@ services:
     volumes:
       - ./_persistence/sendNotification:/persistence
 
-  frontend:
-    image: frontend
-    build: frontend/frontend
-    networks:
-      frontend-apigateway:
-    ports:
-      - 4200:4200
+  #frontend:
+   # image: frontend
+    #build: frontend/frontend
+    #networks:
+     # frontend-apigateway:
+    #ports:
+     # - 4200:4200
 
   apigateway:
     image: api-gateway

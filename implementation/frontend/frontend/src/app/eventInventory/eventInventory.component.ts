@@ -5,6 +5,7 @@ import {Event} from "../../dtos/event";
 import {AddEventComponent} from "../addEvents/addEvent.component";
 import {Router} from "@angular/router";
 import {UpdateEventComponent} from "../updateEvents/updateEvent.component";
+import {AccountService} from "../../services/account.service";
 //import { MatTableModule } from '@angular/material';
 
 
@@ -19,11 +20,8 @@ export class EventInventoryComponent implements OnInit {
   errorMessage = '';
   // @ts-ignore
 
-  eventForm: FormGroup;
-
   // @ts-ignore
   event: Event;
-  event1: Event | undefined;
   // @ts-ignore
   userID : string
 
@@ -37,16 +35,22 @@ export class EventInventoryComponent implements OnInit {
     private readonly dialog: MatDialog,
     private dialogRef: MatDialogRef<EventInventoryComponent>,
     private eventService: EventService,
+    private accountService: AccountService,
+
   ) {
   }
 
   ngOnInit(): void {
     // @ts-ignore
-    //this.userID = this.accountService.userValue?.id
-     this.loadAllEvents();
-    //this.loadAllEventsByOrganizerID(this.userID);
+    this.userID = this.getuserValue().id
+    // this.loadAllEvents();
+    this.loadAllEventsByOrganizerID(this.userID);
+
   }
 
+  public getuserValue() {
+    return this.accountService.userValue;
+  }
 
   deleteEvent(eventID: string){
     if (confirm('Event ' + eventID + '"wirklich löschen?')) {

@@ -1,4 +1,4 @@
-package com.ase.searchServiceEvents.repository;
+package com.ase.searchServiceEvents.dataAccess;
 
 import com.ase.searchServiceEvents.domain.EEventTypes;
 import com.ase.searchServiceEvents.domain.Event;

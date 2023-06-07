@@ -1,5 +1,5 @@
 package com.ase.searchServiceEvents.business;
-import com.ase.searchServiceEvents.repository.ISearchServiceRepository;
+import com.ase.searchServiceEvents.dataAccess.ISearchServiceRepository;
 import com.ase.searchServiceEvents.domain.EEventTypes;
 import com.ase.searchServiceEvents.domain.Event;
 import jakarta.transaction.Transactional;
@@ -146,6 +146,7 @@ public class SearchServiceService {
     @Transactional
     public Event createEvent(Event event) {
         LOGGER.debug("create and save new event {}", event);
+        LOGGER.info("create new event from pub queue");
         //eventValidator.validateNewEvent(event);
         if (event == null || event.getEventName() == null || event.getCapacity()<1){
             LOGGER.error("Event is not correct. Either its empty, or it has no name, or the Capacity is below 1, or there is no date.");

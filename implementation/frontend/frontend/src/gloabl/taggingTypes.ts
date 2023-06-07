@@ -1,0 +1,6 @@
+export enum TaggingTypes {
+  FOOD = 'FOOD',
+  HEALTH = 'HEALTH',
+  ENTERTAINMENT = 'ENTERTAINMENT',
+  EDUCATION = 'EDUCATION'
+}

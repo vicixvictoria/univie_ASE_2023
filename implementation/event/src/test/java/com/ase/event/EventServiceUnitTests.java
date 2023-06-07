@@ -2,7 +2,7 @@ package com.ase.event;
 
 import com.ase.event.domain.EEventTypes;
 import com.ase.event.domain.Event;
-import com.ase.event.Repository.IEventRepository;
+import com.ase.event.dataAccess.IEventRepository;
 import com.ase.event.business.EventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package com.ase.searchServiceEvents;
 
 
 import com.ase.searchServiceEvents.integration.Subscriber;
-import com.ase.searchServiceEvents.repository.ISearchServiceRepository;
+import com.ase.searchServiceEvents.dataAccess.ISearchServiceRepository;
 import com.ase.searchServiceEvents.business.SearchServiceService;
 import com.ase.searchServiceEvents.domain.EEventTypes;
 import com.ase.searchServiceEvents.domain.Event;

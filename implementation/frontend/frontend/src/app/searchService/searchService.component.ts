@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {EventService} from "../../services/event.service";
 import {Event} from "../../dtos/event";
-import {FormBuilder, FormControl} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {SearchServiceService} from "../../services/searchService.service";
 import {BookmarkService} from "../../services/bookmark.service";
 import {User} from "../models/user";
+import {AccountService} from "../../services/account.service";
+import {UpdateEventComponent} from "../updateEvents/updateEvent.component";
+import {TaggingComponent} from "../tagging/tagging.component";
+import {formatDate} from "@angular/common";
 
 
 //import { MatTableModule } from '@angular/material';
@@ -14,7 +18,7 @@ import {User} from "../models/user";
 @Component({
   selector: 'app-searchService',
   templateUrl: './searchService.component.html',
-  styleUrls: ['./searchService.component.css']
+  styleUrls: ['./searchService.component.css'],
 })
 export class SearchServiceComponent implements OnInit {
 
@@ -23,10 +27,13 @@ export class SearchServiceComponent implements OnInit {
   // @ts-ignore
 
   searchForm: FormGroup;
+  private validated = false;
 
   event: Event | undefined;
   // @ts-ignore
   events: Event[];
+  // @ts-ignore
+  userID : string
   displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'action'];
 
 
@@ -38,33 +45,49 @@ export class SearchServiceComponent implements OnInit {
     private eventService: EventService,
     private searchService: SearchServiceService,
     private bookmarkService: BookmarkService,
-    private user: User,
+    private accountService: AccountService,
+    //private user: User,
   ) {
 
     // @ts-ignore
     this.event = new Event();
 
     this.searchForm  = this.formBuilder.group({
-      eventName: new FormControl(this.event.eventName, [
-        /* Validators.required, Validators.minLength(1), Validators.maxLength(64)*/]),
-      capacity: new FormControl(this.event.capacity, []),
-      date: new FormControl(this.event.date, []),
-      description: new FormControl(this.event.description, []),
+      eventName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(255)])],
+      capacity: [],
+      date: [formatDate(new Date(), 'yyyy-MM-dd', 'en-US'), Validators.required],
+      description: [],
     });
   }
 
   ngOnInit(): void {
     this.loadAllEvents();
+    // @ts-ignore
+    this.userID = this.getUserValue().id;
+  }
+
+  public getUserValue() {
+    return this.accountService.userValue;
   }
 
   bookmark(event: Event){
-    this.bookmarkService.bookmarkEvent(event, this.user);
+    this.bookmarkService.bookmarkEvent(event, this.userID);
   }
 
   unbookmark(event: Event){
-    this.bookmarkService.unbookmarkEvent(event, this.user);
+    this.bookmarkService.unbookmarkEvent(event, this.userID);
   }
 
+  tag(event: Event){
+    const dialog = this.dialog.open(TaggingComponent, {
+      data: {
+        eventID: event.eventID
+      },
+      width: '1500px'});
+    dialog.afterClosed().subscribe(() => {
+      this.loadAllEvents()
+    });
+  }
 
   register(event: Event){
 
@@ -76,7 +99,7 @@ export class SearchServiceComponent implements OnInit {
 
 
   public loadAllEvents() {
-    this.eventService.getAllEvents().subscribe({
+    this.searchService.getAllEvents().subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -90,7 +113,7 @@ export class SearchServiceComponent implements OnInit {
   }
 
   public searchByName(){
-    this.eventService.getEventsByName(this.searchForm.controls.eventName.value).subscribe({
+    this.searchService.getEventsByName(this.searchForm.controls.eventName.value).subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -104,7 +127,7 @@ export class SearchServiceComponent implements OnInit {
   }
 
   public searchByDate(){
-    this.eventService.getEventsByDate(this.searchForm.controls.date.value).subscribe({
+    this.searchService.getEventsByDate(this.searchForm.controls.date.value).subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -118,7 +141,7 @@ export class SearchServiceComponent implements OnInit {
   }
 
   public searchByCapacity(){
-    this.eventService.getEventsByCapacity(this.searchForm.controls.capacity.value).subscribe({
+    this.searchService.getEventsByCapacity(this.searchForm.controls.capacity.value).subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -131,7 +154,7 @@ export class SearchServiceComponent implements OnInit {
   }
 
   public searchByDes(){
-    this.eventService.getEventsByDes(this.searchForm.controls.capacity.value).subscribe({
+    this.searchService.getEventsByDes(this.searchForm.controls.capacity.value).subscribe({
       next: data => {
         console.log('received events', data);
         this.events = data;
@@ -141,6 +164,17 @@ export class SearchServiceComponent implements OnInit {
         this.defaultServiceErrorHandling(error);
       }
     });
+  }
+
+  getValidatingClass(control: string): object {
+    if (!this.searchForm.controls[control]) {
+      console.warn('cant validate ' + control + ' because its not present.');
+      return {'is-invalid': true};
+    }
+    return {
+      'is-valid': this.validated && !this.searchForm.controls[control].errors,
+      'is-invalid': this.validated && this.searchForm.controls[control].errors
+    };
   }
 
   private defaultServiceErrorHandling(error: any) {

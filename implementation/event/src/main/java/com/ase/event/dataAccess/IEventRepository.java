@@ -1,4 +1,4 @@
-package com.ase.event.Repository;
+package com.ase.event.dataAccess;
 
 import com.ase.event.domain.EEventTypes;
 import com.ase.event.domain.Event;

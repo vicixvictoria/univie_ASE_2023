@@ -19,8 +19,6 @@ public class Event {
 
     private String eventName;
 
-    //FYI: Feedback is not stored in each event, we fetch the Feedback from the Feedback Service with the EventID
-
 
     public Event() {
     }
