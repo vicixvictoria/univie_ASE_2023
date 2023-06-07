@@ -15,34 +15,42 @@ x-rabbitmq-exchanges: &rabbitmq-exchanges
 services:
   analyticReport:
     image: analyticreport
-    build: analyticReport
+    build:
+      context: .
+      dockerfile: analyticReport/Dockerfile
     networks:
       analyticReport-rabbit:
       analyticReport-apigateway:
 
-  attendance:
-    image: attendance
-    build: attendance
-    networks:
-      attendance-rabbit:
-      attendance-apigateway:
+#  attendance:
+#    image: attendance
+#    build: attendance
+#    networks:
+#      attendance-rabbit:
+#      attendance-apigateway:
 
   bookmarkService:
     image: bookmarkservice
-    build: bookmarkService
+    build:
+      context: .
+      dockerfile: bookmarkService/Dockerfile
     networks:
       bookmarkService-calendar:
       bookmarkService-rabbit:
 
   calendar:
     image: calendar
-    build: calendar
+    build:
+      context: .
+      dockerfile: calendar/Dockerfile
     networks:
       bookmarkService-calendar:
 
   event:
     image: event
-    build: event
+    build:
+      context: .
+      dockerfile: event/Dockerfile
     networks:
       event-rabbit:
       event-apigateway:
@@ -54,14 +62,18 @@ services:
 
   feedback:
     image: feedback
-    build: feedback
+    build:
+      context: .
+      dockerfile: feedback/Dockerfile
     networks:
       feedback-rabbit:
       feedback-apigateway:
 
   login:
     image: login
-    build: login
+    build:
+      context: .
+      dockerfile: login/Dockerfile
     networks:
       login-rabbit:
       login-apigateway:
@@ -74,14 +86,18 @@ services:
 
   maintenance:
     image: maintenance
-    build: maintenance
+    build:
+      context: .
+      dockerfile: maintenance/Dockerfile
     networks:
       maintenance-rabbit:
       maintenance-apigateway:
 
   notification:
     image: notification
-    build: notification
+    build:
+      context: .
+      dockerfile: notification/Dockerfile
     networks:
       notification-rabbit:
       notification-apigateway:
@@ -92,14 +108,18 @@ services:
 
   recommender:
     image: recommender
-    build: recommender
+    build:
+      context: .
+      dockerfile: recommender/Dockerfile
     networks:
       recommender-rabbit:
       recommender-apigateway:
 
   searchServiceEvents:
     image: searchserviceevents
-    build: searchServiceEvents
+    build:
+      context: .
+      dockerfile: searchServiceEvents/Dockerfile
     networks:
       searchServiceEvent-rabbit:
       searchServiceEvent-apigateway:
@@ -110,13 +130,17 @@ services:
 
   taggingService:
     image: taggingservice
-    build: taggingService
+    build:
+      context: .
+      dockerfile: taggingService/Dockerfile
     networks:
       taggingService-rabbit:
 
   sendNotification:
     image: sendnotification
-    build: sendNotification
+    build:
+      context: .
+      dockerfile: sendNotification/Dockerfile
     networks:
       sendNotification-rabbit:
       sendNotification-apigateway:
@@ -137,7 +161,9 @@ services:
 
   apigateway:
     image: api-gateway
-    build: api-gateway
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
     environment:
       <<: *common-variables
       ANALYTIC_REPORT: analyticreport
