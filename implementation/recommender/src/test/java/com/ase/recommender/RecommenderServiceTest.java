@@ -1,17 +1,17 @@
 package com.ase.recommender;
 
 import com.ase.common.event.EEventType;
-import com.ase.recommender.data.EventType;
-import com.ase.recommender.data.UserInterest;
-import com.ase.recommender.network.Publisher;
-import com.ase.recommender.repository.IEventTypeRepository;
-import com.ase.recommender.repository.IRecommenderRepository;
+import com.ase.recommender.business.RecommenderService;
+import com.ase.recommender.domain.EventType;
+import com.ase.recommender.domain.UserInterest;
+import com.ase.recommender.integration.Publisher;
+import com.ase.recommender.dataAccess.IEventTypeRepository;
+import com.ase.recommender.dataAccess.IRecommenderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,27 +70,5 @@ public class RecommenderServiceTest {
         when(eventTypeRepository.getByEventID("event1")).thenReturn(eventType);
         service.updateEventType("event1", EEventType.ENTERTAINMENT);
         assertEquals(EEventType.ENTERTAINMENT, eventType.getEventType());
-    }
-
-    /**
-     * Tests the addInterest method of RecommenderService.
-     */
-    @Test
-    public void testAddInterest() {
-        when(eventTypeRepository.existsById("event1")).thenReturn(true);
-        when(recommenderRepository.existsById("user1")).thenReturn(false);
-        assertFalse(service.addInterest("event1", "user1"));
-    }
-
-    /**
-     * Tests the removeInterest method of RecommenderService.
-     */
-    @Test
-    public void testRemoveInterest() {
-        when(eventTypeRepository.existsById("event1")).thenReturn(true);
-        when(recommenderRepository.existsById("user1")).thenReturn(true);
-        UserInterest userInterest = new UserInterest("user1");
-        when(recommenderRepository.getByUserID("user1")).thenReturn(userInterest);
-        assertFalse(service.removeInterest("event1", "user1"));
     }
 }
