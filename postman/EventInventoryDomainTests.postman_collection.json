@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "80dc2821-770f-4614-960d-1d29be57b170",
+		"name": "EventInventoryDomainTests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateEventInventory",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"eventInventoryID\": \"xyz\",\n\"eventListID\": [\"abc\"],\n\"organizerID\": \"cde\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/eventInventory/createEventInventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"eventInventory",
+						"createEventInventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddEventToEventInventory",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"eventID\": \"aaa\",\n\"EEventTypes\": \"FOOD\",\n\"capacity\": 10,\n\"date\": null,\n\"description\": \"Add ID of this new event to EventInventory\",\n\"organizerID\": \"cde\",\n\"eventName\": \"eventTest2\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/eventInventory/updateEventInventoryEvents",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"eventInventory",
+						"updateEventInventoryEvents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateEventInventory",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"eventInventoryID\": \"xyz\",\n\"eventListID\": [\"abc\"],\n\"organizerID\": \"xxx\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/eventInventory/updateEventInventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"eventInventory",
+						"updateEventInventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteEventInventory",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/eventInventory/{xyz}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"eventInventory",
+						"{xyz}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

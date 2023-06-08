@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "749d753b-3ddb-474c-bed4-f9d295c32fc9",
+		"name": "Calender",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "calenderMapping",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"registeredEvents\": [],\r\n    \"bookmarkedEvents\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/calenderMapping",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"calenderMapping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CalenderExportJSON",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"registeredEvents\": [],\r\n    \"bookmarkedEvents\": [],\r\n    \"calenderTime\": \"2023-04-19T20:29:22.508+00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/calender/JSON",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"calender",
+						"JSON"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CalenderExportXML",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"registeredEvents\": [],\r\n    \"bookmarkedEvents\": [],\r\n    \"calenderTime\": \"2023-04-19T20:29:22.508+00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/calender/XML",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"calender",
+						"XML"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CalenderExportICal",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"registeredEvents\": [],\r\n    \"bookmarkedEvents\": [],\r\n    \"calenderTime\": \"2023-04-19T20:29:22.508+00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/calender/ICal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"calender",
+						"ICal"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

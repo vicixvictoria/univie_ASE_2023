@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "6d7d580e-ef17-431f-be52-fd92de24bfc0",
+		"name": "Feedback",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27048236"
+	},
+	"item": [
+		{
+			"name": "create feedback",
+			"item": [
+				{
+					"name": "http://localhost:8080/api/v1/feedback/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"feedbackID\": \"123\",\r\n    \"eventID\": \"100\",\r\n    \"userID\": \"200\",\r\n    \"ratingOverall\": 2,\r\n    \"ratingLocation\": 4, \r\n    \"ratingFood\": 1,\r\n    \"comment\": \"best event ever\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/feedback/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"feedback",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/v1/feedback/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"feedbackID\": \"111\",\r\n    \"eventID\": \"100\",\r\n    \"userID\": \"201\",\r\n    \"ratingOverall\": 2,\r\n    \"ratingLocation\": 1, \r\n    \"ratingFood\": 3,\r\n    \"comment\": \"no vegan food\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/feedback/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"feedback",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "get feedbacks",
+			"item": [
+				{
+					"name": "http://localhost:8080/api/v1/feedback/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/feedback/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"feedback",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/v1/feedback/user/200",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/feedback/user/200",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"feedback",
+								"user",
+								"200"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/v1/feedback/event/100",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/feedback/event/100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"feedback",
+								"event",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/v1/feedback",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/feedback/123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"feedback",
+								"123"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
