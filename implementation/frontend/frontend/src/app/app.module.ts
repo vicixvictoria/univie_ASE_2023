@@ -32,6 +32,7 @@ import {TaggingComponent} from "./tagging/tagging.component";
 import {MaintenanceComponent} from "./maintenance/maintenance.component";
 import {FeedbackComponent} from "./feedback/feedback.component";
 import {ShowFeedbackComponent} from "./feedback/showFeedback.component";
+import {AnalyticReportEventComponent} from "./analyticReport/analyticReportEvent.component";
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import {ShowFeedbackComponent} from "./feedback/showFeedback.component";
     MaintenanceComponent,
     FeedbackComponent,
     ShowFeedbackComponent,
+    AnalyticReportEventComponent,
 
   ],
   imports: [
