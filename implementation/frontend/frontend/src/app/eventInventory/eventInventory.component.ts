@@ -8,6 +8,7 @@ import {UpdateEventComponent} from "../updateEvents/updateEvent.component";
 import {AccountService} from "../../services/account.service";
 //import { MatTableModule } from '@angular/material';
 import {AttendanceService} from "../../services/attendance.service";
+import {AnalyticReportEventComponent} from "../analyticReport/analyticReportEvent.component";
 
 interface EventWithAttendees extends Event{
   attendees?: number;
@@ -78,6 +79,17 @@ export class EventInventoryComponent implements OnInit {
     const dialog = this.dialog.open(UpdateEventComponent, {
       data: {
         eventID: event.eventID
+      },
+      width: '1500px'});
+    dialog.afterClosed().subscribe(() => {
+      this.loadAllEvents()
+    });
+  }
+
+  analyticReport(eventID: string){
+    const dialog = this.dialog.open(AnalyticReportEventComponent, {
+      data: {
+        eventID: eventID
       },
       width: '1500px'});
     dialog.afterClosed().subscribe(() => {
