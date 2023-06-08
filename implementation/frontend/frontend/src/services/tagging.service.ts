@@ -1,13 +1,15 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Event} from "../dtos/event";
 import {environment} from "../environments/environment";
 import {User} from "../app/models/user";
-import {EventType} from "../gloabl/eventType";
 import {TaggingEvent} from "../dtos/taggingEvent";
+import {TaggingTypes} from "../gloabl/taggingTypes";
+import {BehaviorSubject, Observable} from "rxjs";
+import {AccountService} from "./account.service";
 
 
-const baseUri = environment + '/tag/';
+const baseUri = "http://localhost:8080/api/v1/tag/";
 
 
 @Injectable({
@@ -15,21 +17,31 @@ const baseUri = environment + '/tag/';
 })
 export class TaggingService {
 
-
-  constructor(private httpClient: HttpClient) {
+  private userSubject: BehaviorSubject<User | null>;
+  public user: Observable<User | null>;
+  constructor(private httpClient: HttpClient, private accountService: AccountService) {
+    this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+    this.user = this.userSubject.asObservable();
   }
 
+  private headers = new HttpHeaders({"Authorization":"Bearer " + this.getuserValue()?.jwt});
 
-  tagEvent(event: Event, user: User, tag: EventType) {
+  public getuserValue() {
+    return this.accountService.userValue;
+  }
+
+  tagEvent(eventID: string, userID: string, tag: TaggingTypes) {
     console.log('tag Event with')
-    return this.httpClient.post(baseUri + 'add/' + event.eventID + '/' + user.id, null).subscribe(response => {
+    const tag_uri = baseUri + 'add/' + eventID + '/' + userID+'/'+tag
+    console.log(tag_uri)
+    return this.httpClient.post(tag_uri, null, {headers: this.headers}).subscribe(response => {
       return response;
     });
   }
 
-  untagEvent(event: Event, user: User, tag: EventType) {
+  untagEvent(eventID: string, userID: string, tag: TaggingTypes) {
     console.log('remove tag from Event')
-    this.httpClient.put<TaggingEvent>(baseUri + 'removeTag/' + event.eventID + '/' + user.id+'/'+tag, null).subscribe(response => {
+    this.httpClient.delete(baseUri + 'removeEvent/' + eventID + '/' + userID, {headers: this.headers}).subscribe(response => {
       return response;
     });
 

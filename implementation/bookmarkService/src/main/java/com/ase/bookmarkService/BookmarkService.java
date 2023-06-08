@@ -39,6 +39,7 @@ public class BookmarkService {
         BookmarkEvent bookmarkEvent = new BookmarkEvent(eventId, attendeeId);
         try {
             repository.save(bookmarkEvent);
+            LOGGER.info("saved new Bookmark Event");
         } catch (EntityNotFoundException e) {
             LOGGER.error("Failed to add new BookmarkEvent", e.getMessage());
             throw new Exception("Failed to add new BookmarkEvent", e);
@@ -47,6 +48,7 @@ public class BookmarkService {
             throw new Exception("Failed to add new BookmarkEvent", e);
         }
         try {
+            LOGGER.debug("Publish to RabbitMQ");
             publisher.newBookmarkEvent(eventId, attendeeId);
         } catch (Exception e){
             LOGGER.error("Failed to connect with publisher");

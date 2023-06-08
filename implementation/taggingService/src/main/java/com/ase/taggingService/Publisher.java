@@ -13,11 +13,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class Publisher {
 
-    private final RabbitTemplate rabbitTemplate;
-
     @Value("${taggingEvent_exchange}")
     private String exchangeName;
 
+    private final RabbitTemplate rabbitTemplate;
     @Autowired
     public Publisher(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;

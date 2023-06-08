@@ -9,6 +9,7 @@ import {Location} from "@angular/common";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {TaggingEvent} from "../../dtos/taggingEvent";
 import {TaggingTypes} from "../../gloabl/taggingTypes";
+import {TaggingService} from "../../services/tagging.service";
 
 @Component({
   selector: 'app-tagging',
@@ -26,6 +27,7 @@ export class TaggingComponent implements OnInit {
   taggingType: TaggingTypes;
   eventUpdate: string;
 
+
   // @ts-ignore
   userID: string;
 
@@ -36,6 +38,7 @@ export class TaggingComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private location: Location,
+              private taggingService: TaggingService,
               @Inject(MAT_DIALOG_DATA)
               private data: any) {
 
@@ -46,6 +49,9 @@ export class TaggingComponent implements OnInit {
   });
   }
 
+  public getUserValue() {
+    return this.accountService.userValue;
+  }
 
   submit() {
     this.validated = true;
@@ -53,28 +59,29 @@ export class TaggingComponent implements OnInit {
       return;
     }
     this.submitted = true;
-    if (this.eventForm.controls.eventType.value == 'FOOD') {
-      this.taggingType = TaggingTypes.FOOD
+    if (this.eventForm.controls.eventType.value == 'MUSIC') {
+      this.taggingType = TaggingTypes.MUSIC
     }
     if (this.eventForm.controls.eventType.value == 'HEALTH') {
       this.taggingType = TaggingTypes.HEALTH
     }
-    if (this.eventForm.controls.eventType.value == 'ENTERTAINMENT') {
-      this.taggingType = TaggingTypes.ENTERTAINMENT
+    if (this.eventForm.controls.eventType.value == 'SPORT') {
+      this.taggingType = TaggingTypes.SPORT
     }
-
     if (this.eventForm.controls.eventType.value == 'EDUCATION') {
       this.taggingType = TaggingTypes.EDUCATION
     }
-
-    //TODO: Alex rest of your code --> call your service
+    console.log("Tag event in component")
+    this.taggingService.tagEvent(this.userID,this.eventUpdate, this.taggingType)
   }
 
   goBack() {
-    //this.router.navigate(['../eventInventory']);
+    this.taggingService.untagEvent(this.eventUpdate, this.userID,this.taggingType)
   }
 
   ngOnInit(): void {
+    // @ts-ignore
+    this.userID = this.getUserValue().id;
   }
 
 }

@@ -80,10 +80,12 @@ export class SearchServiceComponent implements OnInit {
   }
 
   bookmark(event: Event){
+    console.log("Bookmark event")
     this.bookmarkService.bookmarkEvent(event, this.userID);
   }
 
   unbookmark(event: Event){
+    console.log("Unbookmark event")
     this.bookmarkService.unbookmarkEvent(event, this.userID);
   }
 
