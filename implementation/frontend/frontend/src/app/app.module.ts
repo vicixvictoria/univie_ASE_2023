@@ -30,6 +30,8 @@ import {CalendarComponent} from "./calendar/calendar.component";
 import {UpdateEventComponent} from "./updateEvents/updateEvent.component";
 import {TaggingComponent} from "./tagging/tagging.component";
 import {MaintenanceComponent} from "./maintenance/maintenance.component";
+import {FeedbackComponent} from "./feedback/feedback.component";
+import {ShowFeedbackComponent} from "./feedback/showFeedback.component";
 
 
 @NgModule({
@@ -44,6 +46,8 @@ import {MaintenanceComponent} from "./maintenance/maintenance.component";
     UpdateEventComponent,
     TaggingComponent,
     MaintenanceComponent,
+    FeedbackComponent,
+    ShowFeedbackComponent,
 
   ],
   imports: [

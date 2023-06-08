@@ -12,6 +12,9 @@ import {TaggingComponent} from "../tagging/tagging.component";
 import {formatDate} from "@angular/common";
 import {AttendanceService} from "../../services/attendance.service";
 import {AttendeeEventList} from "../../dtos/attendeeEventList";
+import {FeedbackComponent} from "../feedback/feedback.component";
+import {ShowFeedbackComponent} from "../feedback/showFeedback.component";
+import {FeedbackService} from "../../services/feedbackService";
 
 //import { MatTableModule } from '@angular/material';
 
@@ -45,6 +48,7 @@ export class SearchServiceComponent implements OnInit {
     private dialogRef: MatDialogRef<SearchServiceComponent>,
     private formBuilder: FormBuilder,
     private eventService: EventService,
+    private feedbackService: FeedbackService,
     private searchService: SearchServiceService,
     private bookmarkService: BookmarkService,
     private accountService: AccountService,
@@ -144,9 +148,26 @@ export class SearchServiceComponent implements OnInit {
   }
 
   feedback(event: Event){
-
+    const dialog = this.dialog.open(FeedbackComponent, {
+      data: {
+        eventID: event.eventID
+      },
+      width: '1700px'});
+    dialog.afterClosed().subscribe(() => {
+      this.loadAllEvents()
+    });
   }
 
+  showFeedback(event: Event){
+    const dialog = this.dialog.open(ShowFeedbackComponent, {
+      data: {
+        eventID: event.eventID
+      },
+      width: '1700px'});
+    dialog.afterClosed().subscribe(() => {
+      this.loadAllEvents()
+    });
+  }
 
   public loadAllEvents() {
     this.searchService.getAllEvents().subscribe({

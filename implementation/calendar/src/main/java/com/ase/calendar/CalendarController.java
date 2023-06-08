@@ -32,14 +32,14 @@ public class CalendarController {
         return calender.convert();
     }
 
-    @PostMapping("/calendarMapping")
+    @PostMapping("calendarMapping")
     public UserCalendar setCalender(@RequestBody UserCalendar userCalendar) {
         LOGGER.info("POST api/v1/calendar/calendarMapping");
         return new UserCalendar(userCalendar.getRegisteredEvents(),
                 userCalendar.getBookmarkedEvents());
     }
 
-    @GetMapping("/healthCheck")
+    @GetMapping("healthCheck")
     public ResponseEntity<String> healthCheck(){
         return ResponseEntity.status(HttpStatus.OK).body("Success");
     }

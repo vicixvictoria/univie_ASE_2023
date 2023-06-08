@@ -21,6 +21,8 @@ import {AttendeeGuard} from "./interceptors/attendee.guard";
 import {UpdateEventComponent} from "./updateEvents/updateEvent.component";
 import {TaggingComponent} from "./tagging/tagging.component";
 import {MaintenanceComponent} from "./maintenance/maintenance.component";
+import {FeedbackComponent} from "./feedback/feedback.component";
+import {ShowFeedbackComponent} from "./feedback/showFeedback.component";
 
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
@@ -38,6 +40,9 @@ const routes: Routes = [
   {path: 'updateEvent', component: UpdateEventComponent, canActivate: [AuthGuard]},
   {path: 'tagging', component: TaggingComponent, canActivate: [AuthGuard]},
   {path: 'maintenance', component: MaintenanceComponent, canActivate: [AuthGuard]},
+  {path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard]},
+  {path: 'showFeedback', component: ShowFeedbackComponent, canActivate: [AuthGuard]},
+
 ];
 
 @NgModule({
