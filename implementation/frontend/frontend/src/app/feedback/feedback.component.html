@@ -1,0 +1,53 @@
+<div class="card mb-3">
+  <h1 class="card-header bg-primary text-white">Feedback</h1>
+
+  <div class="card-body">
+    <form (ngSubmit)="submit()" [formGroup]="feedbackForm" class="form">
+
+      <div class="form-group">
+        <label for="inputComment">Comment</label>
+        <input [ngClass]="getValidatingClass('comment')" aria-describedby="titleHelp" class="form-control"
+               formControlName="comment" id="inputComment" name="comment"
+               placeholder="Comment" type="text">
+      </div>
+
+      <mat-form-field class="input-field" style="margin-right: 5px; width: 375px" appearance="outline">
+        <mat-label>Rating Overall</mat-label>
+        <mat-select formControlName="ratingOverall" matNativeControl>
+          <mat-option value=1>1</mat-option>
+          <mat-option value=2>2</mat-option>
+          <mat-option value=3>3</mat-option>
+          <mat-option value=4>4</mat-option>
+          <mat-option value=5>5</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="input-field" style="margin-right: 5px; width: 375px" appearance="outline">
+        <mat-label>Rating Food</mat-label>
+        <mat-select formControlName="ratingFood" matNativeControl>
+          <mat-option value=1>1</mat-option>
+          <mat-option value=2>2</mat-option>
+          <mat-option value=3>3</mat-option>
+          <mat-option value=4>4</mat-option>
+          <mat-option value=5>5</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="input-field" style="margin-right: 5px; width: 375px" appearance="outline">
+        <mat-label>Rating Location</mat-label>
+        <mat-select formControlName="ratingLocation" matNativeControl>
+          <mat-option value=1>1</mat-option>
+          <mat-option value=2>2</mat-option>
+          <mat-option value=3>3</mat-option>
+          <mat-option value=4>4</mat-option>
+          <mat-option value=5>5</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button class="btn btn-primary" (click)="goBack()" type="button">Back</button>
+      <button class="btn btn-success float-right" type="submit">
+        Create</button>
+
+    </form>
+</div>
+</div>

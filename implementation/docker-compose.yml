@@ -57,6 +57,7 @@ services:
     networks:
       bookmarkService-calendar:
       bookmarkService-rabbit:
+      bookmark-apigateway:
 
 
   calendar:
@@ -66,6 +67,8 @@ services:
       dockerfile: calendar/Dockerfile
     networks:
       bookmarkService-calendar:
+      calendar-apigateway:
+
 
   event:
     image: event
@@ -89,8 +92,9 @@ services:
     networks:
       feedback-rabbit:
       feedback-apigateway:
+
     environment:
-      <<: *endpoint-variables
+      <<: [*common-variables, *endpoint-variables]
     volumes:
       - ./_persistence/feedback:/persistence
 
@@ -118,8 +122,20 @@ services:
       context: .
       dockerfile: maintenance/Dockerfile
     networks:
-      maintenance-rabbit:
+      analyticReport-apigateway:
+      attendance-apigateway:
+      bookmark-apigateway:
+      calendar-apigateway:
+      event-apigateway:
+      feedback-apigateway:
+      login-apigateway:
       maintenance-apigateway:
+      notification-apigateway:
+      recommender-apigateway:
+      searchServiceEvent-apigateway:
+      sendNotification-apigateway:
+      frontend-apigateway:
+      tagging-apigateway:
     environment:
       <<: *endpoint-variables
 
@@ -144,7 +160,6 @@ services:
     networks:
       recommender-rabbit:
       recommender-apigateway:
-
   searchServiceEvents:
     image: searchserviceevents
     build:
@@ -181,13 +196,13 @@ services:
     volumes:
       - ./_persistence/sendNotification:/persistence
 
-  frontend:
-    image: frontend
-    build: frontend/frontend
-    networks:
-      frontend-apigateway:
-    ports:
-      - 4200:4200
+  #frontend:
+   # image: frontend
+    #build: frontend/frontend
+    #networks:
+     # frontend-apigateway:
+    #ports:
+     # - 4200:4200
 
   apigateway:
     image: api-gateway
@@ -223,6 +238,7 @@ services:
       searchServiceEvent-apigateway:
       sendNotification-apigateway:
       frontend-apigateway:
+      tagging-apigateway:
 
   rabbitmq:
     image: rabbitmq
@@ -257,6 +273,8 @@ networks:
 
   analyticReport-apigateway:
   attendance-apigateway:
+  bookmark-apigateway:
+  calendar-apigateway:
   event-apigateway:
   feedback-apigateway:
   login-apigateway:
@@ -266,3 +284,5 @@ networks:
   searchServiceEvent-apigateway:
   sendNotification-apigateway:
   frontend-apigateway:
+  tagging-apigateway:
+

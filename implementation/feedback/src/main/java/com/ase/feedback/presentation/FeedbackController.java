@@ -35,13 +35,13 @@ public class FeedbackController {
         return feedbackService.getAll();
     }
 
-    @PostMapping(value = "")
+    @PostMapping()
     public ResponseEntity<String> createFeedback(@RequestBody Feedback feedback) {
         LOGGER.debug("POST api/v1/myFeedback");
         return feedbackService.createFeedback(feedback);
     }
 
-    @GetMapping(value = "/{feedbackID}")
+    @GetMapping(value = "{feedbackID}")
     public ResponseEntity<Feedback> getFeedback(@PathVariable String feedbackID) {
         LOGGER.debug("GET api/v1/feedback/{}", feedbackID);
         return feedbackService.getFeedback(feedbackID);

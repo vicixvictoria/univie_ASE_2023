@@ -3,6 +3,7 @@ package com.ase.maintenance.integration;
 import com.ase.maintenance.business.Availability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -16,19 +17,32 @@ import java.util.List;
 
 @Component
 public class RestAccess {
-    private static final String ANALYTICREPORT_ENDPOINT = "${ANALYTICREPORT-ENDPOINT}/api/v1/analyticReport/";
-    private static final String ATTENDANCE_ENDPOINT = "${ATTENDANCE-ENDPOINT}/api/v1/attendance/";
-    private static final String BOOKMARK_ENDPOINT = "${BOOKMARK-ENDPOINT}/api/v1/bookmark/healthcheck";
-    private static final String CALENDAR_ENDPOINT = "${CALENDAR-ENDPOINT}/api/v1/calendar/healthcheck";
-    private static final String EVENT_ENDPOINT = "${EVENT-ENDPOINT}/api/v1/event/";
-    private static final String FEEDBACK_ENDPOINT = "${FEEDBACK-ENDPOINT}/api/v1/feedback/event/";
-    private static final String LOGIN_ENDPOINT = "${LOGIN-ENDPOINT}/api/v1/login/healthcheck";
-    private static final String NOTIFICATION_ENDPOINT = "${NOTIFICATION-ENDPOINT}/api/v1/notification/healthcheck";
-    private static final String RECOMMENDER_ENDPOINT = "${RECOMMENDER-ENDPOINT}/api/v1/recommender/healthcheck";
-    private static final String SEARCH_EVENT_ENDPOINT = "${SEARCHSERVICEEVENT-ENDPOINT}/api/v1/searchService/healthcheck";
-    private static final String SEND_NOTIFICATION_ENDPOINT = "${SENDNOTIFICATION-ENDPOINT}/api/v1/sendNotification/healthcheck";
-    private static final String TAGGING_ENDPOINT = "${TAGGINGSERVICE-ENDPOINT}/api/v1/tagging/healthcheck";
+    @Value("${analyticReport.endpoint}")
+    private String ANALYTICREPORT_ENDPOINT;
+    @Value("${attendance.endpoint}")
+    private String ATTENDANCE_ENDPOINT;
+    @Value("${bookmark.endpoint}")
+    private String BOOKMARK_ENDPOINT;
+    @Value("${calendar.endpoint}")
+    private String CALENDAR_ENDPOINT;
+    @Value("${event.endpoint}")
+    private String EVENT_ENDPOINT;
+    @Value("${feedback.endpoint}")
+    private String FEEDBACK_ENDPOINT;
+    @Value("${login.endpoint}")
+    private String LOGIN_ENDPOINT;
+    @Value("${notification.endpoint}")
+    private String NOTIFICATION_ENDPOINT;
+    @Value("${recommender.endpoint}")
+    private String RECOMMENDER_ENDPOINT;
+    @Value("${searchService.endpoint}")
+    private String SEARCH_EVENT_ENDPOINT;
+    @Value("${sendnotification.endpoint}")
+    private String SEND_NOTIFICATION_ENDPOINT;
+    //@Value("${tagging.endpoint}")
+    //private String TAGGING_ENDPOINT;
     private final RestTemplate REST_TEMPLATE = new RestTemplate();
+
     private static final Logger LOGGER = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
 
@@ -42,13 +56,14 @@ public class RestAccess {
      */
     private Availability getAvailability(String endpoint, String hostname) {
         Availability availability = null;
-
+        LOGGER.info(endpoint);
         try {
             ResponseEntity<Void> response = REST_TEMPLATE.getForEntity(endpoint, Void.class);
             availability = new Availability(hostname, response.getStatusCode().value());
         }
         catch (ResourceAccessException | HttpClientErrorException | IllegalArgumentException |NullPointerException exception) {
-            LOGGER.warn("MaintenanceService: host {hostname} is not available");
+            LOGGER.warn("MaintenanceService: host " + hostname + " is not available");
+            LOGGER.warn(exception.getMessage());
             availability = new Availability(hostname, HttpStatus.NOT_FOUND.value());
         }
         return availability;
@@ -56,6 +71,7 @@ public class RestAccess {
     }
 
     public ArrayList<Availability> getAllAvailabilities() {
+        Availability analyticReportAvailability = getAvailability(ANALYTICREPORT_ENDPOINT, "analyticReport");
         Availability attendanceAvailability = getAvailability(ATTENDANCE_ENDPOINT, "attendance");
         Availability bookmarkAvailability = getAvailability(BOOKMARK_ENDPOINT, "bookmark");
         Availability calendarAvailability = getAvailability(CALENDAR_ENDPOINT, "calendar");
@@ -66,9 +82,10 @@ public class RestAccess {
         Availability recommenderAvailability = getAvailability(RECOMMENDER_ENDPOINT, "recommender");
         Availability searchEventAvailability = getAvailability(SEARCH_EVENT_ENDPOINT, "searchEvent");
         Availability sendNotificationAvailability = getAvailability(SEND_NOTIFICATION_ENDPOINT, "sendNotification");
-        Availability taggingAvailability = getAvailability(TAGGING_ENDPOINT, "tagging");
+        //Availability taggingAvailability = getAvailability(TAGGING_ENDPOINT, "tagging");
 
         ArrayList<Availability> ret = new ArrayList<>();
+        ret.add(analyticReportAvailability);
         ret.add(attendanceAvailability);
         ret.add(bookmarkAvailability);
         ret.add(calendarAvailability);
@@ -79,7 +96,7 @@ public class RestAccess {
         ret.add(recommenderAvailability);
         ret.add(searchEventAvailability);
         ret.add(sendNotificationAvailability);
-        ret.add(taggingAvailability);
+        //ret.add(taggingAvailability);
 
         return ret;
     }

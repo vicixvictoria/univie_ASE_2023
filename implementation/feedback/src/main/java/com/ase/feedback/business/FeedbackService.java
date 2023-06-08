@@ -47,6 +47,7 @@ public class FeedbackService {
         MyFeedback myFeedback = converter.networkFeedbackToMyFeedback(feedback);
         repository.save(myFeedback);
         publisher.newFeedbackCreated(myFeedback);
+        LOGGER.warn("Feedback created");
         return new ResponseEntity<>(myFeedback.getFeedbackID(), HttpStatus.CREATED);
     }
 
@@ -62,6 +63,7 @@ public class FeedbackService {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         MyFeedbackList feedbacks = new MyFeedbackList(repository.getByEventID(eventID));
+        LOGGER.info(feedbacks.getFeedbacks().size() + " feedbacks fetched");
         return new ResponseEntity<>(converter.feedbackListToNetworkFeedbackList(feedbacks), HttpStatus.OK);
     }
 
@@ -77,6 +79,7 @@ public class FeedbackService {
             return new ResponseEntity<>(converter.feedbackListToNetworkFeedbackList(new MyFeedbackList()), HttpStatus.BAD_REQUEST);
         }
         MyFeedbackList feedbacks = new MyFeedbackList(repository.getByUserID(userID));
+        LOGGER.info(feedbacks.getFeedbacks().size() + " feedbacks fetched");
         return new ResponseEntity<>(converter.feedbackListToNetworkFeedbackList(feedbacks), HttpStatus.OK);
     }
 
@@ -87,6 +90,7 @@ public class FeedbackService {
      */
     public ResponseEntity<FeedbackList> getAll() {
         MyFeedbackList feedbacks = new MyFeedbackList(repository.findAll());
+        LOGGER.info(feedbacks.getFeedbacks().size() + " feedbacks fetched");
         return new ResponseEntity<>(converter.feedbackListToNetworkFeedbackList(feedbacks), HttpStatus.OK);
     }
 
