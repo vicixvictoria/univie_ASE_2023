@@ -1,0 +1,112 @@
+<div style="margin-left:2%; margin-top:30px; align-content: center">
+
+  <h3 style="font-size: xx-large; font-weight: lighter">Search for Events by different criteria:
+  </h3>
+
+  <div [formGroup]="searchForm">
+  <form (submit)="$event.preventDefault()">
+    <div class="form-group">
+      <label for="inputEventName">Event Name*</label>
+      <input [ngClass]="getValidatingClass('eventName')" aria-describedby="titleHelp" class="form-control"
+             formControlName="eventName" id="inputEventName" name="eventName"
+             placeholder="Event Name" style="width: 200px" type="text">
+      <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByName()">
+        <mat-icon>go</mat-icon>
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label for="inputDate">Date*</label>
+      <input [ngClass]="getValidatingClass('date')" aria-describedby="dateHelp" class="form-control"
+             formControlName="date" id="inputDate" name="date" pattern="\d{4}-\d{2}-\d{2}"
+             placeholder="YYYY-MM-DD" style="width: 200px" required type="date">
+      <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByDate()">
+        <mat-icon>go</mat-icon>
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label for="inputDescription">Description</label>
+      <input [ngClass]="getValidatingClass('description')" aria-describedby="descriptionHelp" class="form-control"
+             formControlName="description" id="inputDescription" name="description"
+             placeholder="Description" style="width: 200px" type="text">
+      <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByDes()">
+        <mat-icon>go</mat-icon>
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label for="inputCapacity">Capacity*</label>
+      <input [ngClass]="getValidatingClass('capacity')" aria-describedby="capacityHelp" class="form-control"
+             formControlName="capacity" id="inputCapacity" name="capacity"
+             placeholder="Capacity" style="width: 200px" type="number">
+      <button mat-icon-button color="warn" style="background-color:palegreen; font-weight: normal; font-size: 10px; height: 30px; width: 35px;" (click)="searchByCapacity()">
+        <mat-icon>go</mat-icon>
+      </button>
+    </div>
+  </form>
+    </div>
+
+  <table mat-table [dataSource]="events" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.eventName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.date | date:'dd.MM.YYYY'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="capacity">
+      <th mat-header-cell *matHeaderCellDef> Capacity </th>
+      <td mat-cell *matCellDef="let element"> {{element.capacity}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="eventType">
+      <th mat-header-cell *matHeaderCellDef> Event Type </th>
+      <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" *ngIf="!isRegistered(element)" (click)="bookmark(element)">
+          <mat-icon>bookmark</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" *ngIf="!isRegistered(element)" (click)="unbookmark(element)">
+          <mat-icon>unbookmark</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" (click)="tag(element)">
+          <mat-icon>tagging</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" *ngIf="!isRegistered(element)" (click)="register(element)">
+          <mat-icon>register</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" *ngIf="isRegistered(element)" (click)="deregister(element)">
+          <mat-icon>deregister</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" (click)="feedback(element)">
+          <mat-icon>feedback</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" (click)="showFeedback(element)">
+          <mat-icon>show Feedback</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

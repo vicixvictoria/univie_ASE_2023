@@ -1,0 +1,57 @@
+<div class="card mb-3">
+  <h1 class="card-header bg-primary text-white">New Event </h1>
+
+  <div class="card-body">
+    <form (ngSubmit)="submit()" [formGroup]="eventForm" class="form">
+
+      <div class="form-group">
+        <label for="inputEventName">Event Name*</label>
+        <input [ngClass]="getValidatingClass('eventName')" aria-describedby="titleHelp" class="form-control"
+               formControlName="eventName" id="inputEventName" name="eventName"
+               placeholder="Event Name" type="text">
+      </div>
+
+      <div class="form-group">
+          <label for="inputDate">Date*</label>
+          <input [ngClass]="getValidatingClass('date')" aria-describedby="dateHelp" class="form-control"
+                 formControlName="date" id="inputDate" name="date" pattern="\d{4}-\d{2}-\d{2}"
+                 placeholder="YYYY-MM-DD" required type="date">
+      </div>
+        <div class="form-group">
+          <label for="inputDescription">Description</label>
+          <input [ngClass]="getValidatingClass('description')" aria-describedby="descriptionHelp" class="form-control"
+                 formControlName="description" id="inputDescription" name="description"
+                 placeholder="Description" type="text">
+        </div>
+
+
+      <div class="form-group">
+        <label for="inputCapacity">Capacity*</label>
+        <input [ngClass]="getValidatingClass('capacity')" aria-describedby="capacityHelp" class="form-control"
+               formControlName="capacity" id="inputCapacity" name="capacity"
+               placeholder="Capacity" type="number">
+      </div>
+
+      <mat-form-field class="input-field" style="margin-right: 5px; width: 375px" appearance="outline">
+        <mat-label>Event Type</mat-label>
+        <mat-select formControlName="eventType" matNativeControl>
+          <mat-option value='FOOD'>Food</mat-option>
+          <mat-option value='HEALTH'>Health</mat-option>
+          <mat-option value='ENTERTAINMENT'>Entertainment</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <p><small>* required fields</small></p>
+
+
+      <button class="btn btn-primary" (click)="goBack()" type="button">Back</button>
+      <button class="btn btn-success float-right" type="submit">
+        Create</button>
+    </form>
+  </div>
+</div>
+
+
+
+

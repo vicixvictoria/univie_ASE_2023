@@ -1,0 +1,117 @@
+debug: ${DEBUG:true}
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - UPDATE
+              - DELETE
+
+
+config:
+  user-token-endpoint: http://${LOGIN:localhost}:8080/api/v1/login/getByToken
+  endpoints:
+    login:
+      endpoint: http://${LOGIN:localhost}:8080
+      path-base: /api/v1/login
+      paths:
+        -
+        - /login
+        - /register
+      authorize: false
+      gateway-path-base: /api/v1/login
+    calendar:
+      endpoint: http://${CALENDAR:localhost}:8080
+      path-base: /api/v1/calendar
+      paths:
+        -
+        - /export
+      authorize: false
+      gateway-path-base: /api/v1/calendar
+    bookmark:
+      endpoint: http://${BOOKMARK_SERVICE:localhost}:8080
+      path-base: /api/v1/bookmark
+      paths:
+        -
+        - /add
+        - /unbookmarkEvent
+        - /bookmarkedEvents
+        - /bookmarkedEventIds
+        - /healthCheck
+      authorize: false
+      gateway-path-base: /api/v1/bookmark
+    tagging:
+      endpoint: http://${TAGGING_SERVICE:localhost}:8080
+      path-base: /api/v1/tag
+      paths:
+        -
+        - /add
+        - /event
+        - /removeTag
+        - /removeEvent
+      gateway-path-base: /api/v1/tag
+    event:
+      endpoint: http://${EVENT:localhost}:8080
+      path-base: /api/v1/events
+      paths:
+        -
+        - /organizer
+        - /healthcheck
+      gateway-path-base: /api/v1/events
+    searchservice:
+      endpoint: http://${SERCH_SERVICE_EVENTS:localhost}:8080
+      path-base: /api/v1/searchService
+      paths:
+        -
+        - /healthcheck
+        - /organizer
+        - /event
+        - /capacity
+        - /eventName
+        - /description
+        - /date
+      gateway-path-base: /api/v1/searchService
+
+    attendance:
+        endpoint: http://${ATTENDANCE:localhost}:8080
+        path-base: /api/v1/attendance
+        paths:
+          - /register
+          - /deregister
+          - /attendance
+          - /attendeeEventList
+        authorize: false
+        gateway-path-base: /api/v1/attendance
+
+    maintenance: 
+      endpoint: http://${MAINTENANCE:localhost}:8080
+      path-base: /api/v1/maintenance
+      paths:
+        - /availability
+      gateway-path-base: /api/v1/maintenance
+
+    analyticReport:
+      endpoint: http://${ANALYTICREPORT:localhost}:8080
+      path-base: /api/v1/analyticReport
+      paths:
+        - /feedback
+        - /event
+      gateway-path-base: /api/v1/analyticReport
+
+    feedback:
+      endpoint: http://${FEEDBACK:localhost}:8080
+      path-base: /api/v1/feedback
+      paths:
+        -
+        - /event
+        - /user
+      gateway-path-base: /api/v1/feedback
+server:
+  port: 8080

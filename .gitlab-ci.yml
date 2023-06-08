@@ -7,7 +7,7 @@ image: maven:3.8.5-openjdk-17
 
 default:
   artifacts:
-    expire_in: 7 days
+    expire_in: 1 hour
 
 before_script:
   - cd implementation/common 
@@ -15,15 +15,19 @@ before_script:
 #  - mvn install:install file -Dfile=target/common-1.0-SNAPSHOT.jar -DgroupId=com.ase -DartifactId=common -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
   - cd ../../
 
+buildAPIGateway:
+  stage: build
+  tags:
+    - ase-0203
+  script:
+    - cd implementation/api-gateway && mvn package -Dmaven.test.skip
+
 buildAnalyticReport:
   stage: build
   tags:
     - ase-0203
   script:
     - cd implementation/analyticReport && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-    - implementation/analyticReport/target/
 
 buildAttendance:
   stage: build
@@ -31,9 +35,6 @@ buildAttendance:
     - ase-0203
   script:
     - cd implementation/attendance && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-    - implementation/attendance/target/
 
 buildBookmarkService:
   stage: build
@@ -41,9 +42,6 @@ buildBookmarkService:
     - ase-0203
   script:
     - cd implementation/bookmarkService && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/bookmarkService/target/
 
 buildCalendar:
   stage: build
@@ -51,9 +49,6 @@ buildCalendar:
     - ase-0203
   script:
     - cd implementation/calendar && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/calendar/target/
 
 buildCommon:
   stage: build
@@ -61,9 +56,6 @@ buildCommon:
     - ase-0203
   script:
     - cd implementation/common && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/common/target/
 
 buildEvent:
   stage: build
@@ -71,19 +63,6 @@ buildEvent:
     - ase-0203
   script:
     - cd implementation/event && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/event/target/
-
-buildEventInventory:
-  stage: build
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/eventInventory && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/eventInventory/target/
 
 buildFeedback:
   stage: build
@@ -91,9 +70,6 @@ buildFeedback:
     - ase-0203
   script:
     - cd implementation/feedback && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/feedback/target/
 
 buildLogin:
   stage: build
@@ -101,9 +77,6 @@ buildLogin:
     - ase-0203
   script:
     - cd implementation/login && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/login/target/
 
 buildMaintenance:
   stage: build
@@ -111,9 +84,6 @@ buildMaintenance:
     - ase-0203
   script:
     - cd implementation/maintenance && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/maintenance/target/
 
 buildNotification:
    stage: build
@@ -122,9 +92,6 @@ buildNotification:
    script:
      - cd implementation/notification
      - mvn clean package -Dmaven.test.skip
-   artifacts:
-    paths:
-    - implementation/notification/target/
 
 buildRecommender:
   stage: build
@@ -132,9 +99,6 @@ buildRecommender:
     - ase-0203
   script:
     - cd implementation/recommender && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/recommender/target/
 
 buildSearchServiceEvents:
   stage: build
@@ -142,9 +106,6 @@ buildSearchServiceEvents:
     - ase-0203
   script:
     - cd implementation/searchServiceEvents && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/searchServiceEvents/target/
 
 buildSendNotification:
   stage: build
@@ -152,9 +113,6 @@ buildSendNotification:
     - ase-0203
   script:
     - cd implementation/sendNotification && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/sendNotification/target/
 
 buildTagging:
   stage: build
@@ -162,10 +120,17 @@ buildTagging:
     - ase-0203
   script:
     - cd implementation/taggingService && mvn package -Dmaven.test.skip
-  artifacts:
-    paths:
-      - implementation/bookmarkService/target/  
 
+testAPIGateway:
+  stage: test
+  image: maven:3.8.5-openjdk-17
+  needs:
+    - buildAPIGateway
+  tags:
+    - ase-0203
+  script:
+    - cd implementation/api-gateway && mvn package -Dmaven.test.skip
+    - mvn test
 
 testAnalyticReport:
   stage: test 
@@ -177,9 +142,6 @@ testAnalyticReport:
   script:
     - cd implementation/analyticReport && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-    - implementation/analyticReport/target/
 
 testAttendance:
   stage: test 
@@ -190,9 +152,6 @@ testAttendance:
   script:
     - cd implementation/attendance && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-    - implementation/attendance/target/
 
 testBookmarkService:
   stage: test 
@@ -203,9 +162,6 @@ testBookmarkService:
   script:
     - cd implementation/bookmarkService && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/bookmarkService/target/
 
 testCalendar:
   stage: test 
@@ -216,9 +172,6 @@ testCalendar:
   script:
     - cd implementation/calendar && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/calendar/target/
 
 testCommon:
   stage: test 
@@ -229,9 +182,6 @@ testCommon:
   script:
     - cd implementation/common && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/common/target/
 
 testEvent:
   stage: test 
@@ -242,22 +192,6 @@ testEvent:
   script:
     - cd implementation/event && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/event/target/
-
-testEventInventory:
-  stage: test 
-  needs: 
-    - buildEventInventory
-  tags:
-    - ase-0203
-  script:
-    - cd implementation/eventInventory && mvn package -Dmaven.test.skip
-    - mvn test
-  artifacts:
-    paths:
-      - implementation/eventInventory/target/
 
 testFeedback:
   stage: test 
@@ -268,9 +202,6 @@ testFeedback:
   script:
     - cd implementation/feedback && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/feedback/target/
 
 testLogin:
   stage: test 
@@ -281,9 +212,6 @@ testLogin:
   script:
     - cd implementation/login && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/login/target/
 
 testMaintenance:
   stage: test 
@@ -294,9 +222,6 @@ testMaintenance:
   script:
     - cd implementation/maintenance && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/maintenance/target/
 
 testNotification:
    stage: test 
@@ -307,9 +232,6 @@ testNotification:
    script:
      - cd implementation/notification && mvn package -Dmaven.test.skip
      - mvn test
-   artifacts:
-     paths:
-       - implementation/notification/target/
 
 testRecommender:
   stage: test 
@@ -320,9 +242,6 @@ testRecommender:
   script:
     - cd implementation/recommender && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/recommender/target/
 
 testSearchServiceEvents:
   stage: test 
@@ -333,9 +252,6 @@ testSearchServiceEvents:
   script:
     - cd implementation/searchServiceEvents && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/searchServiceEvents/target/
 
 testSendNotification:
   stage: test 
@@ -346,9 +262,6 @@ testSendNotification:
   script:
     - cd implementation/sendNotification && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/sendNotification/target/
 
 testTagging:
   stage: test 
@@ -359,22 +272,20 @@ testTagging:
   script:
     - cd implementation/taggingService && mvn package -Dmaven.test.skip
     - mvn test
-  artifacts:
-    paths:
-      - implementation/taggingService/target/ 
 
 
-deploy:
-  before_script:
-    - echo "deploy stage"
-  image:
-    name: docker
-  services:
-     - docker:dind
-
-  stage: deploy
-  tags:
-     - ase-0203
-  script:
-     - cd implementation
-     - docker compose up
+#deploy:
+#  before_script:
+#    - echo "deploy stage"
+#  image:
+#    name: docker
+#
+#  services:
+#     - docker:dind
+#
+#  stage: deploy
+#  tags:
+#    - ase-0203
+#  script:
+#    - cd implementation
+#    - docker compose up -d

@@ -1,0 +1,310 @@
+x-common-variables: &common-variables
+  DEBUG: "false"
+  RABBITMQ-HOST: "rabbitmq"
+
+x-rabbitmq-exchanges: &rabbitmq-exchanges
+  ATTENDANCE-EXCHANGE: "attendance-exchange"
+  RECOMMENDER-EXCHANGE: "recommender-exchange"
+  BOOKMARK-EXCHANGE: "bookmark-exchange"
+  FEEDBACK-EXCHANGE: "feedback-exchange"
+  EVENT-EXCHANGE: "event-exchange"
+  USER-EXCHANGE: "user-exchange"
+  SEND-NOTIFICATION-EXCHANGE: "sendnotification-exchange"
+  TAGGING-EXCHANGE: "tagging-exchange"
+
+x-endpoint-variable: &endpoint-variables
+  ANALYTICREPORT-ENDPOINT: "http://analyticReport:8080"
+  ATTENDANCE-ENDPOINT: "http://attendance:8080"
+  BOOKMARK-ENDPOINT: "http://bookmark:8080"
+  CALENDAR-ENDPOINT: "http://calendar:8080"
+  EVENT-ENDPOINT: "http://event:8080"
+  FEEDBACK-ENDPOINT: "http://feedback:8080"
+  LOGIN-ENDPOINT: "http://login:8080"
+  MAINTENANCE-ENDPOINT: "http://maintenance:8080"
+  NOTIFICATION-ENDPOINT: "http://notification:8080"
+  RECOMMENDER-ENDPOINT: "http://recommender:8080"
+  SEARCHSERVICEEVENT-ENDPOINT: "http://searchserviceevent:8080"
+  SENDNOTIFICATION-ENDPOINT: "http://sendnotification:8080"
+  TAGGINGSERVICE-ENDPOINT: "http://taggingservice:8080"
+
+services:
+  analyticReport:
+    image: analyticreport
+    build:
+      context: .
+      dockerfile: analyticReport/Dockerfile
+    networks:
+      analyticReport-rabbit:
+      analyticReport-apigateway:
+    environment:
+      <<: *endpoint-variables
+
+  attendance:
+    image: attendance
+    build:
+      context: .
+      dockerfile: attendance/Dockerfile
+    environment:
+      <<: *common-variables
+    networks:
+      attendance-rabbit:
+      attendance-apigateway:
+      attendance-calendar:
+
+  bookmarkService:
+    image: bookmarkservice
+    build:
+      context: .
+      dockerfile: bookmarkService/Dockerfile
+    environment:
+      <<: [*common-variables,*rabbitmq-exchanges]
+    networks:
+      bookmarkService-calendar:
+      bookmarkService-rabbit:
+      bookmarkService-apigateway:
+    volumes:
+      - ./_persistence/DB-bookmarkService:/persistence
+
+
+
+  calendar:
+    image: calendar
+    build:
+      context: .
+      dockerfile: calendar/Dockerfile
+    environment:
+      <<: *common-variables
+    networks:
+      bookmarkService-calendar:
+      event-calendar:
+      attendance-calendar:
+      calendar-apigateway:
+
+
+  event:
+    image: event
+    build:
+      context: .
+      dockerfile: event/Dockerfile
+    networks:
+      event-rabbit:
+      event-apigateway:
+      event-calendar:
+    environment:
+      <<: [ *common-variables, *endpoint-variables ]
+    volumes:
+      - ./_persistence/event:/persistence
+
+
+  feedback:
+    image: feedback
+    build:
+      context: .
+      dockerfile: feedback/Dockerfile
+    networks:
+      feedback-rabbit:
+      feedback-apigateway:
+
+    environment:
+      <<: [*common-variables, *endpoint-variables]
+    volumes:
+      - ./_persistence/feedback:/persistence
+
+
+
+  login:
+    image: login
+    build:
+      context: .
+      dockerfile: login/Dockerfile
+    networks:
+      login-rabbit:
+      login-apigateway:
+    environment:
+      <<: *common-variables
+      JWT-SECRET: "top-secret"
+      JWT-EXPIRATION-TIME: "900000"
+
+    volumes:
+      - ./_persistence/login:/persistence
+
+  maintenance:
+    image: maintenance
+    build:
+      context: .
+      dockerfile: maintenance/Dockerfile
+    networks:
+      analyticReport-apigateway:
+      attendance-apigateway:
+      bookmarkService-apigateway:
+      calendar-apigateway:
+      event-apigateway:
+      feedback-apigateway:
+      login-apigateway:
+      maintenance-apigateway:
+      notification-apigateway:
+      recommender-apigateway:
+      searchServiceEvent-apigateway:
+      sendNotification-apigateway:
+      frontend-apigateway:
+      tagging-apigateway:
+    environment:
+      <<: *endpoint-variables
+
+  notification:
+    image: notification
+    build:
+      context: .
+      dockerfile: notification/Dockerfile
+    networks:
+      notification-rabbit:
+      notification-apigateway:
+    environment:
+      <<: [ *common-variables, *rabbitmq-exchanges ]
+    volumes:
+      - ./_persistence/notification:/persistence
+
+  recommender:
+    image: recommender
+    build:
+      context: .
+      dockerfile: recommender/Dockerfile
+    networks:
+      recommender-rabbit:
+      recommender-apigateway:
+  searchServiceEvents:
+    image: searchserviceevents
+    build:
+      context: .
+      dockerfile: searchServiceEvents/Dockerfile
+    networks:
+      searchServiceEvent-rabbit:
+      searchServiceEvent-apigateway:
+    environment:
+      <<: [ *common-variables, *endpoint-variables ]
+    volumes:
+      - ./_persistence/searchService:/persistence
+
+  taggingService:
+    image: taggingservice
+    build:
+      context: .
+      dockerfile: taggingService/Dockerfile
+    environment:
+      <<: *common-variables
+    networks:
+      taggingService-rabbit:
+      taggingService-apigateway:
+    volumes:
+      - ./_persistence/DB-taggingService:/persistence
+
+  sendNotification:
+    image: sendnotification
+    build:
+      context: .
+      dockerfile: sendNotification/Dockerfile
+    networks:
+      sendNotification-rabbit:
+      sendNotification-apigateway:
+    environment:
+      <<: [ *common-variables, *rabbitmq-exchanges ]
+      NOTIFICATION_SENDER_EMAIL: <email>
+      NOTIFICATION_SENDER_PASSWORD: <password>
+    volumes:
+      - ./_persistence/sendNotification:/persistence
+
+  #frontend:
+   # image: frontend
+    #build: frontend/frontend
+    #networks:
+     # frontend-apigateway:
+    #ports:
+     # - 4200:4200
+
+  apigateway:
+    image: api-gateway
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    environment:
+      <<: [ *common-variables, *endpoint-variables ]
+      ANALYTIC_REPORT: analyticreport
+      ATTENDANCE: attendance
+      BOOKMARK_SERVICE: bookmarkservice
+      CALENDAR: calendar
+      EVENT: event
+      FEEDBACK: feedback
+      LOGIN: login
+      MAINTENANCE: maintenance
+      NOTIFICATION: notification
+      RECOMMENDER: recommender
+      SERCH_SERVICE_EVENTS: searchserviceevents
+      TAGGING_SERVICE: taggingservice
+    ports:
+      - 8080:8080
+
+    networks:
+      analyticReport-apigateway:
+      attendance-apigateway:
+      bookmarkService-apigateway:
+      taggingService-apigateway:
+      event-apigateway:
+      calendar-apigateway:
+      feedback-apigateway:
+      login-apigateway:
+      maintenance-apigateway:
+      notification-apigateway:
+      recommender-apigateway:
+      searchServiceEvent-apigateway:
+      sendNotification-apigateway:
+      frontend-apigateway:
+      tagging-apigateway:
+
+  rabbitmq:
+    image: rabbitmq
+    networks:
+      analyticReport-rabbit:
+      attendance-rabbit:
+      bookmarkService-rabbit:
+      event-rabbit:
+      feedback-rabbit:
+      login-rabbit:
+      maintenance-rabbit:
+      notification-rabbit:
+      recommender-rabbit:
+      searchServiceEvent-rabbit:
+      sendNotification-rabbit:
+
+networks:
+  analyticReport-rabbit:
+  attendance-rabbit:
+  bookmarkService-rabbit:
+  event-rabbit:
+  feedback-rabbit:
+  login-rabbit:
+  maintenance-rabbit:
+  notification-rabbit:
+  recommender-rabbit:
+  searchServiceEvent-rabbit:
+  sendNotification-rabbit:
+  taggingService-rabbit:
+
+  bookmarkService-calendar:
+  event-calendar:
+  attendance-calendar:
+  analyticReport-apigateway:
+  attendance-apigateway:
+  bookmarkService-apigateway:
+  taggingService-apigateway:
+  event-apigateway:
+  feedback-apigateway:
+  calendar-apigateway:
+  login-apigateway:
+  maintenance-apigateway:
+  notification-apigateway:
+  recommender-apigateway:
+  searchServiceEvent-apigateway:
+  sendNotification-apigateway:
+  frontend-apigateway:
+  tagging-apigateway:
+
