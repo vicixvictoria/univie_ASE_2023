@@ -31,7 +31,7 @@ export class EventInventoryComponent implements OnInit {
 
   // @ts-ignore
   events: Event[];
-  displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'attendees', 'action'];
+  displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'action'];
 
 
   constructor(

@@ -4,6 +4,7 @@ x-common-variables: &common-variables
 
 x-rabbitmq-exchanges: &rabbitmq-exchanges
   ATTENDANCE-EXCHANGE: "attendance-exchange"
+  RECOMMENDER-EXCHANGE: "recommender-exchange"
   BOOKMARK-EXCHANGE: "bookmark-exchange"
   FEEDBACK-EXCHANGE: "feedback-exchange"
   EVENT-EXCHANGE: "event-exchange"

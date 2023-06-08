@@ -48,8 +48,8 @@ public class RecommenderServiceTest {
         List<UserInterest> interestList = Arrays.asList(
                 new UserInterest("user1"), new UserInterest("user2"));
         when(recommenderRepository.findAll()).thenReturn(interestList);
-        service.recommend(EEventType.HEALTH);
-        verify(publisher).recommend(any());
+        service.recommend("event1", EEventType.HEALTH);
+        verify(publisher).recommend(eq("event1"), any());
     }
 
     /**
