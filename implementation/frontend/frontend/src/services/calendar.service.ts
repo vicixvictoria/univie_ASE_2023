@@ -1,27 +1,37 @@
 import {Injectable} from "@angular/core";
 import {User} from "../app/models/user";
 import {environment} from "../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { map } from "rxjs/operators";
+import {BehaviorSubject, Observable} from "rxjs";
+import {AccountService} from "./account.service";
 
 
 
-const baseUri = environment + '/calendar/';
-//const baseUri = "http://localhost:8080/api/v1/calendar/"
+const baseUri = "http://localhost:8080/api/v1/calendar/"
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarService {
-
-  constructor(private httpClient: HttpClient) {
+  private userSubject: BehaviorSubject<User | null>;
+  public user: Observable<User | null>;
+  constructor(private httpClient: HttpClient, private accountService: AccountService) {
+    this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+    this.user = this.userSubject.asObservable();
   }
 
+  public getuserValue() {
+    return this.accountService.userValue;
+  }
 
-  exportXML(user: User){
-    const url = `${baseUri}export/${user.id}/XML`;
+  private headers = new HttpHeaders({"Authorization":"Bearer " + this.getuserValue()?.jwt});
+
+
+  exportXML(userId: String){
+    const url = `${baseUri}export/${userId}/XML`;
     console.log("Request calendar with:", url)
-    return this.httpClient.get(url, { responseType: 'text' }).subscribe((response: string) => {
+    return this.httpClient.get(url, { headers: this.headers, responseType: 'text' }).subscribe((response: string) => {
       const element = document.createElement('a');
       element.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(response);
       element.download = 'calendar.xml';
@@ -32,10 +42,10 @@ export class CalendarService {
     });
   }
 
-  exportJSON(user: User){
-    const url = `${baseUri}export/${user.id}/JSON`;
+  exportJSON(userId: String){
+    const url = `${baseUri}export/${userId}/JSON`;
     console.log("Request calendar with:", url)
-    return this.httpClient.get(url, { responseType: 'text' }).subscribe((response: string) => {
+    return this.httpClient.get(url, { headers: this.headers, responseType: 'text' }).subscribe((response: string) => {
       const element = document.createElement('a');
       element.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(response);
       element.download = 'calendar.json';
@@ -46,11 +56,11 @@ export class CalendarService {
     });
   }
 
-  exportICAL(user: User){
-    const url = `${baseUri}export/${user.id}/ICal`;
+  exportICAL(userId: String){
+    const url = `${baseUri}export/${userId}/ICal`;
     console.log("Request calendar with:", url);
 
-    return this.httpClient.get(url, { responseType: 'text' }).subscribe((response: string) => {
+    return this.httpClient.get(url, {headers: this.headers, responseType: 'text' }).subscribe((response: string) => {
       const element = document.createElement('a');
       element.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(response);
       element.download = 'calendar.ics';

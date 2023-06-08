@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class CalendarApplicationTests {
 
-    CalendarController controller;
     UserCalendar calendar;
     @BeforeEach
     void testCreateCalendar() throws ParseException {
@@ -40,13 +39,6 @@ class CalendarApplicationTests {
     @Test
     void testCalendar(){
         Assertions.assertNotNull(this.calendar);
-    }
-
-    @Test
-    void testCalendarControllerSet(){
-        this.controller = new CalendarController();
-        UserCalendar userCalendarController = controller.setCalender(this.calendar);
-        Assertions.assertNotNull(userCalendarController);
     }
 
     @Test

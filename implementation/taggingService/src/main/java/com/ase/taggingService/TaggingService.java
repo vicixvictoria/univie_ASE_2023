@@ -54,6 +54,7 @@ public class TaggingService {
             List<ETags> tags = new ArrayList<>();
             tags.addAll(eTags);
             try {
+                LOGGER.debug("TaggingEvent published");
                 publisher.updateTaggingEvent(eventId, userId, tags);
             } catch (Exception e){
                 LOGGER.error("Failed to connect with publisher");

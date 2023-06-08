@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1/bookmark")
+@RequestMapping(path = "/api/v1/bookmark")
 public class BookmarkController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(
@@ -63,6 +63,7 @@ public class BookmarkController {
 
     @GetMapping("/healthCheck")
     public ResponseEntity<String> healthCheck(){
+        LOGGER.info("GET /healthCheck/{}");
         return ResponseEntity.status(HttpStatus.OK).body("Success");
     }
 }

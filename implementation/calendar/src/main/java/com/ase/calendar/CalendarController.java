@@ -2,8 +2,10 @@ package com.ase.calendar;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import javax.xml.crypto.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,11 +23,13 @@ public class CalendarController {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
 
+
     @GetMapping("export/{userId}/{calenderType}")
     public String calenderExport(@PathVariable String userId, @PathVariable EExportType calenderType) throws Exception {
         LOGGER.info("GET api/v1/calendar/export/{}/{}/", userId, calenderType);
-        List<CalendarEvent>bookmarkedEvents = DataFetcher.requestBookmarkedEvents(userId);
-        List<CalendarEvent>registeredEvents = DataFetcher.requestRegisteredEvent(userId);
+        DataFetcher dataFetcher = new DataFetcher();
+        List<CalendarEvent>bookmarkedEvents = dataFetcher.requestBookmarkedEvents(userId);
+        List<CalendarEvent>registeredEvents = dataFetcher.requestRegisteredEvent(userId);
         ExportCalendar exportCalendar = new ExportCalendar(calenderType);
         UserCalendar userCalendar = new UserCalendar(registeredEvents, bookmarkedEvents);
         ACalendarExportType calender = exportCalendar.createExportCalender(calenderType, userCalendar);

@@ -27,7 +27,7 @@ public class Publisher {
     public void newBookmarkEvent(String eventId, String userId) {
         BookmarkEventMessage bookmarkMessage = new BookmarkEventMessage(userId, eventId);
         RabbitMQMessage<BookmarkEventMessage> bookmarkMessageRabbitMQMessage = new RabbitMQMessage<>(
-                EMessageType.UPDATE, bookmarkMessage);
+                EMessageType.NEW, bookmarkMessage);
         rabbitTemplate.convertAndSend(exchangeName, "", bookmarkMessageRabbitMQMessage);
     }
 

@@ -48,16 +48,22 @@ services:
     networks:
       attendance-rabbit:
       attendance-apigateway:
+      attendance-calendar:
 
   bookmarkService:
     image: bookmarkservice
     build:
       context: .
       dockerfile: bookmarkService/Dockerfile
+    environment:
+      <<: [*common-variables,*rabbitmq-exchanges]
     networks:
       bookmarkService-calendar:
       bookmarkService-rabbit:
-      bookmark-apigateway:
+      bookmarkService-apigateway:
+    volumes:
+      - ./_persistence/DB-bookmarkService:/persistence
+
 
 
   calendar:
@@ -65,8 +71,12 @@ services:
     build:
       context: .
       dockerfile: calendar/Dockerfile
+    environment:
+      <<: *common-variables
     networks:
       bookmarkService-calendar:
+      event-calendar:
+      attendance-calendar:
       calendar-apigateway:
 
 
@@ -78,8 +88,9 @@ services:
     networks:
       event-rabbit:
       event-apigateway:
+      event-calendar:
     environment:
-      <<: [*common-variables, *endpoint-variables]
+      <<: [ *common-variables, *endpoint-variables ]
     volumes:
       - ./_persistence/event:/persistence
 
@@ -124,7 +135,7 @@ services:
     networks:
       analyticReport-apigateway:
       attendance-apigateway:
-      bookmark-apigateway:
+      bookmarkService-apigateway:
       calendar-apigateway:
       event-apigateway:
       feedback-apigateway:
@@ -148,7 +159,7 @@ services:
       notification-rabbit:
       notification-apigateway:
     environment:
-      <<: [*common-variables, *rabbitmq-exchanges]
+      <<: [ *common-variables, *rabbitmq-exchanges ]
     volumes:
       - ./_persistence/notification:/persistence
 
@@ -169,7 +180,7 @@ services:
       searchServiceEvent-rabbit:
       searchServiceEvent-apigateway:
     environment:
-      <<: [*common-variables, *endpoint-variables]
+      <<: [ *common-variables, *endpoint-variables ]
     volumes:
       - ./_persistence/searchService:/persistence
 
@@ -178,8 +189,13 @@ services:
     build:
       context: .
       dockerfile: taggingService/Dockerfile
+    environment:
+      <<: *common-variables
     networks:
       taggingService-rabbit:
+      taggingService-apigateway:
+    volumes:
+      - ./_persistence/DB-taggingService:/persistence
 
   sendNotification:
     image: sendnotification
@@ -190,19 +206,19 @@ services:
       sendNotification-rabbit:
       sendNotification-apigateway:
     environment:
-      <<: [*common-variables, *rabbitmq-exchanges]
+      <<: [ *common-variables, *rabbitmq-exchanges ]
       NOTIFICATION_SENDER_EMAIL: <email>
       NOTIFICATION_SENDER_PASSWORD: <password>
     volumes:
       - ./_persistence/sendNotification:/persistence
 
-  #frontend:
-   # image: frontend
-    #build: frontend/frontend
-    #networks:
-     # frontend-apigateway:
-    #ports:
-     # - 4200:4200
+  frontend:
+    image: frontend
+    build: frontend/frontend
+    networks:
+      frontend-apigateway:
+    ports:
+      - 4200:4200
 
   apigateway:
     image: api-gateway
@@ -210,7 +226,7 @@ services:
       context: .
       dockerfile: api-gateway/Dockerfile
     environment:
-      <<: [*common-variables, *endpoint-variables]
+      <<: [ *common-variables, *endpoint-variables ]
       ANALYTIC_REPORT: analyticreport
       ATTENDANCE: attendance
       BOOKMARK_SERVICE: bookmarkservice
@@ -229,7 +245,10 @@ services:
     networks:
       analyticReport-apigateway:
       attendance-apigateway:
+      bookmarkService-apigateway:
+      taggingService-apigateway:
       event-apigateway:
+      calendar-apigateway:
       feedback-apigateway:
       login-apigateway:
       maintenance-apigateway:
@@ -270,13 +289,15 @@ networks:
   taggingService-rabbit:
 
   bookmarkService-calendar:
-
+  event-calendar:
+  attendance-calendar:
   analyticReport-apigateway:
   attendance-apigateway:
-  bookmark-apigateway:
-  calendar-apigateway:
+  bookmarkService-apigateway:
+  taggingService-apigateway:
   event-apigateway:
   feedback-apigateway:
+  calendar-apigateway:
   login-apigateway:
   maintenance-apigateway:
   notification-apigateway:
