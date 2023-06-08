@@ -40,7 +40,9 @@ services:
 
   attendance:
     image: attendance
-    build: attendance
+    build:
+      context: .
+      dockerfile: attendance/Dockerfile
     environment:
       <<: *common-variables
     networks:
