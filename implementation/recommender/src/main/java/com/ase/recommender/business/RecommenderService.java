@@ -48,9 +48,9 @@ public class RecommenderService {
      *
      * @param eventType The event type for attendee identification.
      */
-     public void recommend(EEventType eventType) {
+     public void recommend(String eventID, EEventType eventType) {
         List<UserInterest> interestList = recommenderRepository.findAll();
-        publisher.recommend(userFilter.filter(interestList, eventType));
+        publisher.recommend(eventID, userFilter.filter(interestList, eventType));
     }
 
     /**
@@ -61,7 +61,7 @@ public class RecommenderService {
      */
     public void addEventType(String eventID, EEventType eventType) {
             eventTypeRepository.save(new EventType(eventID, eventType));
-            recommend(eventType);
+            recommend(eventID, eventType);
     }
 
     /**
