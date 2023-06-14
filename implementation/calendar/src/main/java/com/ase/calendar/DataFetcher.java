@@ -1,5 +1,6 @@
 package com.ase.calendar;
 
+import com.ase.common.attendance.AttendeeEventList;
 import com.ase.common.event.Event;
 import java.lang.invoke.MethodHandles;
 import java.text.ParseException;
@@ -89,14 +90,14 @@ public class DataFetcher {
         RestTemplate restTemplate = new RestTemplate();
         List<CalendarEvent> registeredEvents = new ArrayList<>();
         try {
-            ResponseEntity<List<String>> response = restTemplate.exchange(
+            ResponseEntity<AttendeeEventList> response = restTemplate.exchange(
                     attendanceUrl,
                     HttpMethod.GET,
                     null,
-                    new ParameterizedTypeReference<List<String>>() {}
+                    new ParameterizedTypeReference<AttendeeEventList>() {}
             );
-            List<String> registeredEventResponseIds = response.getBody();
-
+            List<String> registeredEventResponseIds = response.getBody().eventIDs();
+            LOGGER.info("Events from attendance ", registeredEventResponseIds.toString());
             for (int i = 0; i < Objects.requireNonNull(registeredEventResponseIds).size(); i++) {
                 String eventId = registeredEventResponseIds.get(i).toString();
                 try {

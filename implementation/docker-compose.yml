@@ -34,8 +34,7 @@ services:
       context: .
       dockerfile: analyticReport/Dockerfile
     networks:
-      analyticReport-rabbit:
-      analyticReport-apigateway:
+      apigateway:
     environment:
       <<: *endpoint-variables
 
@@ -47,8 +46,8 @@ services:
     environment:
       <<: *common-variables
     networks:
-      attendance-rabbit:
-      attendance-apigateway:
+      rabbit:
+      apigateway:
       attendance-calendar:
 
   bookmarkService:
@@ -59,13 +58,11 @@ services:
     environment:
       <<: [*common-variables,*rabbitmq-exchanges]
     networks:
+      rabbit:
+      apigateway:
       bookmarkService-calendar:
-      bookmarkService-rabbit:
-      bookmarkService-apigateway:
     volumes:
       - ./_persistence/DB-bookmarkService:/persistence
-
-
 
   calendar:
     image: calendar
@@ -75,11 +72,10 @@ services:
     environment:
       <<: *common-variables
     networks:
+      apigateway:
       bookmarkService-calendar:
       event-calendar:
       attendance-calendar:
-      calendar-apigateway:
-
 
   event:
     image: event
@@ -87,8 +83,8 @@ services:
       context: .
       dockerfile: event/Dockerfile
     networks:
-      event-rabbit:
-      event-apigateway:
+      rabbit:
+      apigateway:
       event-calendar:
     environment:
       <<: [ *common-variables, *endpoint-variables ]
@@ -102,15 +98,12 @@ services:
       context: .
       dockerfile: feedback/Dockerfile
     networks:
-      feedback-rabbit:
-      feedback-apigateway:
-
+      rabbit:
+      apigateway:
     environment:
       <<: [*common-variables, *endpoint-variables]
     volumes:
       - ./_persistence/feedback:/persistence
-
-
 
   login:
     image: login
@@ -118,8 +111,8 @@ services:
       context: .
       dockerfile: login/Dockerfile
     networks:
-      login-rabbit:
-      login-apigateway:
+      rabbit:
+      apigateway:
     environment:
       <<: *common-variables
       JWT-SECRET: "top-secret"
@@ -134,20 +127,7 @@ services:
       context: .
       dockerfile: maintenance/Dockerfile
     networks:
-      analyticReport-apigateway:
-      attendance-apigateway:
-      bookmarkService-apigateway:
-      calendar-apigateway:
-      event-apigateway:
-      feedback-apigateway:
-      login-apigateway:
-      maintenance-apigateway:
-      notification-apigateway:
-      recommender-apigateway:
-      searchServiceEvent-apigateway:
-      sendNotification-apigateway:
-      frontend-apigateway:
-      tagging-apigateway:
+      apigateway:
     environment:
       <<: *endpoint-variables
 
@@ -157,8 +137,8 @@ services:
       context: .
       dockerfile: notification/Dockerfile
     networks:
-      notification-rabbit:
-      notification-apigateway:
+      rabbit:
+      apigateway:
     environment:
       <<: [ *common-variables, *rabbitmq-exchanges ]
     volumes:
@@ -170,16 +150,17 @@ services:
       context: .
       dockerfile: recommender/Dockerfile
     networks:
-      recommender-rabbit:
-      recommender-apigateway:
+      rabbit:
+      apigateway:
+
   searchServiceEvents:
     image: searchserviceevents
     build:
       context: .
       dockerfile: searchServiceEvents/Dockerfile
     networks:
-      searchServiceEvent-rabbit:
-      searchServiceEvent-apigateway:
+      rabbit:
+      apigateway:
     environment:
       <<: [ *common-variables, *endpoint-variables ]
     volumes:
@@ -193,8 +174,8 @@ services:
     environment:
       <<: *common-variables
     networks:
-      taggingService-rabbit:
-      taggingService-apigateway:
+      rabbit:
+      apigateway:
     volumes:
       - ./_persistence/DB-taggingService:/persistence
 
@@ -204,8 +185,8 @@ services:
       context: .
       dockerfile: sendNotification/Dockerfile
     networks:
-      sendNotification-rabbit:
-      sendNotification-apigateway:
+      rabbit:
+      apigateway:
     environment:
       <<: [ *common-variables, *rabbitmq-exchanges ]
       NOTIFICATION_SENDER_EMAIL: <email>
@@ -213,13 +194,13 @@ services:
     volumes:
       - ./_persistence/sendNotification:/persistence
 
-  #frontend:
-   # image: frontend
-    #build: frontend/frontend
-    #networks:
-     # frontend-apigateway:
-    #ports:
-     # - 4200:4200
+  frontend:
+    image: frontend
+    build: frontend/frontend
+    networks:
+      apigateway:
+    ports:
+      - 4200:4200
 
   apigateway:
     image: api-gateway
@@ -242,69 +223,18 @@ services:
       TAGGING_SERVICE: taggingservice
     ports:
       - 8080:8080
-
     networks:
-      analyticReport-apigateway:
-      attendance-apigateway:
-      bookmarkService-apigateway:
-      taggingService-apigateway:
-      event-apigateway:
-      calendar-apigateway:
-      feedback-apigateway:
-      login-apigateway:
-      maintenance-apigateway:
-      notification-apigateway:
-      recommender-apigateway:
-      searchServiceEvent-apigateway:
-      sendNotification-apigateway:
-      frontend-apigateway:
-      tagging-apigateway:
+      apigateway:
 
   rabbitmq:
     image: rabbitmq
     networks:
-      analyticReport-rabbit:
-      attendance-rabbit:
-      bookmarkService-rabbit:
-      event-rabbit:
-      feedback-rabbit:
-      login-rabbit:
-      maintenance-rabbit:
-      notification-rabbit:
-      recommender-rabbit:
-      searchServiceEvent-rabbit:
-      sendNotification-rabbit:
+      rabbit:
 
 networks:
-  analyticReport-rabbit:
-  attendance-rabbit:
-  bookmarkService-rabbit:
-  event-rabbit:
-  feedback-rabbit:
-  login-rabbit:
-  maintenance-rabbit:
-  notification-rabbit:
-  recommender-rabbit:
-  searchServiceEvent-rabbit:
-  sendNotification-rabbit:
-  taggingService-rabbit:
-
+  rabbit:
+  apigateway:
   bookmarkService-calendar:
   event-calendar:
   attendance-calendar:
-  analyticReport-apigateway:
-  attendance-apigateway:
-  bookmarkService-apigateway:
-  taggingService-apigateway:
-  event-apigateway:
-  feedback-apigateway:
-  calendar-apigateway:
-  login-apigateway:
-  maintenance-apigateway:
-  notification-apigateway:
-  recommender-apigateway:
-  searchServiceEvent-apigateway:
-  sendNotification-apigateway:
-  frontend-apigateway:
-  tagging-apigateway:
 
