@@ -33,6 +33,7 @@ public class Publisher {
         RabbitMQMessage<com.ase.common.event.Event> message = new RabbitMQMessage<>(messageType,
                 networkEvent);
         rabbitTemplate.convertAndSend(exchangeName, "", message);
+        LOGGER.info("Publisher sent event");
     }
 
     public void newEvent(Event event) {
