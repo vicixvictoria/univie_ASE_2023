@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 
 import static org.mockito.ArgumentMatchers.any;
 
-@SpringBootTest
 class AnalyticReportUnitTests {
     RestAccess restAccess;
     AnalyticReportService analyticReportService;

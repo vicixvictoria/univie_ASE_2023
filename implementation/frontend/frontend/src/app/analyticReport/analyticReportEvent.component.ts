@@ -22,13 +22,13 @@ export class AnalyticReportEventComponent implements OnInit {
   analyticForm: FormGroup;
   // @ts-ignore
   analytic: AnalyticReportEvent;
-  displayedColumns: string[] = ['Capacity','NumberofAttending'];
+  displayedColumns: string[] = ['Capacity','NumberOfAttending'];
 
   // @ts-ignore
   capacity:number;
 
   // @ts-ignore
-  numberOf:number;
+  numberOfAttending:number;
 
   submitted: boolean = false;
   // @ts-ignore
@@ -75,16 +75,14 @@ export class AnalyticReportEventComponent implements OnInit {
     this.analyticService.getAnalyticReportEvent(eventID).subscribe({
       next: data => {
         console.log('received analytic report', data);
-        this.analytic = data;
-
-        console.log(this.analytic);
+        this.analytic = new AnalyticReportEvent(this.eventID, data.capacity, data.numberOfAttending);
       },
       error: error => {
         console.warn(error);
       }
     });
-    this.capacity = this.analytic.capacity;
-    this.numberOf = this.analytic.numberOfAttending;
+    //this.capacity = this.analytic.capacity;
+    //this.numberOfAttending = this.analytic.numberOfAttending;
   }
 
   goBack() {

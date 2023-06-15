@@ -108,7 +108,7 @@ config:
       gateway-path-base: /api/v1/maintenance
 
     analyticReport:
-      endpoint: http://${ANALYTICREPORT:localhost}:8080
+      endpoint: http://${ANALYTIC-REPORT:localhost}:8080
       path-base: /api/v1/analyticReport
       paths:
         - /feedback
