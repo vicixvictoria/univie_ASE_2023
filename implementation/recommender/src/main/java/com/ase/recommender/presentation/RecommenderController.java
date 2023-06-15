@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1")
+@RequestMapping(path = "/api/v1")
 public class RecommenderController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(
@@ -35,7 +35,7 @@ public class RecommenderController {
      * @return ResponseEntity with the status and body message.
      */
     @GetMapping("/healthCheck")
-    public ResponseEntity<String> healthCheck(){
+    public ResponseEntity<String> healthcheck(){
         return ResponseEntity.status(HttpStatus.OK).body("Success");
     }
 }

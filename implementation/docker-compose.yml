@@ -49,6 +49,8 @@ services:
       rabbit:
       apigateway:
       attendance-calendar:
+    volumes:
+      - ./_persistence/attendance:/persistence
 
   bookmarkService:
     image: bookmarkservice
@@ -152,6 +154,10 @@ services:
     networks:
       rabbit:
       apigateway:
+    environment:
+      <<: *common-variables
+    volumes:
+      - ./_persistence/recommender:/persistence
 
   searchServiceEvents:
     image: searchserviceevents

@@ -76,7 +76,7 @@ public class RabbitMQBookmarkConfiguration {
      * @param adapter The message listener adapter for handling messages.
      * @return The configured event listener container.
      */
-    @Bean(name = "registered-callback-binding")
+    @Bean(name = "bookmark-registered-callback-binding")
     public SimpleMessageListenerContainer eventListenerContainer(
             ConnectionFactory connectionFactory,
             @Qualifier("bookmarked-callback") MessageListenerAdapter adapter) {

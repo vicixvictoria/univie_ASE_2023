@@ -24,6 +24,7 @@ public class Attendees {
      * Default constructor for the Attendees class.
      */
     public Attendees() {
+        attendees = new ArrayList<String>();
     }
 
     /**
@@ -53,8 +54,10 @@ public class Attendees {
      * @param attendeeID The ID of the attendee to add.
      */
     public void addAttendee(String attendeeID) {
-
-        if(attendees.size() < capacity) {
+        if (attendees == null) {
+            attendees = new ArrayList<String>();
+        }
+        if(attendees.size() <= capacity && !attendees.contains(attendeeID)) {
             attendees.add(attendeeID);
         }
     }
@@ -65,7 +68,9 @@ public class Attendees {
      * @param attendeeID The ID of the attendee to remove.
      */
     public void removeAttendee(String attendeeID) {
-        attendees.remove(attendeeID);
+        if (attendees != null) {
+            attendees.remove(attendeeID);
+        }
     }
 
     /**

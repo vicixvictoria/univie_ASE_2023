@@ -77,10 +77,10 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary" *ngIf="!isRegistered(element)" (click)="bookmark(element)">
+        <button mat-icon-button color="primary" (click)="bookmark(element)">
           <mat-icon>bookmark</mat-icon>
         </button>
-        <button mat-icon-button color="primary" *ngIf="!isRegistered(element)" (click)="unbookmark(element)">
+        <button mat-icon-button color="primary" (click)="unbookmark(element)">
           <mat-icon>unbookmark</mat-icon>
         </button>
 
@@ -88,11 +88,11 @@
           <mat-icon>tagging</mat-icon>
         </button>
 
-        <button mat-icon-button color="warn" *ngIf="!isRegistered(element)" (click)="register(element)">
+        <button mat-icon-button color="warn" (click)="register(element)">
           <mat-icon>register</mat-icon>
         </button>
 
-        <button mat-icon-button color="warn" *ngIf="isRegistered(element)" (click)="deregister(element)">
+        <button mat-icon-button color="warn" (click)="deregister(element)">
           <mat-icon>deregister</mat-icon>
         </button>
 

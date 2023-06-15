@@ -43,10 +43,20 @@ public class AttendanceService {
      * @param eventID the ID of the event being attended.
      * @return the updated count of attendees for the event.
      */
-     public int register(String userID, String eventID) {
-        repository.getByEventID(eventID).addAttendee(userID);
-        int count = repository.getByEventID(eventID).getAttendees().size();
-        publisher.newAttendee(userID, eventID);
+    public int register(String userID, String eventID) {
+        Attendees attendees = repository.getByEventID(eventID);
+        int count;
+        if (attendees != null) {
+            LOGGER.info("Event ID {} found in the repository for registration.", eventID);
+            attendees.addAttendee(userID);
+            repository.save(attendees);
+            count = attendees.getAttendees().size();
+            LOGGER.info("Attendance count: " + count);
+            publisher.newAttendee(userID, eventID);
+        } else {
+            LOGGER.warn("Event ID {} not found in the repository registration.", eventID);
+            count = 0;
+        }
         return count;
     }
 
@@ -57,10 +67,19 @@ public class AttendanceService {
      * @param eventID the ID of the event being attended.
      * @return the updated count of attendees for the event.
      */
-     public int deregister(String userID, String eventID) {
-        repository.getByEventID(eventID).removeAttendee(userID);
-        int count = repository.getByEventID(eventID).getAttendees().size();
-        publisher.deleteAttendee(userID, eventID);
+    public int deregister(String userID, String eventID) {
+        int count;
+        Attendees attendees = repository.getByEventID(eventID);
+        if (attendees != null) {
+            LOGGER.info("Event ID {} found in the repository for deregistration.", eventID);
+            attendees.removeAttendee(userID);
+            repository.save(attendees);
+            count = attendees.getAttendees().size();
+            publisher.deleteAttendee(userID, eventID);
+        } else {
+            LOGGER.warn("Event ID {} not found in the repository for deregistration.", eventID);
+            count = -1;
+        }
         return count;
     }
 
@@ -88,7 +107,11 @@ public class AttendanceService {
      * @param eventCapacity the EventCapacity object to be deleted.
      */
     public void deleteCapacity(EventCapacity eventCapacity) {
-        repository.delete(repository.getByEventID(eventCapacity.getID()));
+        if(repository.getByEventID(eventCapacity.getID()) != null)
+        {
+            repository.delete(repository.getByEventID(eventCapacity.getID()));
+        }
+        else LOGGER.warn("Unknown Event ID: " + eventCapacity.getID());
     }
 
     /**
@@ -98,7 +121,16 @@ public class AttendanceService {
      * @return the number of attendees for the event.
      */
      public int attendance(String eventID) {
-        return repository.getByEventID(eventID).getAttendees().size();
+         int count;
+         Attendees attendees = repository.getByEventID(eventID);
+         if (attendees != null) {
+             LOGGER.info("Event ID {} found in the repository for attendance.", eventID);
+             count = attendees.getAttendees().size();
+         } else {
+             LOGGER.warn("Event ID {} not found in the repository for attendance.", eventID);
+             count = -1;
+         }
+        return count;
     }
 
     /**

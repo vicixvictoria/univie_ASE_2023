@@ -9,9 +9,12 @@ import {AccountService} from "../../services/account.service";
 //import { MatTableModule } from '@angular/material';
 import {AttendanceService} from "../../services/attendance.service";
 import {AnalyticReportEventComponent} from "../analyticReport/analyticReportEvent.component";
+import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 
 interface EventWithAttendees extends Event{
-  attendees?: number;
+  attendance?: number;
 }
 
 @Component({
@@ -32,7 +35,7 @@ export class EventInventoryComponent implements OnInit {
 
   // @ts-ignore
   events: Event[];
-  displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'action'];
+  displayedColumns: string[] = ['name', 'date', 'description', 'capacity', 'eventType', 'attendance', 'action'];
 
 
   constructor(
@@ -51,7 +54,7 @@ export class EventInventoryComponent implements OnInit {
     this.userID = this.getuserValue().id
     // this.loadAllEvents();
     this.loadAllEventsByOrganizerID(this.userID);
-
+    this.loadAttendance(this.userID);
   }
 
   public getuserValue() {
@@ -125,22 +128,24 @@ export class EventInventoryComponent implements OnInit {
     });
   }
 
-  public loadAttendance() {
-    this.eventService.getAllEvents().subscribe({
+  public loadAttendance(id: string) {
+    this.eventService.getAllEventsByOrganizerID(id).subscribe({
       next: data => {
-        console.log('received events', data);
-        this.events = data;
+        const attendanceObservables = data.map((event: EventWithAttendees) => {
+          return this.attendanceService.getAttendance(event.eventID).pipe(
+            tap(count => {
+              event.attendance = count;
+            })
+          );
+        });
 
-        // Calculate the attendees count for each event
-        this.events.forEach((event: EventWithAttendees) => {
-          this.attendanceService.getAttendance(event.eventID).subscribe({
-            next: count => {
-              event.attendees = count;
-            },
-            error: error => {
-              this.defaultServiceErrorHandling(error);
-            }
-          });
+        forkJoin(attendanceObservables).subscribe({
+          next: () => {
+            this.events = data;
+          },
+          error: error => {
+            this.defaultServiceErrorHandling(error);
+          }
         });
       },
       error: error => {
@@ -148,6 +153,7 @@ export class EventInventoryComponent implements OnInit {
       }
     });
   }
+
 
   private defaultServiceErrorHandling(error: any) {
     console.log(error);

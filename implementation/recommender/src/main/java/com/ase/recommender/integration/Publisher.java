@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 @Component
 public class Publisher {
-    @Value("${notification.exchange}")
+    @Value("${sendnotification.exchange}")
     private String notificationExchange;
     private final RabbitTemplate rabbitTemplate;
     private static final Logger LOGGER = LoggerFactory.getLogger(
@@ -43,7 +43,7 @@ public class Publisher {
      @param userIDs the list of user IDs to notify
      */
     public void recommend(String eventID, List<String> userIDs) {
-        LOGGER.info("userIDs: " + userIDs);
+        LOGGER.info("New Recommendation for Event ID: " + eventID + ", recommended User IDs: " + userIDs);
         RecommenderMessage rMessage = new RecommenderMessage(eventID, userIDs);
         RabbitMQMessage<RecommenderMessage> message = new RabbitMQMessage<>(EMessageType.UPDATE, rMessage);
         rabbitTemplate.convertAndSend(recommenderExchange, "", message);

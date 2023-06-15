@@ -27,6 +27,7 @@ public class EventCapacity {
      */
     public EventCapacity(String eventID, int capacity) {
         this.eventID = eventID;
+        this.capacity = capacity;
     }
 
     /**

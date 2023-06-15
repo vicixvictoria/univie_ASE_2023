@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1/attendance")
+@RequestMapping(path = "/api/v1/attendance")
 public class AttendanceController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(
@@ -41,9 +41,9 @@ public class AttendanceController {
      */
     @PostMapping(value = "/register/{userID}/{eventID}")
     public ResponseEntity<Integer> register(@PathVariable String userID, @PathVariable String eventID) {
-        LOGGER.info("Request: Register for an event");
+        LOGGER.info("Request: Register for an event with eventID: " + eventID);
         int result = attendanceService.register(userID, eventID);
-        return result > 0 ? ResponseEntity.ok(result) : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return result > 0 ? ResponseEntity.ok(result) : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     /**
@@ -57,7 +57,7 @@ public class AttendanceController {
     public ResponseEntity<Integer> deregister(@PathVariable String userID, @PathVariable String eventID) {
         LOGGER.info("Request: Deregister from an event");
         int result = attendanceService.deregister(userID, eventID);
-        return result >= 0 ? ResponseEntity.ok(result) : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return result >= 0 ? ResponseEntity.ok(result) : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     /**
@@ -70,7 +70,7 @@ public class AttendanceController {
     public ResponseEntity<Integer> attendance(@PathVariable String eventID) {
         LOGGER.info("Request: Getting attendance count");
         int result = attendanceService.attendance(eventID);
-        return result >= 0 ? ResponseEntity.ok(result) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return result >= 0 ? ResponseEntity.ok(result) : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     /**
@@ -91,7 +91,7 @@ public class AttendanceController {
      *
      * @return ResponseEntity with the status and body message.
      */
-    @GetMapping("/healthCheck")
+    @GetMapping("/healthcheck")
     public ResponseEntity<String> healthCheck(){
         return ResponseEntity.status(HttpStatus.OK).body("Success");
     }

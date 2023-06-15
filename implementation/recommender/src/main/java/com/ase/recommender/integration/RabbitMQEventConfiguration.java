@@ -65,7 +65,7 @@ public class RabbitMQEventConfiguration  {
      */
     @Bean(name = "event-callback")
     public MessageListenerAdapter messageListenerAdapter(Subscriber subscriber) {
-        return configurationHelper.getListenerAdapter(subscriber, "eventConsumer");
+        return configurationHelper.getListenerAdapter(subscriber, "eventTypeConsumer");
     }
 
     /**

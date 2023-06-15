@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQSendNotificationConfiguration {
 
-    @Value("${sendNotification.exchange}")
+    @Value("${sendnotification.exchange}")
     private String exchangeName;
     private final RabbitMQConfigurationHelper helper = new RabbitMQConfigurationHelper();
 
