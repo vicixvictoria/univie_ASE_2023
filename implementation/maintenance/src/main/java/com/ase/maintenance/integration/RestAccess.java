@@ -39,8 +39,9 @@ public class RestAccess {
     private String SEARCH_EVENT_ENDPOINT;
     @Value("${sendnotification.endpoint}")
     private String SEND_NOTIFICATION_ENDPOINT;
-    //@Value("${tagging.endpoint}")
-    //private String TAGGING_ENDPOINT;
+    @Value("${tagging.endpoint}")
+    private String TAGGING_ENDPOINT;
+
     private final RestTemplate REST_TEMPLATE = new RestTemplate();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(
@@ -82,7 +83,7 @@ public class RestAccess {
         Availability recommenderAvailability = getAvailability(RECOMMENDER_ENDPOINT, "recommender");
         Availability searchEventAvailability = getAvailability(SEARCH_EVENT_ENDPOINT, "searchEvent");
         Availability sendNotificationAvailability = getAvailability(SEND_NOTIFICATION_ENDPOINT, "sendNotification");
-        //Availability taggingAvailability = getAvailability(TAGGING_ENDPOINT, "tagging");
+        Availability taggingAvailability = getAvailability(TAGGING_ENDPOINT, "tagging");
 
         ArrayList<Availability> ret = new ArrayList<>();
         ret.add(analyticReportAvailability);
@@ -96,7 +97,7 @@ public class RestAccess {
         ret.add(recommenderAvailability);
         ret.add(searchEventAvailability);
         ret.add(sendNotificationAvailability);
-        //ret.add(taggingAvailability);
+        ret.add(taggingAvailability);
 
         return ret;
     }
