@@ -36,11 +36,9 @@ public class Subscriber {
      * @param eventMessage the received RabbitMQMessage containing an Event.
      */
     public void capacityConsumer(RabbitMQMessage<Event> eventMessage) {
-        LOGGER.info("Received an event message");
-
+        LOGGER.info("Received an event message, eventID: " + eventMessage.getContent().eventID() + ", capacity: " + eventMessage.getContent().capacity());
         Converter converter = new Converter();
         EventCapacity eventCapacity = converter.getEventCapacity(eventMessage.getContent());
-
         switch (eventMessage.getMessageType()) {
             case NEW -> service.newCapacity(eventCapacity);
             case UPDATE -> service.updateCapacity(eventCapacity);

@@ -120,23 +120,6 @@ export class SearchServiceComponent implements OnInit {
    * @param event - The event to check registration for.
    * @return true if the user is registered for the event, false otherwise.
    */
-  isRegistered(event: Event): boolean {
-    return this.attendeeEventList.includes(event.eventID);
-  }
-
-  /**
-   * Load the list of event IDs for the current user from the server.
-   */
-  loadAttendeeEventList(): void {
-    this.attendanceService.getAttendeeEventList(this.userID).subscribe(
-      (attendeeEventList: AttendeeEventList) => {
-        this.attendeeEventList = attendeeEventList.eventIDs;
-      },
-      (error: any) => {
-        this.defaultServiceErrorHandling(error);
-      }
-    );
-  }
 
   tag(event: Event){
     const dialog = this.dialog.open(TaggingComponent, {

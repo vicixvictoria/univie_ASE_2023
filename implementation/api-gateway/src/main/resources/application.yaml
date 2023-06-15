@@ -83,12 +83,22 @@ config:
         endpoint: http://${ATTENDANCE:localhost}:8080
         path-base: /api/v1/attendance
         paths:
+          -
           - /register
           - /deregister
           - /attendance
           - /attendeeEventList
-        authorize: false
+          - /healthcheck
         gateway-path-base: /api/v1/attendance
+
+    recommender:
+      endpoint: http://${RECOMMENDER:localhost}:8080
+      path-base: /api/v1/recommender
+      paths:
+        -
+        - /healthcheck
+      authorize: false
+      gateway-path-base: /api/v1/recommender
 
     maintenance: 
       endpoint: http://${MAINTENANCE:localhost}:8080

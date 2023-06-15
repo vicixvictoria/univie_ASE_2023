@@ -1,7 +1,6 @@
 package com.ase.recommender.domain;
 
 import com.ase.common.event.EEventType;
-import com.ase.recommender.domain.UserInterest;
 import java.util.ArrayList;
 import java.util.List;
 

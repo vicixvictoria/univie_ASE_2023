@@ -25,6 +25,7 @@ public class EventType {
      */
     public EventType(String eventID, EEventType eventType) {
         this.eventID = eventID;
+        this.eventType = eventType;
     }
 
     /**

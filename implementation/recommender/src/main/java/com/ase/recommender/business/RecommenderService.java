@@ -1,6 +1,7 @@
 package com.ase.recommender.business;
 
 import com.ase.common.event.EEventType;
+import com.ase.common.user.User;
 import com.ase.recommender.domain.RecommenderFilter;
 import com.ase.recommender.domain.EventType;
 import com.ase.recommender.domain.UserInterest;
@@ -91,16 +92,18 @@ public class RecommenderService {
      * @param userID  The ID of the user.
      * @return true if the interest was added successfully, false otherwise.
      */
-    public boolean addInterest(String eventID, String userID) {
+    public boolean addInterest(String userID, String eventID) {
         if(eventTypeRepository.existsById(eventID)) {
             EventType eventTypeObject = eventTypeRepository.getByEventID(eventID);
             if (eventTypeObject != null) {
                 EEventType eventType = eventTypeObject.getEventType();
                 if (eventType != null) {
-                    if (recommenderRepository.existsById(userID)) {
+                    if (!recommenderRepository.existsById(userID)) {
                         recommenderRepository.save(new UserInterest(userID));
                     }
-                    recommenderRepository.getByUserID(userID).addInterest(eventType);
+                    UserInterest userInterest = recommenderRepository.getByUserID(userID);
+                    userInterest.addInterest(eventType);
+                    recommenderRepository.save(userInterest);
                     return true;
                 } else {
                     LOGGER.error("EventType inside EventType object is null");

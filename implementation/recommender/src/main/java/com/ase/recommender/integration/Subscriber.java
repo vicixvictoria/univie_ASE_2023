@@ -41,9 +41,9 @@ public class Subscriber {
         Converter converter = new Converter();
         EventType eventType = converter.getEventType(eventMessage.getContent());
         switch (eventMessage.getMessageType()) {
-            case NEW -> service.addEventType(eventType.getID(), eventType.getEventType());
-            case UPDATE -> service.updateEventType(eventType.getID(), eventType.getEventType());
-            case DELETE -> service.removeEventType(eventType.getID(), eventType.getEventType());
+            case NEW -> service.addEventType(eventType.getID(), eventMessage.getContent().type());
+            case UPDATE -> service.updateEventType(eventType.getID(), eventMessage.getContent().type());
+            case DELETE -> service.removeEventType(eventType.getID(), eventMessage.getContent().type());
         }
     }
 
@@ -55,7 +55,7 @@ public class Subscriber {
     public void bookmarkEventConsumer(RabbitMQMessage<BookmarkEventMessage> bookmarkEventMessage) {
         LOGGER.info("Received an bookmark message");
         switch (bookmarkEventMessage.getMessageType()) {
-            case UPDATE -> service.addInterest(bookmarkEventMessage.getContent().userId(),
+            case NEW -> service.addInterest(bookmarkEventMessage.getContent().userId(),
                     bookmarkEventMessage.getContent().eventId());
             case DELETE -> service.removeInterest(bookmarkEventMessage.getContent().eventId(),
                     bookmarkEventMessage.getContent().userId());

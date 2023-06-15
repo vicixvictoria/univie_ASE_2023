@@ -77,7 +77,7 @@ export class AttendanceService {
    * @returns {Observable<number>} The number of attendees for the event.
    */
   getAttendance(eventID: string): Observable<number> {
-    const url = `${baseUri}/attendance/${eventID}`;
+    const url = `${baseUri}/${eventID}`;
     return this.httpClient.get<number>(url, { headers: this.headers });
   }
 }
