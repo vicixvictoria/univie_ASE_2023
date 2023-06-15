@@ -51,7 +51,7 @@ export class SearchServiceService {
 
   getEventsByDes(des: string): Observable<Event[]> {
     console.log('get all Events with this desc' + des);
-    return this.httpClient.get<Event[]>(baseUri + '/des/' + des, {headers: this.headers});
+    return this.httpClient.get<Event[]>(baseUri + '/description/' + des, {headers: this.headers});
   }
 
   getAllEventsByOrganizerID(id:number): Observable<Event[]> {
